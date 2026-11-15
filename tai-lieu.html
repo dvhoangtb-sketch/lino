@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tài liệu bài tập · Lino</title>
+<meta name="description" content="Các dạng bài tập tiếng Anh cho trẻ 3 đến 15 tuổi và tiếng Nhật N5, kèm ví dụ và cách bố mẹ kèm con học ở nhà. Trung tâm ngoại ngữ Lino, Như Quỳnh, Hưng Yên.">
+<meta name="theme-color" content="#CC0000">
+<meta property="og:title" content="Tài liệu bài tập cho bố mẹ · Lino">
+<meta property="og:image" content="assets/group.webp">
+<link rel="icon" href="assets/mark.webp" type="image/webp">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  body { background: var(--paper); }
+  [lang="ja"] { font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif; }
+
+  .lib-hero { position: relative; padding: clamp(7.5rem, 13vw, 11rem) 0 clamp(2rem, 4vw, 3rem); overflow: hidden; }
+  .lib-hero::after { content: ""; position: absolute; z-index: 0; right: -8vw; top: -14vw; width: 46vw; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 12%, transparent), 0 0 0 7vw color-mix(in srgb, var(--red) 3%, transparent), 0 0 0 calc(7vw + 2px) color-mix(in srgb, var(--red) 9%, transparent); }
+  .lib-hero .sc-wrap { position: relative; z-index: 1; }
+  .lib-hero h1 { font-size: clamp(2.6rem, 6vw, 5.6rem); max-width: 13ch; }
+  .lib-hero p { margin-top: var(--sc-5); max-width: 44ch; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.55; text-wrap: pretty; }
+
+  .tools { position: sticky; top: 80px; z-index: 20; border-radius: 0 0 22px 22px; padding-block: 14px; background: color-mix(in srgb, var(--paper) 92%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color 200ms var(--ease); }
+  .tools.is-stuck { border-bottom-color: color-mix(in srgb, var(--sc-ink) 8%, transparent); }
+  .tools__row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .search { position: relative; flex: 1 1 18rem; max-width: 26rem; }
+  .search svg { position: absolute; left: 16px; top: 50%; translate: 0 -50%; width: 20px; height: 20px; color: var(--sc-ink-soft); pointer-events: none; }
+  .search input { width: 100%; min-height: 50px; padding: 0 16px 0 46px; border-radius: 999px; border: 0; background: #fff; font: 400 1rem/1 var(--sc-font-text); color: var(--sc-ink);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 14%, transparent); transition: box-shadow 160ms var(--ease); }
+  .search input:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--red); }
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+  .seg button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; cursor: pointer; background: #fff; color: var(--sc-ink);
+    font: 600 0.94rem/1 var(--sc-font-text); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 12%, transparent);
+    transition: background-color 200ms var(--ease), color 200ms var(--ease), box-shadow 200ms var(--ease), transform 160ms var(--ease); }
+  .seg button:active { transform: scale(0.96); }
+  .seg button[aria-pressed="true"] { background: var(--red); color: #fff; box-shadow: none; }
+  .seg--skill button { min-height: 38px; padding: 0 13px; font-size: 0.88rem; }
+  .seg--skill button[aria-pressed="true"] { background: var(--sc-ink); }
+  .seg button:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) { .seg button:not([aria-pressed="true"]):hover { background: var(--blush); } }
+  .tools__skill { margin-top: 10px; }
+  .count { margin-left: auto; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); font-weight: 600; white-space: nowrap; }
+
+  .lib { padding-block: var(--sc-6) clamp(4rem, 9vw, 8rem); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.9rem, 1.6vw, 1.4rem); align-items: start; }
+  .doc { border-radius: 24px; background: #fff; box-shadow: 0 1px 2px hsl(352 55% 18% / 0.07), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent);
+    transition: box-shadow 400ms var(--ease), transform 400ms var(--ease); view-transition-name: var(--vt); }
+  .doc.is-open { box-shadow: 0 2px 4px hsl(352 55% 18% / 0.08), 0 26px 50px -24px hsl(352 55% 18% / 0.4), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); }
+  .doc__head { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; align-items: center; text-align: left;
+    padding: 20px 20px 20px 22px; border: 0; background: none; cursor: pointer; color: inherit; border-radius: 24px; }
+  .doc__head:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; grid-column: 1; }
+  .tag { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; background: var(--blush); color: var(--red-deep); }
+  .tag--k { background: color-mix(in srgb, var(--sc-ink) 6%, transparent); color: var(--sc-ink-soft); }
+  .doc__t { grid-column: 1; font: 700 clamp(1.15rem, 1.6vw, 1.35rem)/1.3 var(--sc-font-display); letter-spacing: -0.01em; text-wrap: balance; }
+  .doc__i { grid-column: 2; grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--paper); color: var(--red);
+    transition: transform 500ms var(--ease), background-color 300ms var(--ease); }
+  .doc__i svg { width: 18px; height: 18px; }
+  .doc.is-open .doc__i { transform: rotate(45deg); background: var(--red); color: #fff; }
+  .doc__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 520ms var(--ease); }
+  .doc.is-open .doc__more { grid-template-rows: 1fr; }
+  .doc__more > div { overflow: hidden; }
+  .doc__body { padding: 0 22px 22px; display: grid; gap: var(--sc-4); opacity: 0; transform: translateY(-6px); transition: opacity 360ms var(--ease) 80ms, transform 520ms var(--ease); }
+  .doc.is-open .doc__body { opacity: 1; transform: none; }
+  .doc__body p { color: var(--sc-ink-soft); line-height: 1.6; text-wrap: pretty; }
+  .ex { padding: 14px 16px; border-radius: 16px; background: var(--paper); line-height: 1.6; }
+  .ex small { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+  .ex b { color: var(--red-deep); }
+  .home-tips h4 { margin: 0 0 6px; font: 700 0.98rem/1.3 var(--sc-font-text); }
+  .home-tips ul { margin: 0; padding-left: 1.1em; color: var(--sc-ink-soft); line-height: 1.6; }
+  .home-tips li + li { margin-top: 4px; }
+  .listen { display: flex; gap: 6px; flex-wrap: wrap; }
+  .listen button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 0; cursor: pointer;
+    background: var(--blush); color: var(--red-deep); font: 600 0.92rem/1.2 var(--sc-font-text); text-align: left; transition: transform 200ms var(--ease); }
+  .listen button svg { width: 16px; height: 16px; flex: none; }
+  .listen button.is-saying { animation: pop 600ms var(--ease); }
+  @keyframes pop { 30% { transform: scale(1.06); } }
+  .doc__act { display: flex; gap: 8px; flex-wrap: wrap; padding-top: var(--sc-2); }
+  .doc__act .btn { min-height: 44px; font-size: 0.95rem; }
+
+  .empty { padding: var(--sc-8) 0; text-align: center; color: var(--sc-ink-soft); }
+  .empty[hidden] { display: none; }
+
+  .ask { margin-top: clamp(3rem, 7vw, 6rem); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sc-6); align-items: center;
+    padding: clamp(1.75rem, 4vw, 3.25rem); border-radius: 30px; background: var(--red); color: #fff; }
+  .ask h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); max-width: 18ch; }
+  .ask p { margin-top: var(--sc-3); color: rgb(255 255 255 / 0.86); max-width: 46ch; line-height: 1.55; }
+  .ask .btn { background: #fff; color: var(--red-deep); }
+  .foot { margin-top: var(--sc-8); padding-block: var(--sc-4) var(--sc-7); border-top: 1px solid var(--sc-hairline-strong); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: 1fr; }
+    .tools { top: 0; border-radius: 0; }
+    .tools__row { gap: 8px; }
+    .search { max-width: none; flex-basis: 100%; }
+    .seg { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--sc-gutter) * -1); padding-inline: var(--sc-gutter); }
+    .seg::-webkit-scrollbar { display: none; }
+    .seg button { flex: none; }
+    .count { display: none; }
+    .ask { grid-template-columns: 1fr; }
+    .foot { padding-bottom: calc(var(--dock-h) + var(--sc-6)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doc__more, .doc__body, .doc__i { transition: none; }
+  }
+  ::view-transition-group(*) { animation-duration: 420ms; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+</style>
+</head>
+<body>
+
+<nav class="dock" aria-label="Điều hướng">
+  <div class="dock__links">
+    <a href="index.html">Trang chủ</a>
+    <a href="tai-lieu.html" aria-current="page">Tài liệu</a>
+    <a href="phat-am.html">Luyện phát âm</a>
+  </div>
+  <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu
+  </button>
+  <a class="dock__call" href="tel:0789251499" aria-label="Gọi hotline Lino 0789 251 499">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+    <span>0789 251 499</span>
+  </a>
+  <a class="btn" href="index.html#dang-ky">Đăng ký học thử</a>
+</nav>
+<div class="sheet" id="menu" aria-hidden="true">
+  <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
+  <nav class="sheet__panel" aria-label="Menu">
+    <a href="index.html">Trang chủ <small>Lino</small></a>
+    <a href="tai-lieu.html">Tài liệu bài tập <small>Bạn đang ở đây</small></a>
+    <a href="phat-am.html">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
+    <a href="index.html#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
+  </nav>
+</div>
+
+<a class="top" href="index.html"><img src="assets/logo-word.webp" width="640" height="267" alt="Lino, về trang chủ"></a>
+
+<main>
+  <header class="lib-hero">
+    <div class="sc-wrap" data-sc-in data-sc-stagger="90">
+      <h1>Tài liệu để bố mẹ <span class="em">kèm con</span> ở nhà.</h1>
+      <p>Các dạng bài tập con hay gặp, chia theo tuổi. Mỗi dạng có ví dụ, có nút nghe đọc mẫu, và vài cách đơn giản để bố mẹ cùng con luyện. Không cần giỏi tiếng Anh vẫn kèm được.</p>
+    </div>
+  </header>
+
+  <div class="tools" id="tools">
+    <div class="sc-wrap">
+      <div class="tools__row">
+        <label class="search"><span class="vh">Tìm dạng bài</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Tìm: nghe, chính tả, Cambridge…" autocomplete="off">
+        </label>
+        <div class="seg" id="ages" role="group" aria-label="Lọc theo độ tuổi">
+          <button type="button" data-age="" aria-pressed="true">Tất cả</button>
+          <button type="button" data-age="3-5" aria-pressed="false">3 đến 5 tuổi</button>
+          <button type="button" data-age="6-10" aria-pressed="false">6 đến 10 tuổi</button>
+          <button type="button" data-age="11-15" aria-pressed="false">11 đến 15 tuổi</button>
+          <button type="button" data-age="nhat" aria-pressed="false">Tiếng Nhật</button>
+        </div>
+      </div>
+      <div class="tools__row tools__skill">
+        <div class="seg seg--skill" id="skills" role="group" aria-label="Lọc theo kỹ năng"></div>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+    </div>
+  </div>
+
+  <section class="lib">
+    <div class="sc-wrap">
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>Chưa có dạng bài nào khớp. Anh chị thử từ khác, hoặc hỏi Lino ở ô tư vấn nhé.</p>
+
+      <div class="ask" data-sc-in>
+        <div>
+          <h2>Cần phiếu bài tập in sẵn cho con?</h2>
+          <p>Nhắn cho Lino tuổi của con và dạng bài anh chị muốn, giáo viên sẽ gửi phiếu phù hợp với trình độ của con qua Zalo.</p>
+        </div>
+        <a class="btn" href="https://zalo.me/0789251499" target="_blank" rel="noopener" id="ask-zalo">Nhắn Zalo cho Lino</a>
+      </div>
+
+      <p class="foot">© 2026 Trung tâm ngoại ngữ Lino. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd. Cambridge và JLPT là tên các kỳ thi của đơn vị tổ chức tương ứng, Lino không liên kết chính thức.</p>
+    </div>
+  </section>
+</main>
+
+<script src="data/tai-lieu.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+<script>
+ScrollCraft.mount(document.body);
+(function () {
+  var DOCS = window.LINO_DOCS || [];
+  var AGE = { '3-5': '3 đến 5 tuổi', '6-10': '6 đến 10 tuổi', '11-15': '11 đến 15 tuổi', 'nhat': 'Tiếng Nhật' };
+  var SPEAK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+  var grid = document.getElementById('grid'), empty = document.getElementById('empty'), count = document.getElementById('count');
+  var q = document.getElementById('q');
+  var f = { age: '', skill: '', text: '' };
+
+  var skills = [];
+  DOCS.forEach(function (d) { if (skills.indexOf(d.kynang) < 0) skills.push(d.kynang); });
+  var skillBox = document.getElementById('skills');
+  skillBox.innerHTML = '<button type="button" data-skill="" aria-pressed="true">Mọi kỹ năng</button>' +
+    skills.map(function (s) { return '<button type="button" data-skill="' + s + '" aria-pressed="false">' + s + '</button>'; }).join('');
+
+  function fold(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/<[^>]+>/g, ' '); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* every card is built once; filtering only shows and hides them */
+  DOCS.forEach(function (d, i) {
+    var a = document.createElement('article');
+    a.className = 'doc'; a.id = d.id;
+    a.style.setProperty('--vt', 'doc-' + i);
+    a._hay = fold([d.ten, d.muctieu, d.vidu, d.kynang, AGE[d.nhom], (d.onha || []).join(' ')].join(' '));
+    a._d = d;
+    var listen = (d.nghe && d.nghe.length) ? '<div class="listen">' + d.nghe.map(function (w) {
+      return '<button type="button" data-speak="' + esc(w) + '">' + SPEAK + '<span lang="en">' + esc(w.length > 34 ? 'Nghe câu mẫu' : w) + '</span></button>'; }).join('') + '</div>' : '';
+    var file = d.tep ? '<a class="btn" href="' + esc(d.tep) + '" download>Tải phiếu bài tập</a>' : '';
+    a.innerHTML =
+      '<button class="doc__head" type="button" aria-expanded="false" aria-controls="b-' + d.id + '">' +
+        '<span class="tags"><span class="tag">' + AGE[d.nhom] + '</span><span class="tag tag--k">' + esc(d.kynang) + '</span></span>' +
+        '<span class="doc__t">' + esc(d.ten) + '</span><span class="doc__i">' + PLUS + '</span></button>' +
+      '<div class="doc__more" id="b-' + d.id + '"><div><div class="doc__body">' +
+        '<p>' + esc(d.muctieu) + '</p>' +
+        '<div class="ex"><small>Ví dụ</small>' + d.vidu + '</div>' + listen +
+        '<div class="home-tips"><h4>Kèm con ở nhà</h4><ul>' + (d.onha || []).map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>' +
+        '<div class="doc__act">' + file + '<a class="btn btn--soft" href="https://zalo.me/0789251499" target="_blank" rel="noopener" data-xin>Xin phiếu dạng này qua Zalo</a></div>' +
+      '</div></div></div>';
+    var head = a.querySelector('.doc__head');
+    head.addEventListener('click', function () {
+      var open = !a.classList.contains('is-open');
+      a.classList.toggle('is-open', open);
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      a.querySelector('.doc__more').inert = !open;
+    });
+    a.querySelector('.doc__more').inert = true;
+    a.querySelector('[data-xin]').addEventListener('click', function () {
+      var m = 'Chào Lino, tôi muốn xin phiếu bài tập dạng “' + d.ten + '” (' + AGE[d.nhom] + ') cho con.';
+      try { navigator.clipboard && navigator.clipboard.writeText(m); } catch (e) {}
+    });
+    grid.appendChild(a);
+  });
+  var cards = Array.prototype.slice.call(grid.children);
+
+  function apply(animate) {
+    var t = fold(f.text.trim());
+    var run = function () {
+      var n = 0;
+      cards.forEach(function (c) {
+        var ok = (!f.age || c._d.nhom === f.age) && (!f.skill || c._d.kynang === f.skill) && (!t || c._hay.indexOf(t) >= 0);
+        c.hidden = !ok; if (ok) n++;
+      });
+      count.textContent = n + ' dạng bài';
+      empty.hidden = n > 0;
+    };
+    if (animate && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(run);
+    else run();
+  }
+  function press(group, attr, val) {
+    Array.prototype.forEach.call(group.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', b.getAttribute(attr) === val ? 'true' : 'false'); });
+  }
+  document.getElementById('ages').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    f.age = b.getAttribute('data-age'); press(this, 'data-age', f.age); apply(true);
+    history.replaceState(null, '', f.age ? '#' + f.age : location.pathname);
+  });
+  skillBox.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    f.skill = b.getAttribute('data-skill'); press(this, 'data-skill', f.skill); apply(true);
+  });
+  var timer;
+  q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { f.text = q.value; apply(false); }, 120); });
+
+  /* arriving with #3-5, #nhat ... preselects the age; arriving with a card id opens it */
+  var h = decodeURIComponent(location.hash.slice(1));
+  if (AGE[h]) { f.age = h; press(document.getElementById('ages'), 'data-age', h); }
+  apply(false);
+  var target = h && document.getElementById(h);
+  if (target && target.classList.contains('doc')) { target.querySelector('.doc__head').click(); setTimeout(function () { window.LinoScrollTo(target); }, 200); }
+
+  document.getElementById('ask-zalo').addEventListener('click', function () {
+    try { navigator.clipboard && navigator.clipboard.writeText('Chào Lino, tôi muốn xin phiếu bài tập cho con. Con tôi năm nay … tuổi.'); } catch (e) {}
+  });
+
+  var tools = document.getElementById('tools');
+  if ('IntersectionObserver' in window) {
+    var s = document.createElement('div'); s.style.height = '1px'; tools.parentNode.insertBefore(s, tools);
+    new IntersectionObserver(function (es) { tools.classList.toggle('is-stuck', !es[0].isIntersecting); }).observe(s);
+  }
+})();
+</script>
+</body>
+</html>

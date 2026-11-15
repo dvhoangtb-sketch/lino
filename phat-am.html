@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Luyện phát âm cùng con · Lino</title>
+<meta name="description" content="Luyện 42 âm Jolly Phonics cùng con ở nhà: nghe đọc mẫu, cho con đọc theo, nghe lại giọng con. Gợi ý khẩu hình bằng tiếng Việt. Trung tâm ngoại ngữ Lino, Như Quỳnh, Hưng Yên.">
+<meta name="theme-color" content="#CC0000">
+<meta property="og:title" content="Luyện phát âm cùng con · Lino">
+<meta property="og:image" content="assets/group.webp">
+<link rel="icon" href="assets/mark.webp" type="image/webp">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  body { background: var(--paper); }
+
+  .pa-hero { position: relative; padding: clamp(7.5rem, 13vw, 11rem) 0 clamp(2.5rem, 5vw, 4rem); overflow: hidden; }
+  .pa-hero__in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 5vw, 5rem); align-items: end; }
+  .pa-hero h1 { font-size: clamp(2.6rem, 6vw, 5.6rem); max-width: 12ch; }
+  .pa-hero p { margin-top: var(--sc-5); max-width: 42ch; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.55; text-wrap: pretty; }
+  .steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; counter-reset: s; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: center; padding: 14px 18px 14px 14px; border-radius: 20px; background: #fff;
+    box-shadow: 0 1px 2px hsl(352 55% 18% / 0.06), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); }
+  .steps li::before { content: counter(s); width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--blush); color: var(--red); font: 800 1.2rem/1 var(--sc-font-display); }
+  .steps b { display: block; font-weight: 700; }
+  .steps span { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  .big-a { position: absolute; z-index: -1; right: -2vw; top: 2vw; font: 800 clamp(14rem, 34vw, 32rem)/0.8 var(--sc-font-display); letter-spacing: -0.06em;
+    color: color-mix(in srgb, var(--red) 6%, var(--paper)); pointer-events: none; user-select: none; }
+
+  /* ------------------------------------------------------------ practice -- */
+  .practice { padding-block: var(--sc-5) clamp(4rem, 8vw, 7rem); }
+  .groups { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px 2px 10px; margin-inline: -2px; }
+  .groups::-webkit-scrollbar { display: none; }
+  .groups button { flex: none; display: grid; gap: 2px; text-align: left; min-height: 60px; padding: 10px 16px; border-radius: 18px; border: 0; cursor: pointer;
+    background: #fff; color: var(--sc-ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 10%, transparent);
+    transition: background-color 220ms var(--ease), color 220ms var(--ease), transform 160ms var(--ease); }
+  .groups button small { font: 600 0.75rem/1 var(--sc-font-text); color: var(--sc-ink-soft); }
+  .groups button span { font: 800 1.05rem/1.2 var(--sc-font-display); letter-spacing: 0.02em; }
+  .groups button[aria-pressed="true"] { background: var(--sc-ink); color: #fff; box-shadow: none; }
+  .groups button[aria-pressed="true"] small { color: rgb(255 255 255 / 0.7); }
+  .groups button:active { transform: scale(0.97); }
+  .groups button:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+  .sounds { display: flex; gap: 8px; flex-wrap: wrap; margin-top: var(--sc-4); }
+  .sounds button { position: relative; min-width: 64px; min-height: 64px; padding: 0 14px; border-radius: 18px; border: 0; cursor: pointer; background: #fff; color: var(--sc-ink);
+    font: 800 1.6rem/1 var(--sc-font-display); letter-spacing: -0.01em;
+    box-shadow: 0 1px 2px hsl(352 55% 18% / 0.08), inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 9%, transparent);
+    transition: background-color 220ms var(--ease), color 220ms var(--ease), transform 260ms var(--ease); }
+  .sounds button small { display: block; font: 600 0.62rem/1 var(--sc-font-text); letter-spacing: 0; color: var(--sc-ink-soft); margin-top: 3px; }
+  .sounds button[aria-pressed="true"] { background: var(--red); color: #fff; transform: translateY(-3px); box-shadow: 0 14px 24px -10px hsl(352 80% 30% / 0.55); }
+  .sounds button[aria-pressed="true"] small { color: rgb(255 255 255 / 0.8); }
+  .sounds button.has-star::after { content: "★"; position: absolute; top: -6px; right: -4px; font-size: 0.9rem; color: #F5A400; text-shadow: 0 1px 0 #fff; }
+  .sounds button:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .groups button:not([aria-pressed="true"]):hover, .sounds button:not([aria-pressed="true"]):hover { background: var(--blush); }
+  }
+
+  .stage { margin-top: var(--sc-6); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(0.9rem, 1.8vw, 1.5rem); }
+  .card-am { position: relative; overflow: hidden; padding: clamp(1.6rem, 3vw, 2.75rem); border-radius: 30px; background: var(--red); color: #fff; isolation: isolate;
+    display: flex; flex-direction: column; gap: var(--sc-5); min-height: 100%; }
+  .card-am::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 30%; width: 120%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+    box-shadow: 0 0 0 2px rgb(255 255 255 / 0.1), 0 0 0 70px rgb(255 255 255 / 0.03), 0 0 0 72px rgb(255 255 255 / 0.08); }
+  .am-big { font: 800 clamp(6rem, 13vw, 11rem)/0.85 var(--sc-font-display); letter-spacing: -0.05em; }
+  .am-big small { display: block; margin-top: 0.4rem; font: 600 1rem/1.2 var(--sc-font-text); letter-spacing: 0; opacity: 0.85; }
+  .card-am h3 { font: 700 0.8rem/1 var(--sc-font-text); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; margin-bottom: 6px; }
+  .card-am p { line-height: 1.55; text-wrap: pretty; }
+  .card-am .tip + .tip { padding-top: var(--sc-4); border-top: 1px solid rgb(255 255 255 / 0.2); }
+  .stars { margin-top: auto; display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: var(--sc-t-sm); }
+  .stars i { font-style: normal; font-size: 1.3rem; color: rgb(255 255 255 / 0.3); transition: color 300ms var(--ease), transform 400ms var(--ease); }
+  .stars i.on { color: #FFD24A; transform: scale(1.15); }
+
+  .words { display: grid; gap: clamp(0.7rem, 1.2vw, 1rem); }
+  .w { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; grid-template-areas: "pic word act" "pic res res"; gap: 4px 16px; align-items: center;
+    padding: 16px 18px 16px 16px; border-radius: 24px; background: #fff;
+    box-shadow: 0 1px 2px hsl(352 55% 18% / 0.07), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent);
+    transition: box-shadow 300ms var(--ease); }
+  .w.is-rec { box-shadow: 0 0 0 3px var(--red), 0 18px 34px -16px hsl(352 80% 30% / 0.5); }
+  .w__pic { grid-area: pic; width: 84px; height: 84px; border-radius: 20px; background: var(--paper); display: grid; place-items: center; font-size: 2.9rem; line-height: 1; }
+  .w__word { grid-area: word; font: 800 clamp(1.8rem, 3vw, 2.6rem)/1.05 var(--sc-font-display); letter-spacing: -0.02em; }
+  .w__word b { color: var(--red); font-weight: 800; }
+  .w__act { grid-area: act; display: flex; gap: 8px; }
+  .ico { width: 52px; height: 52px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; background: var(--blush); color: var(--red-deep);
+    transition: background-color 200ms var(--ease), transform 200ms var(--ease), color 200ms var(--ease); }
+  .ico svg { width: 24px; height: 24px; }
+  .ico:active { transform: scale(0.93); }
+  .ico:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 2px; }
+  .ico--mic { background: var(--red); color: #fff; }
+  .is-rec .ico--mic { animation: rec 1s infinite var(--ease); background: var(--sc-ink); }
+  @keyframes rec { 50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--red) 25%, transparent); } }
+  .w__res { grid-area: res; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  .w__res:empty { display: none; }
+  .w__res .play { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 999px; border: 0; cursor: pointer; background: var(--paper);
+    font: 600 0.88rem/1 var(--sc-font-text); color: var(--sc-ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 12%, transparent); }
+  .w__res .play svg { width: 14px; height: 14px; color: var(--red); }
+  .w__res .ok { color: #13803D; font-weight: 700; }
+  .w__res .try { color: var(--red-deep); font-weight: 600; }
+  .w.is-saying .w__pic { animation: bob 700ms var(--ease); }
+  @keyframes bob { 30% { transform: translateY(-6px) rotate(-6deg) scale(1.08); } }
+
+  .stage__foot { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: var(--sc-4); flex-wrap: wrap; margin-top: var(--sc-2); }
+  .stage__foot p { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); max-width: 60ch; }
+  .note { margin-top: var(--sc-5); padding: 14px 16px; border-radius: 16px; background: #fff; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); line-height: 1.55;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent); }
+  .note[hidden] { display: none; }
+
+  /* swap animation when a new sound is chosen */
+  .stage.is-swap .card-am, .stage.is-swap .w { animation: swap 520ms var(--ease) both; }
+  .stage.is-swap .w:nth-child(2) { animation-delay: 60ms; } .stage.is-swap .w:nth-child(3) { animation-delay: 120ms; }
+  @keyframes swap { from { opacity: 0; transform: translateY(14px); } }
+
+  /* -------------------------------------------------------------- advice -- */
+  .advice { background: #fff; padding-block: clamp(4rem, 9vw, 8rem); }
+  .advice__in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 6rem); }
+  .advice h2 { font-size: clamp(2.1rem, 3.6vw, 3.5rem); }
+  .advice ol { margin: 0; padding: 0; list-style: none; counter-reset: t; }
+  .advice li { counter-increment: t; display: grid; grid-template-columns: 3rem 1fr; gap: 12px; padding-block: var(--sc-5); border-top: 1px solid var(--sc-hairline-strong); }
+  .advice li:last-child { border-bottom: 1px solid var(--sc-hairline-strong); }
+  .advice li::before { content: counter(t, decimal-leading-zero); font: 800 1.2rem/1.4 var(--sc-font-display); color: var(--red); }
+  .advice li b { display: block; font: 700 1.12rem/1.35 var(--sc-font-display); letter-spacing: -0.01em; }
+  .advice li span { display: block; margin-top: 4px; color: var(--sc-ink-soft); line-height: 1.55; }
+
+  .cta { padding-block: clamp(4rem, 9vw, 7rem); }
+  .cta__box { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sc-6); align-items: center; padding: clamp(1.75rem, 4vw, 3.25rem); border-radius: 30px; background: var(--sc-ink); color: #fff; }
+  .cta h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); max-width: 20ch; }
+  .cta p { margin-top: var(--sc-3); color: rgb(255 255 255 / 0.78); max-width: 46ch; line-height: 1.55; }
+  .cta__go { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cta .btn--line { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.35); }
+  .foot { margin-top: var(--sc-7); padding-top: var(--sc-4); border-top: 1px solid var(--sc-hairline-strong); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+
+  @media (max-width: 860px) {
+    .pa-hero__in, .stage, .advice__in { grid-template-columns: 1fr; }
+    .w { grid-template-columns: 64px minmax(0, 1fr); grid-template-areas: "pic word" "act act" "res res"; padding: 14px; gap: 10px 14px; }
+    .w__pic { width: 64px; height: 64px; font-size: 2.2rem; border-radius: 16px; }
+    .w__act { gap: 8px; }
+    .w__act .ico { width: auto; height: 48px; border-radius: 999px; padding: 0 16px; display: inline-flex; gap: 8px; flex: 1; justify-content: center; font: 600 0.95rem/1 var(--sc-font-text); }
+    .w__act .ico span { display: inline; }
+    .cta__box { grid-template-columns: 1fr; }
+    .cta { padding-bottom: calc(var(--dock-h) + var(--sc-6)); }
+    .sounds button { min-width: 58px; min-height: 58px; font-size: 1.45rem; }
+    .am-big { font-size: 5.5rem; }
+    .card-am { gap: var(--sc-4); }
+  }
+  .ico span { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .stage.is-swap .card-am, .stage.is-swap .w, .w.is-saying .w__pic, .is-rec .ico--mic { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="dock" aria-label="Điều hướng">
+  <div class="dock__links">
+    <a href="index.html">Trang chủ</a>
+    <a href="tai-lieu.html">Tài liệu</a>
+    <a href="phat-am.html" aria-current="page">Luyện phát âm</a>
+  </div>
+  <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu
+  </button>
+  <a class="dock__call" href="tel:0789251499" aria-label="Gọi hotline Lino 0789 251 499">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+    <span>0789 251 499</span>
+  </a>
+  <a class="btn" href="index.html#dang-ky">Đăng ký học thử</a>
+</nav>
+<div class="sheet" id="menu" aria-hidden="true">
+  <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
+  <nav class="sheet__panel" aria-label="Menu">
+    <a href="index.html">Trang chủ <small>Lino</small></a>
+    <a href="tai-lieu.html">Tài liệu bài tập <small>Theo độ tuổi</small></a>
+    <a href="phat-am.html">Luyện phát âm cùng con <small>Bạn đang ở đây</small></a>
+    <a href="index.html#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
+  </nav>
+</div>
+
+<a class="top" href="index.html"><img src="assets/logo-word.webp" width="640" height="267" alt="Lino, về trang chủ"></a>
+
+<main>
+  <header class="pa-hero">
+    <span class="big-a" aria-hidden="true">ai</span>
+    <div class="sc-wrap pa-hero__in">
+      <div data-sc-in data-sc-stagger="90">
+        <h1>Mỗi tối 5 phút, <span class="em">con đọc, bố mẹ nghe.</span></h1>
+        <p>Đủ 42 âm Jolly Phonics con học ở lớp. Bố mẹ không cần phát âm giỏi: trang đọc mẫu, con đọc theo, rồi cả nhà cùng nghe lại giọng con.</p>
+      </div>
+      <ol class="steps" data-sc-in data-sc-stagger="90">
+        <li><div><b>Nghe mẫu</b><span>Bấm loa để nghe từ được đọc chậm, rõ.</span></div></li>
+        <li><div><b>Con đọc theo</b><span>Bấm micro, con đọc to một lần.</span></div></li>
+        <li><div><b>Nghe lại giọng con</b><span>So với mẫu, khen trước rồi sửa sau.</span></div></li>
+      </ol>
+    </div>
+  </header>
+
+  <section class="practice" id="luyen" aria-label="Bài luyện phát âm">
+    <div class="sc-wrap">
+      <div class="groups" id="groups" role="group" aria-label="Chọn nhóm âm"></div>
+      <div class="sounds" id="sounds" role="group" aria-label="Chọn âm"></div>
+
+      <div class="stage" id="stage">
+        <article class="card-am" aria-live="polite">
+          <p class="am-big" id="am-big"></p>
+          <div class="tip"><h3>Khẩu hình</h3><p id="am-mieng"></p></div>
+          <div class="tip"><h3>Động tác gợi nhớ</h3><p id="am-dong"></p></div>
+          <p class="stars" id="stars" aria-label="Số từ con đã đọc đạt"><i>★</i><i>★</i><i>★</i><span></span></p>
+        </article>
+        <div class="words" id="words"></div>
+        <div class="stage__foot">
+          <p>Máy nghe giọng trẻ nhỏ chưa thật chuẩn, nên phần chấm chỉ để con vui. Bố mẹ nghe lại giọng con mới là chính.</p>
+          <button class="btn" type="button" id="next">Âm tiếp theo</button>
+        </div>
+      </div>
+      <p class="note" id="note" hidden></p>
+    </div>
+  </section>
+
+  <section class="advice" data-sc-act="flow">
+    <div class="sc-wrap advice__in">
+      <div data-sc-in>
+        <h2>Vài điều nhỏ để con thích luyện hơn.</h2>
+      </div>
+      <ol data-sc-in data-sc-stagger="70">
+        <li><div><b>Ngắn mà đều.</b><span>5 phút mỗi tối tốt hơn một tiếng vào cuối tuần. Dừng khi con còn đang vui.</span></div></li>
+        <li><div><b>Đọc âm, đừng đọc tên chữ.</b><span>Chữ s đọc là “sss”, không phải “ét”. Đây là gốc của cả Jolly Phonics.</span></div></li>
+        <li><div><b>Khen trước, sửa sau.</b><span>Nghe lại giọng con, khen điều con làm đúng, rồi cùng nghe mẫu thêm một lần.</span></div></li>
+        <li><div><b>Làm động tác cùng con.</b><span>Bố mẹ làm động tác, con đoán âm. Con nhớ âm bằng cả tay lẫn tai.</span></div></li>
+        <li><div><b>Ôn âm cũ trước khi học âm mới.</b><span>Mở lại nhóm âm con học tuần trước, đọc nhanh một vòng như khởi động.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="sc-wrap">
+      <div class="cta__box" data-sc-in>
+        <div>
+          <h2>Muốn thầy cô sửa phát âm trực tiếp cho con?</h2>
+          <p>Ở lớp, giáo viên nước ngoài nghe và sửa từng âm cho con. Anh chị đăng ký một buổi học thử để con làm quen nhé.</p>
+        </div>
+        <div class="cta__go">
+          <a class="btn" href="index.html#dang-ky">Đăng ký học thử</a>
+          <button class="btn btn--line" type="button" data-open-chat>Hỏi Lino</button>
+        </div>
+      </div>
+      <p class="foot">© 2026 Trung tâm ngoại ngữ Lino. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd. Gợi ý động tác ở trang này chỉ để bố mẹ dễ nhớ, chi tiết đầy đủ có trong giáo trình con học ở lớp.</p>
+    </div>
+  </section>
+</main>
+
+<script src="data/am.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+<script>
+ScrollCraft.mount(document.body);
+(function () {
+  var S = window.LINO_SOUNDS || [];
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ICON_SPK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
+  var ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
+  var ALT = { ck: ['ck', 'c', 'k'], oi: ['oi', 'oy'] };
+
+  var groupsEl = document.getElementById('groups'), soundsEl = document.getElementById('sounds'), wordsEl = document.getElementById('words');
+  var stage = document.getElementById('stage'), note = document.getElementById('note');
+  var cur = 0;
+
+  var stars = {};
+  try { stars = JSON.parse(localStorage.getItem('lino-stars') || '{}'); } catch (e) {}
+  function saveStars() { try { localStorage.setItem('lino-stars', JSON.stringify(stars)); } catch (e) {} }
+  function key(i) { return S[i].am + (S[i].ten ? '-' + S[i].ten : ''); }
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function mark(word, am) {
+    var tries = ALT[am] || [am];
+    for (var i = 0; i < tries.length; i++) {
+      var at = word.indexOf(tries[i]);
+      if (at >= 0) return esc(word.slice(0, at)) + '<b>' + esc(tries[i]) + '</b>' + esc(word.slice(at + tries[i].length));
+    }
+    return esc(word);
+  }
+
+  /* groups */
+  for (var g = 1; g <= 7; g++) {
+    var list = S.filter(function (s) { return s.nhom === g; }).map(function (s) { return s.am; });
+    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-g', g);
+    b.innerHTML = '<small>Nhóm ' + g + '</small><span>' + list.filter(function (v, i, a) { return a.indexOf(v) === i; }).join(' ') + '</span>';
+    groupsEl.appendChild(b);
+  }
+  groupsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var g = +b.getAttribute('data-g');
+    for (var i = 0; i < S.length; i++) if (S[i].nhom === g) { show(i, true); break; }
+  });
+  soundsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    show(+b.getAttribute('data-i'), true);
+  });
+  document.getElementById('next').addEventListener('click', function () { show((cur + 1) % S.length, true); });
+
+  function drawSounds() {
+    var g = S[cur].nhom;
+    Array.prototype.forEach.call(groupsEl.children, function (b) { b.setAttribute('aria-pressed', +b.getAttribute('data-g') === g ? 'true' : 'false'); });
+    soundsEl.innerHTML = '';
+    S.forEach(function (s, i) {
+      if (s.nhom !== g) return;
+      var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-i', i);
+      b.setAttribute('aria-pressed', i === cur ? 'true' : 'false');
+      b.setAttribute('aria-label', 'Âm ' + s.am + (s.ten ? ', ' + s.ten : ''));
+      b.innerHTML = esc(s.am) + (s.ten ? '<small>' + esc(s.ten.replace('oo ', '').replace('th ', '')) + '</small>' : '');
+      if ((stars[key(i)] || 0) >= 3) b.classList.add('has-star');
+      soundsEl.appendChild(b);
+    });
+  }
+  function drawStars() {
+    var n = stars[key(cur)] || 0;
+    var el = document.getElementById('stars');
+    Array.prototype.forEach.call(el.querySelectorAll('i'), function (s, i) { s.classList.toggle('on', i < n); });
+    el.querySelector('span').textContent = n >= 3 ? 'Con đọc đạt cả ba từ!' : n ? 'Con đã đạt ' + n + ' từ' : 'Đọc đạt từ nào, sao sáng lên từ đó';
+  }
+
+  function show(i, anim) {
+    stopAll();
+    cur = i;
+    var s = S[i];
+    document.getElementById('am-big').innerHTML = esc(s.am) + (s.ten ? '<small>' + esc(s.ten) + '</small>' : '');
+    document.getElementById('am-mieng').textContent = s.mieng;
+    document.getElementById('am-dong').textContent = s.dongtac;
+    wordsEl.innerHTML = '';
+    s.tu.forEach(function (t) {
+      var w = document.createElement('div'); w.className = 'w'; w._word = t[0];
+      w.innerHTML = '<span class="w__pic" aria-hidden="true">' + t[1] + '</span>' +
+        '<p class="w__word" lang="en">' + mark(t[0], s.am) + '</p>' +
+        '<div class="w__act"><button class="ico" type="button" data-act="nghe" aria-label="Nghe đọc mẫu từ ' + esc(t[0]) + '">' + ICON_SPK + '<span>Nghe mẫu</span></button>' +
+        '<button class="ico ico--mic" type="button" data-act="doc" aria-label="Con đọc từ ' + esc(t[0]) + '">' + ICON_MIC + '<span>Con đọc</span></button></div>' +
+        '<div class="w__res" aria-live="polite"></div>';
+      wordsEl.appendChild(w);
+    });
+    drawSounds(); drawStars();
+    if (anim && !reduce) { stage.classList.remove('is-swap'); void stage.offsetWidth; stage.classList.add('is-swap'); }
+    try { history.replaceState(null, '', '#' + encodeURIComponent(key(i))); } catch (e) {}
+  }
+
+  /* ------------------------------------------------ listen, record, compare */
+  var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+  var active = null;
+
+  function stopAll() {
+    if (active) { try { active.stop(); } catch (e) {} active = null; }
+    Array.prototype.forEach.call(document.querySelectorAll('.w.is-rec'), function (w) { w.classList.remove('is-rec'); });
+  }
+
+  wordsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var w = b.closest('.w'), act = b.getAttribute('data-act');
+    if (act === 'nghe') {
+      if (!window.LinoSpeak(w._word, 0.72)) say('Trình duyệt này chưa đọc được tiếng Anh. Anh chị thử mở trang bằng Chrome hoặc Safari nhé.');
+      w.classList.remove('is-saying'); void w.offsetWidth; w.classList.add('is-saying');
+    }
+    if (act === 'doc') { if (w.classList.contains('is-rec')) stopAll(); else record(w); }
+    if (b.classList.contains('play')) { var a = new Audio(w._url); a.play(); }
+  });
+
+  function say(t) { note.textContent = t; note.hidden = false; }
+
+  function record(w) {
+    stopAll();
+    var res = w.querySelector('.w__res');
+    if (!canRecord && !Rec) { say('Trình duyệt này chưa cho thu âm. Anh chị mở trang bằng Chrome trên điện thoại hoặc máy tính nhé.'); return; }
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    w.classList.add('is-rec');
+    res.innerHTML = '<span>Con đọc to nhé…</span>';
+    var heard = null, chunks = [], mr = null, stream = null, rec = null, finished = false, timer = null;
+
+    function finish() {
+      if (finished) return; finished = true;
+      clearTimeout(timer);
+      w.classList.remove('is-rec');
+      if (rec) { try { rec.stop(); } catch (e) {} }
+      if (mr && mr.state !== 'inactive') mr.stop(); else render();
+      if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
+    }
+    function render() {
+      var html = '';
+      if (chunks.length) {
+        if (w._url) URL.revokeObjectURL(w._url);
+        w._url = URL.createObjectURL(new Blob(chunks, { type: chunks[0].type || 'audio/webm' }));
+        html += '<button class="play" type="button">' + ICON_PLAY + 'Nghe lại giọng con</button>';
+      }
+      if (Rec) {
+        var target = w._word.replace(/[^a-z]/gi, '').toLowerCase();
+        var ok = heard && heard.some(function (h) { return h.replace(/[^a-z ]/gi, '').toLowerCase().split(' ').join('').indexOf(target) >= 0; });
+        if (ok) {
+          html += '<span class="ok">Lino nghe rõ “' + esc(w._word) + '”. Giỏi quá!</span>';
+          if (!w._done) { w._done = true; stars[key(cur)] = Math.min(3, (stars[key(cur)] || 0) + 1); saveStars(); drawStars(); drawSounds(); }
+        } else if (heard && heard[0]) {
+          html += '<span class="try">Lino nghe thành “' + esc(heard[0]) + '”. Nghe mẫu rồi thử lại nhé.</span>';
+        } else {
+          html += '<span class="try">Lino chưa nghe rõ. Con đọc to hơn một chút nhé.</span>';
+        }
+      }
+      res.innerHTML = html || '<span>Con thử lại nhé.</span>';
+      if (chunks.length && !reduce) { /* play the child back once, right away: hearing yourself is the lesson */
+        var a = new Audio(w._url); a.play().catch(function () {});
+      }
+    }
+
+    active = { stop: finish };
+    timer = setTimeout(finish, 3200);
+
+    if (Rec) {
+      try {
+        rec = new Rec(); rec.lang = 'en-US'; rec.maxAlternatives = 5; rec.interimResults = false;
+        rec.onresult = function (ev) {
+          heard = [];
+          for (var i = 0; i < ev.results[0].length; i++) heard.push(ev.results[0][i].transcript.trim());
+          setTimeout(finish, 250);
+        };
+        rec.onerror = function (ev) { if (ev.error === 'not-allowed') { say('Anh chị cho phép trang dùng micro để con đọc nhé (bấm biểu tượng ổ khoá cạnh địa chỉ trang).'); finish(); } };
+        rec.start();
+      } catch (e) { rec = null; }
+    }
+    if (canRecord) {
+      navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } }).then(function (s) {
+        if (finished) { s.getTracks().forEach(function (t) { t.stop(); }); return; }
+        stream = s;
+        mr = new MediaRecorder(s);
+        mr.ondataavailable = function (ev) { if (ev.data && ev.data.size) chunks.push(ev.data); };
+        mr.onstop = render;
+        mr.start();
+      }).catch(function () {
+        if (!Rec) { say('Anh chị cho phép trang dùng micro để con đọc nhé (bấm biểu tượng ổ khoá cạnh địa chỉ trang).'); finish(); }
+      });
+    }
+  }
+
+  /* start on the sound in the address, or the first one */
+  var h = decodeURIComponent(location.hash.slice(1)), start = 0;
+  for (var i = 0; i < S.length; i++) if (key(i) === h) start = i;
+  show(start, false);
+})();
+</script>
+</body>
+</html>

@@ -17,65 +17,9 @@
 <link rel="preload" as="image" href="assets/group.webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="assets/group-m.webp" media="(max-width: 860px)">
 <link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
 <script>document.documentElement.classList.add('js');</script>
 <style>
-  :root {
-    --sc-canvas:     #FCFAF6;
-    --sc-surface:    #FFFFFF;
-    --sc-ink:        #1C1114;
-    --sc-ink-soft:   #66565A;
-    --sc-accent:     #CC0000;
-    --sc-accent-ink: #FFFFFF;
-    --sc-font-display: "Bricolage Grotesque", "Be Vietnam Pro", system-ui, sans-serif;
-    --sc-font-text:    "Be Vietnam Pro", system-ui, sans-serif;
-    --sc-shadow-color: 352 55% 18%;
-
-    --red: #CC0000;
-    --paper: #FCFAF6;
-    --night: #170A0D;
-    --r-photo: 22px;
-    --dock-h: 0px;
-  }
-
-  /* Vietnamese stacks two diacritics on one vowel. Display leading below ~1.1
-     shears the top mark off, so every heading here runs looser than the kit. */
-  h1, h2, h3 { font-family: var(--sc-font-display); font-weight: 800; line-height: 1.12;
-    letter-spacing: -0.028em; margin: 0; text-wrap: balance; }
-  p { margin: 0; }
-  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .em { color: var(--red); }
-
-  /* ------------------------------------------------------------ the dock -- */
-  .dock {
-    position: fixed; z-index: var(--sc-z-chrome);
-    top: 18px; right: 22px;
-    display: flex; align-items: center; gap: 6px;
-    padding: 6px; border-radius: 999px;
-    background: color-mix(in srgb, #fff 94%, transparent);
-    box-shadow: var(--sc-e2), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent);
-    transition: opacity 220ms var(--sc-ease-out), transform 220ms var(--sc-ease-out);
-  }
-  .dock.is-away { opacity: 0; transform: translateY(-10px); pointer-events: none; }
-  .dock__call {
-    display: inline-flex; align-items: center; gap: 8px;
-    min-height: 44px; padding: 0 16px 0 12px; border-radius: 999px;
-    color: var(--sc-ink); font-weight: 600; text-decoration: none; white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-    transition: background-color 140ms var(--sc-ease-out);
-  }
-  .dock__call svg { width: 18px; height: 18px; color: var(--red); }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    min-height: 44px; padding: 0 22px; border-radius: 999px; border: 0; cursor: pointer;
-    background: var(--red); color: #fff; font-weight: 700; text-decoration: none; white-space: nowrap;
-    transition: background-color 140ms var(--sc-ease-out), transform 120ms var(--sc-ease-out);
-  }
-  .btn:active, .dock__call:active { transform: scale(0.97); }
-  .btn:focus-visible { outline-color: var(--sc-ink); }
-  @media (hover: hover) and (pointer: fine) {
-    .btn:hover { background: #A80000; }
-    .dock__call:hover { background: color-mix(in srgb, var(--red) 8%, transparent); }
-  }
 
   /* ---------------------------------------------------------------- hero -- */
   .hero__stage { background: var(--paper); --mx: 0; --my: 0; }
@@ -287,6 +231,76 @@
     font-size: var(--sc-t-sm); line-height: 1.6; color: var(--sc-ink-soft); text-wrap: pretty; }
   .lesson__tip b { color: var(--jp-red); font-weight: 700; }
 
+  /* ------------------------------------------------------------- at home -- */
+  .home { background: var(--paper); padding-block: clamp(3rem, 7vw, 6rem) clamp(5rem, 11vw, 10rem); }
+  .home__head { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: end; }
+  .home__head h2 { font-size: clamp(2.2rem, 3.9vw, 3.9rem); max-width: 14ch; }
+  .home__head p { color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.5; max-width: 36ch; text-wrap: pretty; }
+  .home__grid { margin-top: var(--sc-8); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1rem, 2vw, 1.75rem); align-items: stretch; }
+  .tile { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; gap: var(--sc-4);
+    padding: clamp(1.6rem, 3.2vw, 3rem); border-radius: 30px; isolation: isolate;
+    transition: transform 500ms var(--ease), box-shadow 500ms var(--ease); }
+  .tile h3 { font-size: clamp(1.7rem, 2.6vw, 2.6rem); max-width: 15ch; }
+  .tile p { max-width: 38ch; line-height: 1.55; text-wrap: pretty; }
+  .tile .btn { margin-top: auto; }
+  .tile--say { background: var(--red); color: #fff; }
+  .tile--say p { color: rgb(255 255 255 / 0.86); }
+  .tile--say::before { content: ""; position: absolute; z-index: -1; right: -18%; top: -38%; width: 70%; aspect-ratio: 1; border-radius: 50%;
+    box-shadow: 0 0 0 2px rgb(255 255 255 / 0.12), 0 0 0 60px rgb(255 255 255 / 0.04), 0 0 0 62px rgb(255 255 255 / 0.1), 0 0 0 130px rgb(255 255 255 / 0.03), 0 0 0 132px rgb(255 255 255 / 0.08); }
+  .btn--white { background: #fff; color: var(--red-deep); }
+  @media (hover: hover) and (pointer: fine) { .btn--white:hover { background: var(--blush); } .tile:hover { transform: translateY(-4px); } }
+  .say-demo { display: flex; flex-wrap: wrap; gap: 10px; margin-block: var(--sc-3) var(--sc-5); }
+  .say-demo button { display: inline-flex; align-items: center; gap: 12px; min-height: 64px; padding: 0 18px 0 22px; border-radius: 18px; border: 0; cursor: pointer;
+    background: #fff; color: var(--sc-ink); font: 800 clamp(1.5rem, 2.4vw, 2.1rem)/1 var(--sc-font-display); letter-spacing: -0.02em;
+    box-shadow: 0 2px 3px rgb(60 0 0 / 0.18), 0 14px 24px -10px rgb(60 0 0 / 0.5);
+    transition: transform 260ms var(--ease); }
+  .say-demo button b { color: var(--red); font-weight: 800; }
+  .say-demo button svg { width: 22px; height: 22px; color: var(--red); }
+  .say-demo button:active { transform: scale(0.95); }
+  .say-demo button.is-saying { animation: say 700ms var(--ease); }
+  .say-demo button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  @keyframes say { 30% { transform: translateY(-6px) rotate(-2deg) scale(1.05); } }
+  .tile--docs { background: #fff; box-shadow: var(--sc-e2), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); padding-top: clamp(9rem, 14vw, 12rem); }
+  .tile--docs p { color: var(--sc-ink-soft); }
+  .papers { position: absolute; top: clamp(1.4rem, 2.6vw, 2.4rem); right: clamp(1.4rem, 3vw, 3rem); width: clamp(8rem, 12vw, 10.5rem); aspect-ratio: 3 / 3.4; }
+  .papers i { position: absolute; inset: 0; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px hsl(352 55% 18% / 0.12), 0 10px 20px -8px hsl(352 55% 18% / 0.28), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent);
+    transition: transform 600ms var(--ease); }
+  .papers i:nth-child(1) { transform: rotate(-9deg) translate(-14%, 4%); background: var(--blush); }
+  .papers i:nth-child(2) { transform: rotate(5deg) translate(10%, -2%); }
+  .papers i:nth-child(3) { padding: 14% 12%; display: flex; flex-direction: column; gap: 9%; }
+  .papers b { font: 700 0.72rem/1.2 var(--sc-font-text); color: var(--red); }
+  .papers s { display: block; height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--sc-ink) 12%, transparent); }
+  .papers s:nth-child(3) { width: 72%; } .papers s:nth-child(5) { width: 55%; }
+  @media (hover: hover) and (pointer: fine) {
+    .tile--docs:hover .papers i:nth-child(1) { transform: rotate(-16deg) translate(-30%, 8%); }
+    .tile--docs:hover .papers i:nth-child(2) { transform: rotate(11deg) translate(24%, -4%); }
+    .tile--docs:hover .papers i:nth-child(3) { transform: translateY(-6%); }
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--sc-4); }
+  .pills a { min-height: 40px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; background: var(--blush); color: var(--red-deep);
+    font-weight: 600; font-size: 0.92rem; text-decoration: none; transition: background-color 160ms var(--ease); }
+  @media (hover: hover) and (pointer: fine) { .pills a:hover { background: color-mix(in srgb, var(--red) 16%, #fff); } }
+
+  /* -------------------------------------------------------------- voices -- */
+  .voices { background: var(--blush); padding-block: clamp(4.5rem, 10vw, 9rem); overflow: hidden; }
+  .voices__head h2 { font-size: clamp(2.2rem, 3.9vw, 3.9rem); }
+  .voices__head p { margin-top: var(--sc-4); color: var(--sc-ink-soft); max-width: 46ch; font-size: var(--sc-t-lg); line-height: 1.5; text-wrap: pretty; }
+  .voices__wall { margin-top: var(--sc-8); columns: 4 15rem; column-gap: clamp(1rem, 2vw, 1.75rem); }
+  .vc { break-inside: avoid; margin: 0 0 clamp(1rem, 2vw, 1.75rem); }
+  .vc button { display: block; width: 100%; padding: 8px; border: 0; border-radius: 22px; background: #fff; cursor: zoom-in;
+    box-shadow: 0 2px 4px hsl(352 55% 18% / 0.1), 0 22px 40px -18px hsl(352 55% 18% / 0.42);
+    transform: rotate(var(--r, 0deg)) translateY(var(--y, 0px)); transition: transform 700ms var(--ease); will-change: transform; }
+  .vc img { width: 100%; height: auto; border-radius: 15px; display: block; }
+  .vc figcaption { margin-top: var(--sc-3); padding-inline: 6px; font-weight: 600; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  .vc button:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+  .lb { border: 0; padding: 0; background: none; max-width: min(92vw, 30rem); max-height: 92svh; overflow: visible; }
+  .lb::backdrop { background: rgb(23 10 13 / 0.78); }
+  .lb[open] { animation: lb-in 420ms var(--ease); }
+  .lb img { display: block; max-width: 100%; max-height: 82svh; width: auto; margin-inline: auto; border-radius: 18px; }
+  .lb p { margin-top: 12px; color: #fff; text-align: center; font-weight: 600; }
+  .lb__x { position: absolute; top: -14px; right: -14px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: var(--sc-ink); font-size: 1.6rem; line-height: 1; cursor: pointer; box-shadow: var(--sc-e2); }
+  @keyframes lb-in { from { opacity: 0; transform: translateY(16px) scale(0.97); } }
+
   /* --------------------------------------------------------------- close -- */
   .close { background: var(--paper); padding-block: clamp(4.5rem, 10vw, 9rem) var(--sc-7); min-height: 100svh; display: flex; flex-direction: column; }
   .close__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; flex: 1; }
@@ -340,11 +354,6 @@
 
   /* --------------------------------------------------------------- phone -- */
   @media (max-width: 860px) {
-    :root { --dock-h: 76px; }
-    .dock { top: auto; right: 10px; left: 10px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); justify-content: space-between; }
-    .dock.is-away { transform: translateY(14px); }
-    .dock__call { padding-inline: 12px 14px; }
-    .dock .btn { flex: 1; padding-inline: 14px; }
 
     .hero__logo { top: 16px; height: 34px; }
     .scene { --W: min(calc(100vw - var(--sc-gutter) * 2), 64svh); right: auto; left: var(--sc-gutter); top: 47svh; translate: none; }
@@ -385,6 +394,12 @@
     .room__b-ph2 { width: 62%; margin: -28% 0 0 auto; }
     .room__c-ph { aspect-ratio: 4 / 3; margin-top: var(--sc-9); }
     .room__c-h, .facts { margin-top: var(--sc-7); }
+
+    .home__head, .home__grid { grid-template-columns: 1fr; }
+    .home__head { gap: var(--sc-4); }
+    .tile { border-radius: 24px; }
+    .say-demo button { min-height: 56px; padding: 0 14px 0 16px; gap: 8px; }
+    .voices__wall { columns: 2 9rem; }
 
     .reel__nav { display: none; }
     .clip { width: 62vw; }
@@ -430,13 +445,33 @@
 </head>
 <body>
 
-<nav class="dock" aria-label="Liên hệ nhanh">
+<nav class="dock" aria-label="Điều hướng">
+  <div class="dock__links">
+    <a href="tai-lieu.html">Tài liệu</a>
+    <a href="phat-am.html">Luyện phát âm</a>
+    <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì</a>
+  </div>
+  <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu
+  </button>
   <a class="dock__call" href="tel:0789251499" aria-label="Gọi hotline Lino 0789 251 499">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
     <span>0789 251 499</span>
   </a>
   <a class="btn" href="#dang-ky">Đăng ký học thử</a>
 </nav>
+
+<div class="sheet" id="menu" aria-hidden="true">
+  <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
+  <nav class="sheet__panel" aria-label="Menu">
+    <a href="#lop-hoc">Lớp học ở Lino <small>Ảnh, video</small></a>
+    <a href="tai-lieu.html">Tài liệu bài tập <small>Theo độ tuổi</small></a>
+    <a href="phat-am.html">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
+    <a href="#tieng-nhat">Tiếng Nhật <small>N5 đến N3</small></a>
+    <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì <small>Tin nhắn Zalo</small></a>
+    <a href="#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
+  </nav>
+</div>
 
 <main id="top">
 
@@ -464,14 +499,14 @@
       </div>
 
       <div class="hero__copy" data-sc-cue="0 0.5 0">
-        <h1>Mọi thứ bắt đầu từ <span class="em">một âm.</span></h1>
-        <p class="hero__sub">Tiếng Anh cho trẻ 3 đến 15 tuổi theo Jolly Phonics. Tiếng Nhật N5 đến N3 cho học sinh và người đi làm.</p>
+        <h1>Tiếng Anh của con bắt đầu từ <span class="em">một âm.</span></h1>
+        <p class="hero__sub">Lino dạy tiếng Anh cho bé từ 3 đến 15 tuổi theo Jolly Phonics: nghe đúng, đọc đúng rồi nói tự tin. Có cả lớp tiếng Nhật N5 đến N3 cho học sinh và người đi làm.</p>
         <p class="hero__place">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
           Gần ngã tư Tài Chính, Như Quỳnh, Hưng Yên
         </p>
       </div>
-      <p class="hero__beat" data-sc-cue="0.46 1 0.3 0">Một âm thành một từ. Một từ thành <span class="em">một câu.</span></p>
+      <p class="hero__beat" data-sc-cue="0.46 1 0.3 0">Từ một âm, con ghép thành từ, rồi thành <span class="em">cả câu.</span></p>
     </div>
   </section>
 
@@ -479,8 +514,8 @@
   <section class="quiet" data-sc-act="flow">
     <div class="sc-wrap">
       <div class="quiet__in" data-sc-in data-sc-stagger="140">
-        <p class="quiet__a">Hôm nay, con mới biết một âm.</p>
-        <p class="quiet__b">Mười hai năm nữa thì sao?</p>
+        <p class="quiet__a">Hôm nay, con mới đọc được một âm.</p>
+        <p class="quiet__b">Đến năm 15 tuổi, con sẽ nói được những gì?</p>
       </div>
     </div>
   </section>
@@ -492,7 +527,7 @@
       <div class="grow__flood" aria-hidden="true"></div>
       <div class="grow__rings" aria-hidden="true"><i style="--d:46vmax"></i><i style="--d:84vmax"></i><i style="--d:128vmax"></i></div>
 
-      <h2 class="grow__title">Một âm, theo con từ 3 đến 15 tuổi.</h2>
+      <h2 class="grow__title">Cùng một âm, lớn lên với con từ 3 đến 15 tuổi.</h2>
 
       <div class="ruler" aria-hidden="true">
         <i class="major" style="--pos:0%" data-age="3"><b>3</b></i>
@@ -515,27 +550,27 @@
       <div class="says">
         <div class="say say--1" data-sc-cue="0 0.17 0 0.2">
           <p class="say__en" lang="en"><mark>ai</mark></p>
-          <p class="say__vi"><b>3 tuổi.</b> Con nghe, nhìn thẻ và bắt chước một âm.</p>
+          <p class="say__vi"><b>3 tuổi.</b> Con nghe cô đọc, nhìn thẻ và nhại theo âm đầu tiên.</p>
         </div>
         <div class="say say--2" data-sc-cue="0.13 0.36 0.18 0.18">
           <p class="say__en" lang="en" aria-label="r, ai, n: rain">r<span>·</span><mark>ai</mark><span>·</span>n</p>
-          <p class="say__vi"><b>5 tuổi.</b> Con ghép âm thành từ theo Jolly Phonics.</p>
+          <p class="say__vi"><b>5 tuổi.</b> Con tự ghép các âm lại thành từ, đúng cách Jolly Phonics dạy.</p>
         </div>
         <div class="say say--3" data-sc-cue="0.32 0.56 0.18 0.18">
           <p class="say__en" lang="en">It’s r<mark>ai</mark>ning on the tr<mark>ai</mark>n.</p>
-          <p class="say__vi"><b>8 tuổi.</b> Con đọc trọn câu, luyện nói với giáo viên nước ngoài.</p>
+          <p class="say__vi"><b>8 tuổi.</b> Con đọc được cả câu và bắt đầu nói chuyện với thầy cô nước ngoài.</p>
         </div>
         <div class="say say--4" data-sc-cue="0.52 0.76 0.18 0.18">
           <p class="say__en" lang="en">I stayed in and p<mark>ai</mark>nted because it r<mark>ai</mark>ned all day.</p>
-          <p class="say__vi"><b>11 tuổi.</b> Con kể chuyện của mình, phát âm rõ, vững bài trên lớp.</p>
+          <p class="say__vi"><b>11 tuổi.</b> Con kể được chuyện của mình, phát âm rõ ràng, học trên trường cũng nhẹ hơn.</p>
         </div>
         <div class="say say--5" data-sc-cue="0.775 1 0.12 0">
           <p class="say__en" lang="en">I’m not afr<mark>ai</mark>d to expl<mark>ai</mark>n what I think.</p>
-          <p class="say__vi"><b>15 tuổi.</b> Con tự nói điều con nghĩ, sẵn nền tảng cho kỳ thi Cambridge.</p>
+          <p class="say__vi"><b>15 tuổi.</b> Con dám nói điều mình nghĩ, và có sẵn nền để thi Cambridge.</p>
         </div>
       </div>
 
-      <p class="grow__note">Lộ trình minh hoạ. Mỗi bé có nhịp riêng.</p>
+      <p class="grow__note">Lộ trình minh hoạ. Mỗi bé một nhịp, Lino đi theo nhịp của con.</p>
     </div>
   </section>
 
@@ -547,13 +582,13 @@
              width="1600" height="1200" loading="lazy" alt="Hai bạn nhỏ ngồi trên sàn gỗ chơi trò úp cốc màu lên thẻ từ.">
       </figure>
       <div class="room__a-tx" data-sc-in data-sc-stagger="70">
-        <h2>Con học bằng tai, bằng tay, bằng trò chơi.</h2>
-        <p>Jolly Phonics dạy con nghe âm, ghép âm, rồi tự đọc. Thẻ từ, cốc màu và những ván chơi trên sàn lớp làm phần còn lại.</p>
+        <h2>Ở Lino, con học bằng tai, bằng tay và bằng trò chơi.</h2>
+        <p>Jolly Phonics giúp con nghe từng âm, ghép âm rồi tự đọc. Còn lại là thẻ từ, cốc màu và những trò chơi ngay trên sàn lớp, nên con học mà không thấy mệt.</p>
       </div>
 
       <div class="room__b-tx" data-sc-in data-sc-stagger="70">
-        <h3>Giáo viên nước ngoài, kèm đến từng bàn.</h3>
-        <p>Con luyện phát âm và luyện nói trực tiếp với giáo viên nước ngoài ngay trong buổi học, rồi lên bảng tự viết, tự nói.</p>
+        <h3>Thầy cô nước ngoài kèm con tận bàn.</h3>
+        <p>Ngay trong giờ học, con được luyện phát âm và nói chuyện trực tiếp với giáo viên nước ngoài, rồi tự lên bảng viết, tự nói trước lớp.</p>
       </div>
       <figure class="ph room__b-ph1" data-wipe="up">
         <img src="assets/desk.webp" srcset="assets/desk-m.webp 880w, assets/desk.webp 1600w" sizes="(max-width: 860px) 72vw, 30vw"
@@ -568,13 +603,13 @@
         <img src="assets/class.webp" srcset="assets/class-m.webp 880w, assets/class.webp 1600w" sizes="(max-width: 860px) 92vw, 90vw"
              width="1600" height="1200" loading="lazy" alt="Lớp học của Lino: các bé ngồi đọc sách ở dãy bàn đỏ, tường dán hình thời tiết và số đếm.">
       </figure>
-      <h3 class="room__c-h" data-sc-in>Năm việc Lino làm cùng con.</h3>
+      <h3 class="room__c-h" data-sc-in>Năm điều Lino cùng con làm được.</h3>
       <ul class="facts" data-sc-in data-sc-stagger="60">
-        <li><b>Jolly Phonics</b> cho trẻ từ 3 tuổi.</li>
-        <li><b>Luyện phát âm</b> cho đúng ngay từ âm đầu tiên.</li>
-        <li><b>Luyện nói</b> với giáo viên nước ngoài.</li>
-        <li><b>Tăng điểm số</b> trên trường.</li>
-        <li><b>Nền tảng</b> cho các kỳ thi Cambridge.</li>
+        <li><b>Học Jolly Phonics</b> ngay từ 3 tuổi.</li>
+        <li><b>Phát âm chuẩn</b> ngay từ âm đầu tiên, không phải sửa về sau.</li>
+        <li><b>Nói tự tin</b> với giáo viên nước ngoài.</li>
+        <li><b>Điểm trên trường</b> tăng lên.</li>
+        <li><b>Nền vững</b> để thi Cambridge.</li>
       </ul>
     </div>
   </section>
@@ -583,8 +618,8 @@
   <section class="reel" id="video" data-sc-act="flow">
     <div class="sc-wrap reel__head">
       <div data-sc-in data-sc-stagger="70">
-        <h2>Xem con học thật thế nào.</h2>
-        <p>Tám đoạn video quay ngay trong lớp của Lino. Bấm vào để xem, video có tiếng.</p>
+        <h2>Một buổi học ở Lino trông như thế này.</h2>
+        <p>Tám video quay ngay trong lớp. Anh chị bấm vào để xem, video có tiếng.</p>
       </div>
       <div class="reel__nav">
         <button type="button" data-reel="-1" aria-label="Xem các video trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -651,13 +686,44 @@
     </div>
   </section>
 
+  <!-- 4c · AT HOME. What a parent can do tonight: hear a word, open the exercise library. -->
+  <section class="home" id="o-nha" data-sc-act="flow">
+    <div class="sc-wrap">
+      <div class="home__head" data-sc-in data-sc-stagger="80">
+        <h2>Ở nhà, bố mẹ cũng kèm con được.</h2>
+        <p>Không cần giỏi tiếng Anh đâu ạ. Lino chuẩn bị sẵn bài luyện phát âm và tài liệu bài tập, mỗi tối chỉ cần 5 phút ngồi cùng con.</p>
+      </div>
+      <div class="home__grid" data-sc-in data-sc-stagger="120">
+        <article class="tile tile--say">
+          <h3>Luyện phát âm cùng con</h3>
+          <p>Bấm nghe mẫu, cho con đọc theo, rồi nghe lại chính giọng con. Đủ 42 âm Jolly Phonics.</p>
+          <div class="say-demo" aria-label="Thử nghe ba từ có âm ai">
+            <button type="button" data-speak="rain"><span>r<b>ai</b>n</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <button type="button" data-speak="train"><span>tr<b>ai</b>n</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <button type="button" data-speak="paint"><span>p<b>ai</b>nt</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          </div>
+          <a class="btn btn--white" href="phat-am.html">Bắt đầu luyện cùng con</a>
+        </article>
+        <article class="tile tile--docs">
+          <div class="papers" aria-hidden="true"><i></i><i></i><i><b>Phiếu bài tập</b><s></s><s></s><s></s><s></s></i></div>
+          <h3>Tài liệu bài tập theo tuổi</h3>
+          <p>Các dạng bài con hay gặp: phonics, từ vựng, đọc hiểu, dạng bài thi Cambridge, và cả tiếng Nhật. Dạng nào cũng có ví dụ và cách bố mẹ kèm con.</p>
+          <div class="pills">
+            <a href="tai-lieu.html#3-5">3 đến 5 tuổi</a><a href="tai-lieu.html#6-10">6 đến 10 tuổi</a><a href="tai-lieu.html#11-15">11 đến 15 tuổi</a><a href="tai-lieu.html#nhat">Tiếng Nhật</a>
+          </div>
+          <a class="btn" href="tai-lieu.html">Mở tài liệu</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- 5 · RANGE. Hard cut to ink. Three levels travel sideways, each sentence longer. -->
   <section class="jp" id="tieng-nhat" data-sc-act="pan" data-sc-span="3.1">
     <div data-sc-stage class="jp__stage">
       <div class="jp__rail" data-sc-pan="0.04">
         <div class="jp__lead">
-          <h2>Tiếng Nhật, từ N5 đến N3.</h2>
-          <p>Cho học sinh và người đi làm.</p>
+          <h2>Tiếng Nhật từ N5 đến N3.</h2>
+          <p>Dành cho học sinh và người đi làm.</p>
         </div>
         <article class="lv">
           <h3 class="lv__n">N5</h3>
@@ -678,7 +744,7 @@
           <p class="lv__d">Nói được điều mình muốn, đọc hiểu văn bản thường gặp.</p>
         </article>
         <div class="jp__end">
-          <p>Mỗi cấp, câu nói dài thêm một chút.</p>
+          <p>Lên mỗi cấp, câu nói lại dài thêm một chút.</p>
           <a href="#dang-ky" data-pick="nhat">Đăng ký học thử tiếng Nhật</a>
         </div>
       </div>
@@ -689,8 +755,8 @@
   <section class="nihon" id="bai-hoc-tieng-nhat" data-sc-act="flow">
     <div class="sc-wrap">
       <div class="nihon__head" data-sc-in data-sc-stagger="70">
-        <h2>Học thử tiếng Nhật, ngay tại đây.</h2>
-        <p>Bốn bài ngắn của giáo viên Lino về những câu người học hay dùng nhầm. Xem video, rồi đọc lại phần ghi nhớ bên cạnh.</p>
+        <h2>Học thử vài câu tiếng Nhật ngay ở đây.</h2>
+        <p>Bốn bài ngắn của giáo viên Lino về những câu người học hay dùng nhầm. Xem video xong, đọc lại phần ghi nhớ bên cạnh là nhớ lâu.</p>
       </div>
       <div class="nihon__grid">
         <article class="lesson">
@@ -776,12 +842,28 @@
     </div>
   </section>
 
+  <!-- 5c · TRUST. Real Zalo messages from parents. Hidden until feedback/feedback.js lists real screenshots. -->
+  <section class="voices" id="phu-huynh" data-sc-act="flow" hidden>
+    <div class="sc-wrap">
+      <div class="voices__head" data-sc-in data-sc-stagger="80">
+        <h2>Phụ huynh nhắn cho Lino.</h2>
+        <p>Những tin nhắn Zalo bố mẹ gửi sau các buổi học. Lino đã che tên và ảnh đại diện để giữ riêng tư cho từng gia đình.</p>
+      </div>
+      <div class="voices__wall" id="voices"></div>
+    </div>
+    <dialog class="lb" id="lb" aria-label="Xem tin nhắn">
+      <img alt="">
+      <p></p>
+      <button type="button" class="lb__x" aria-label="Đóng">×</button>
+    </dialog>
+  </section>
+
   <!-- 6 · COMMITMENT. The visitor's own mark, carried into the form. Last element. -->
   <section class="close" id="dang-ky" data-sc-act="flow">
     <div class="sc-wrap close__grid">
       <div>
-        <h2>Con đang ở vạch nào?</h2>
-        <p class="close__lede">Chọn một vạch, điền hai dòng. Trang sẽ soạn sẵn tin nhắn để anh chị gửi cho Lino.</p>
+        <h2>Con nhà mình đang ở vạch nào?</h2>
+        <p class="close__lede">Anh chị chọn nhóm tuổi, để lại tên và số điện thoại. Trang sẽ soạn sẵn tin nhắn, anh chị chỉ cần gửi qua Zalo hoặc gọi cho Lino.</p>
 
         <form id="trial" method="post" action="#dang-ky" novalidate>
           <fieldset>
@@ -804,13 +886,13 @@
         </form>
 
         <div class="ticket" id="ticket" hidden aria-live="polite">
-          <h3>Tin nhắn đã soạn xong.</h3>
+          <h3>Tin nhắn đã soạn xong ạ.</h3>
           <blockquote id="msg"></blockquote>
           <div class="ticket__go">
             <a class="btn" id="zalo" href="https://zalo.me/0789251499" target="_blank" rel="noopener">Sao chép, mở Zalo</a>
             <a class="btn btn--line" href="tel:0789251499">Gọi 0789 251 499</a>
           </div>
-          <small id="hint">Trang này chưa tự gửi tin. Anh chị bấm một trong hai nút để Lino nhận được.</small>
+          <small id="hint">Anh chị bấm một trong hai nút để tin nhắn tới được Lino nhé.</small>
         </div>
         <noscript><p class="close__lede">Anh chị gọi hotline 0789 251 499 để đăng ký học thử.</p></noscript>
       </div>
@@ -825,12 +907,15 @@
         </dl>
       </aside>
     </div>
-    <footer class="sc-wrap"><p class="foot">© 2026 Trung tâm ngoại ngữ Lino. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd.</p></footer>
+    <footer class="sc-wrap"><p class="foot">© 2026 Trung tâm ngoại ngữ Lino. <a href="tai-lieu.html">Tài liệu</a> · <a href="phat-am.html">Luyện phát âm</a>. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd.</p></footer>
   </section>
 
 </main>
 
+<script src="feedback/feedback.js"></script>
+<script src="vendor/lenis.min.js"></script>
 <script src="scrollcraft.js"></script>
+<script src="site.js"></script>
 <script>
 ScrollCraft.mount(document.body);
 
@@ -937,6 +1022,47 @@ ScrollCraft.mount(document.body);
     }, { threshold: 0 });
     clips.forEach(function (c) { away.observe(c); });
   }
+
+  /* parents' Zalo messages: built only from real screenshots listed in feedback/feedback.js */
+  var fb = window.LINO_FEEDBACK || [];
+  var voices = document.getElementById('phu-huynh');
+  var cards = [];
+  if (fb.length) {
+    voices.hidden = false;
+    var wall = document.getElementById('voices');
+    var lb = document.getElementById('lb');
+    fb.forEach(function (f, i) {
+      var fig = document.createElement('figure'); fig.className = 'vc';
+      var b = document.createElement('button'); b.type = 'button';
+      b.setAttribute('aria-label', 'Phóng to tin nhắn' + (f.ghi ? ': ' + f.ghi : ''));
+      var im = document.createElement('img'); im.src = f.anh; im.loading = 'lazy'; im.alt = f.mota || ('Ảnh chụp tin nhắn Zalo của phụ huynh' + (f.ghi ? ', ' + f.ghi : ''));
+      b.appendChild(im); fig.appendChild(b);
+      if (f.ghi) { var c = document.createElement('figcaption'); c.textContent = f.ghi; fig.appendChild(c); }
+      b.style.setProperty('--r', (i % 2 ? 2.4 : -2.2) + 'deg');
+      b.addEventListener('click', function () {
+        lb.querySelector('img').src = f.anh; lb.querySelector('img').alt = im.alt;
+        lb.querySelector('p').textContent = f.ghi || '';
+        if (lb.showModal) lb.showModal(); else window.open(f.anh, '_blank');
+      });
+      wall.appendChild(fig); cards.push(b);
+    });
+    lb.querySelector('.lb__x').addEventListener('click', function () { lb.close(); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+  }
+  /* cards arrive tilted and settle straight as they reach the middle of the screen */
+  function readCards() {
+    if (reduce || !cards.length) return;
+    var vh = innerHeight;
+    for (var i = 0; i < cards.length; i++) {
+      var r = cards[i].getBoundingClientRect();
+      if (r.bottom < -50 || r.top > vh + 50) continue;
+      var t = clamp((vh - r.top) / (vh * 0.6));
+      var base = i % 2 ? 2.4 : -2.2;
+      cards[i].style.setProperty('--r', (base * (1 - t) * 2).toFixed(2) + 'deg');
+      cards[i].style.setProperty('--y', ((1 - t) * 40).toFixed(1) + 'px');
+    }
+  }
+  (function loopCards() { readCards(); requestAnimationFrame(loopCards); })();
 
   /* the dock steps aside once the form itself is on screen */
   var dock = document.querySelector('.dock');
