@@ -338,7 +338,18 @@
   .ticket[hidden] { display: none; }
   .ticket h3 { font-size: var(--sc-t-lg); letter-spacing: -0.01em; }
   .ticket blockquote { margin: var(--sc-4) 0 0; padding: var(--sc-4); border-radius: 12px; background: color-mix(in srgb, var(--red) 6%, var(--paper)); line-height: 1.5; }
-  .ticket__go { margin-top: var(--sc-4); display: flex; gap: 10px; flex-wrap: wrap; }
+  .ticket__go { margin-top: var(--sc-5); display: flex; gap: 10px; flex-wrap: wrap; }
+  .ticket { margin-top: var(--sc-7); padding: clamp(1.4rem, 3vw, 2.2rem); border-radius: 26px; animation: ticket-in 600ms var(--ease) both; }
+  .ticket:focus { outline: none; }
+  .ticket h3 { font-size: var(--sc-t-xl); }
+  .ticket__ok { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; margin-bottom: var(--sc-4); background: #13803D; color: #fff; }
+  .ticket__ok svg { width: 28px; height: 28px; }
+  .ticket__go .btn { min-height: 56px; padding-inline: 24px; font-size: 1.05rem; }
+  .btn--zalo { background: #0068FF; }
+  @media (hover: hover) and (pointer: fine) { .btn--zalo:hover { background: #0052CC; } }
+  .ticket__edit { margin-top: var(--sc-4); padding: 0; border: 0; background: none; cursor: pointer; color: var(--sc-ink-soft); font: 600 var(--sc-t-sm)/1.4 var(--sc-font-text); text-decoration: underline; text-underline-offset: 0.2em; }
+  @keyframes ticket-in { from { opacity: 0; transform: translateY(16px) scale(0.98); } }
+  @media (max-width: 860px) { .ticket__go .btn { width: 100%; } }
   .btn--line { background: #fff; color: var(--sc-ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 22%, transparent); }
   @media (hover: hover) and (pointer: fine) { .btn--line:hover { background: color-mix(in srgb, var(--red) 7%, #fff); } }
   .ticket small { display: block; margin-top: var(--sc-4); color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
@@ -887,14 +898,20 @@
           <div class="send"><button class="btn" type="submit">Đăng ký học thử</button><small class="consent">Tên và số điện thoại chỉ dùng để Lino gọi lại tư vấn cho anh chị.</small></div>
         </form>
 
-        <div class="ticket" id="ticket" hidden aria-live="polite">
+        <div class="ticket" id="ticket" hidden aria-live="polite" tabindex="-1">
+          <p class="ticket__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></p>
           <h3>Tin nhắn đã soạn xong ạ.</h3>
           <blockquote id="msg"></blockquote>
           <div class="ticket__go">
-            <a class="btn" id="zalo" href="https://zalo.me/0789251499" target="_blank" rel="noopener">Sao chép, mở Zalo</a>
-            <a class="btn btn--line" href="tel:0789251499">Gọi 0789 251 499</a>
+            <a class="btn btn--zalo" id="zalo" href="https://zalo.me/0789251499" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12z"/></svg>
+              Nhắn Zalo cho Lino</a>
+            <a class="btn btn--line" href="tel:0789251499">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+              Gọi 0789 251 499</a>
           </div>
-          <small id="hint">Anh chị bấm một trong hai nút để tin nhắn tới được Lino nhé.</small>
+          <small id="hint">Tin nhắn đã được sao chép sẵn. Anh chị mở Zalo, dán vào khung chat với Lino rồi gửi nhé.</small>
+          <button class="ticket__edit" type="button" id="edit">Sửa lại thông tin</button>
         </div>
         <noscript><p class="close__lede">Anh chị gọi hotline 0789 251 499 để đăng ký học thử.</p></noscript>
       </div>
@@ -1105,8 +1122,17 @@ ScrollCraft.mount(document.body);
       hint.textContent = 'Cô ở Lino sẽ gọi lại để hẹn giờ học thử. Muốn nhanh hơn, anh chị gửi luôn tin nhắn trên qua Zalo hoặc gọi Lino.';
     }
     window.LinoLead({ ten: ten.value.trim(), sdt: phone, nhom: nhom.value, nguon: 'Form đăng ký học thử', web: form.elements.web.value });
+    /* the result takes the form's place, so it appears exactly where the parent is looking */
+    try { navigator.clipboard && navigator.clipboard.writeText(message); } catch (er) {}
+    form.hidden = true;
     ticket.hidden = false;
-    ticket.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+    ticket.focus({ preventScroll: true });
+    requestAnimationFrame(function () { window.LinoScrollTo(ticket, -140); });
+  });
+  document.getElementById('edit').addEventListener('click', function () {
+    ticket.hidden = true; form.hidden = false;
+    form.elements.ten.focus({ preventScroll: true });
+    window.LinoScrollTo(form, -140);
   });
   document.getElementById('zalo').addEventListener('click', function () {
     if (navigator.clipboard && message) {

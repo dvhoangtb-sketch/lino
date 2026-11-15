@@ -19,11 +19,12 @@
       smoothWheel: true, syncTouch: false, wheelMultiplier: 0.9 });
     (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
   }
-  window.LinoScrollTo = function (target) {
+  window.LinoScrollTo = function (target, offset) {
     var el = typeof target === 'string' ? document.querySelector(target) : target;
     if (!el) return;
-    if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 });
-    else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    offset = offset || 0;
+    if (lenis) lenis.scrollTo(el, { offset: offset, duration: 1.2 });
+    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: reduce ? 'auto' : 'smooth' });
   };
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="#"]');
