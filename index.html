@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lino · Tiếng Anh trẻ em và tiếng Nhật tại Như Quỳnh, Hưng Yên</title>
+<meta name="description" content="Trung tâm ngoại ngữ Lino: tiếng Anh cho trẻ 3 đến 15 tuổi theo Jolly Phonics, luyện nói với giáo viên nước ngoài, và tiếng Nhật N5 đến N3. Gần ngã tư Tài Chính, Như Quỳnh, Hưng Yên.">
+<meta name="theme-color" content="#CC0000">
+<meta property="og:title" content="Lino · Học ngôn ngữ, chạm tương lai">
+<meta property="og:description" content="Tiếng Anh cho trẻ 3 đến 15 tuổi và tiếng Nhật N5 đến N3 tại Như Quỳnh, Hưng Yên.">
+<meta property="og:image" content="assets/group.webp">
+<link rel="icon" href="assets/mark.webp" type="image/webp">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/group.webp" media="(min-width: 861px)">
+<link rel="preload" as="image" href="assets/group-m.webp" media="(max-width: 860px)">
+<link rel="stylesheet" href="scrollcraft.css">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root {
+    --sc-canvas:     #FCFAF6;
+    --sc-surface:    #FFFFFF;
+    --sc-ink:        #1C1114;
+    --sc-ink-soft:   #66565A;
+    --sc-accent:     #CC0000;
+    --sc-accent-ink: #FFFFFF;
+    --sc-font-display: "Bricolage Grotesque", "Be Vietnam Pro", system-ui, sans-serif;
+    --sc-font-text:    "Be Vietnam Pro", system-ui, sans-serif;
+    --sc-shadow-color: 352 55% 18%;
+
+    --red: #CC0000;
+    --paper: #FCFAF6;
+    --night: #170A0D;
+    --r-photo: 22px;
+    --dock-h: 0px;
+  }
+
+  /* Vietnamese stacks two diacritics on one vowel. Display leading below ~1.1
+     shears the top mark off, so every heading here runs looser than the kit. */
+  h1, h2, h3 { font-family: var(--sc-font-display); font-weight: 800; line-height: 1.12;
+    letter-spacing: -0.028em; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .em { color: var(--red); }
+
+  /* ------------------------------------------------------------ the dock -- */
+  .dock {
+    position: fixed; z-index: var(--sc-z-chrome);
+    top: 18px; right: 22px;
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px; border-radius: 999px;
+    background: color-mix(in srgb, #fff 94%, transparent);
+    box-shadow: var(--sc-e2), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent);
+    transition: opacity 220ms var(--sc-ease-out), transform 220ms var(--sc-ease-out);
+  }
+  .dock.is-away { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+  .dock__call {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 44px; padding: 0 16px 0 12px; border-radius: 999px;
+    color: var(--sc-ink); font-weight: 600; text-decoration: none; white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    transition: background-color 140ms var(--sc-ease-out);
+  }
+  .dock__call svg { width: 18px; height: 18px; color: var(--red); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 0 22px; border-radius: 999px; border: 0; cursor: pointer;
+    background: var(--red); color: #fff; font-weight: 700; text-decoration: none; white-space: nowrap;
+    transition: background-color 140ms var(--sc-ease-out), transform 120ms var(--sc-ease-out);
+  }
+  .btn:active, .dock__call:active { transform: scale(0.97); }
+  .btn:focus-visible { outline-color: var(--sc-ink); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover { background: #A80000; }
+    .dock__call:hover { background: color-mix(in srgb, var(--red) 8%, transparent); }
+  }
+
+  /* ---------------------------------------------------------------- hero -- */
+  .hero__stage { background: var(--paper); --mx: 0; --my: 0; }
+  .hero__logo { position: absolute; z-index: 5; left: var(--sc-gutter); top: 22px; width: auto; height: 46px; max-width: none; }
+  .scene {
+    --W: min(55vw, 108svh);
+    position: absolute; right: var(--sc-gutter); top: 50%; translate: 0 -47%;
+    width: var(--W); aspect-ratio: 4 / 3;
+  }
+  .pl { position: absolute; will-change: transform; }
+  .pl--far {
+    right: 85%; top: -21%;
+    font: 800 calc(var(--W) * 0.5) / 0.8 var(--sc-font-display); letter-spacing: -0.05em;
+    color: color-mix(in srgb, var(--red) 12%, var(--paper)); user-select: none;
+  }
+  .pl--rings { left: 50%; top: 50%; width: 0; height: 0; }
+  .pl--rings i {
+    position: absolute; left: 0; top: 0; translate: -50% -50%; border-radius: 50%;
+    width: calc(var(--W) * var(--d)); height: calc(var(--W) * var(--d));
+    border: 2px solid color-mix(in srgb, var(--red) var(--a), transparent);
+  }
+  /* the class photo sits like a print on a table, a degree and a half off square */
+  .pl--subject { inset: 0; rotate: 1.5deg; padding: clamp(6px, 0.8vw, 12px); border-radius: 20px; background: #fff;
+    box-shadow: 0 2px 4px hsl(352 55% 18% / 0.14), 0 26px 50px -14px hsl(352 55% 18% / 0.34),
+                inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); }
+  .pl--subject img { width: 100%; height: 100%; object-fit: cover; max-width: none; border-radius: 11px; }
+  .fc {
+    position: absolute; left: var(--x); top: var(--y);
+    padding: 0.5em 0.85em 0.58em; border-radius: 14px; background: #fff;
+    font: 700 clamp(1.6rem, 3.1vw, 3.1rem) / 1 var(--sc-font-display); letter-spacing: -0.02em; color: var(--sc-ink);
+    box-shadow: 0 2px 3px hsl(352 55% 18% / 0.14), 0 16px 30px -8px hsl(352 55% 18% / 0.30),
+                inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent);
+    rotate: var(--rot); will-change: transform;
+  }
+  .fc b { color: var(--red); font-weight: 700; }
+  .fc--1 { --x: -2%;  --y: 85%; --rot: -9deg; --dx: -7vw; --dy: -30vh; --dr: -10deg; --pk: 26px; }
+  .fc--2 { --x: 80%;  --y: -11%; --rot: 8deg;  --dx: 5vw;  --dy: -44vh; --dr: 12deg;  --pk: 18px; }
+  .fc--3 { --x: 89%;  --y: 74%; --rot: -5deg; --dx: 7vw;  --dy: -24vh; --dr: -8deg;  --pk: 32px; }
+
+  .hero__copy, .hero__beat { position: absolute; z-index: 4; left: var(--sc-gutter); bottom: clamp(3rem, 13svh, 8rem); max-width: 35rem; }
+  .hero__copy h1 { font-size: clamp(2.7rem, 5.3vw, 5.3rem); max-width: 11ch; }
+  .hero__sub { margin-top: var(--sc-5); max-width: 30rem; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.5; text-wrap: pretty; }
+  .hero__place { margin-top: var(--sc-5); display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: var(--sc-t-sm); }
+  .hero__place svg { width: 18px; height: 18px; color: var(--red); flex: none; }
+  .hero__beat { font: 800 clamp(2.2rem, 4.2vw, 4.2rem) / 1.14 var(--sc-font-display); letter-spacing: -0.028em; max-width: 12ch; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pl--far     { transform: translate3d(calc(var(--mx) * -16px), calc(var(--sc-p, 0) * 12vh + var(--my) * -10px), 0) scale(calc(1 + var(--sc-p, 0) * 0.16)); }
+    .pl--rings   { transform: translate3d(calc(var(--mx) * -9px), calc(var(--my) * -6px), 0) scale(calc(1 + var(--sc-p, 0) * 0.55)); }
+    .pl--subject { transform: translate3d(calc(var(--mx) * 7px), calc(var(--sc-p, 0) * -4vh + var(--my) * 4px), 0); }
+    .fc { transform: translate3d(calc(var(--mx) * var(--pk) + var(--sc-p, 0) * var(--dx)), calc(var(--my) * var(--pk) * 0.6 + var(--sc-p, 0) * var(--dy)), 0) rotate(calc(var(--sc-p, 0) * var(--dr))); }
+  }
+
+  /* --------------------------------------------------------------- quiet -- */
+  .quiet { background: var(--paper); min-height: 82svh; display: flex; align-items: center; }
+  .quiet__in { padding-left: clamp(0rem, 30vw, 28rem); }
+  .quiet__a { font-size: var(--sc-t-lg); color: var(--sc-ink-soft); }
+  .quiet__b { margin-top: var(--sc-3); font: 800 var(--sc-t-2xl) / 1.14 var(--sc-font-display); letter-spacing: -0.028em; }
+
+  /* ------------------------------------------------------- the growth act -- */
+  .grow__stage {
+    --k: clamp(0, calc((var(--sc-p, 0) - 0.725) / 0.075), 1);   /* the red flood, 0..1 */
+    --g: 0;                                                    /* ruler position, 0..1, written by the page script */
+    --rx: calc(var(--sc-gutter) + 0.25rem);
+    --rtop: 23svh; --rbot: 13svh;
+    --rh: calc(100svh - var(--rtop) - var(--rbot));
+    --fx: var(--rx); --fy: var(--rtop);
+    --tone: color-mix(in srgb, #fff calc(var(--k) * 100%), var(--sc-ink));
+    --tone-soft: color-mix(in srgb, #fff calc(var(--k) * 100%), var(--sc-ink-soft));
+    --mark: color-mix(in srgb, #fff calc(var(--k) * 100%), var(--red));
+    background: var(--paper); color: var(--tone);
+  }
+  .grow__flood { position: absolute; inset: 0; background: var(--red); clip-path: circle(calc(var(--k) * 150vmax) at var(--fx) var(--fy)); }
+  .grow__rings { position: absolute; left: var(--fx); top: var(--fy); width: 0; height: 0; opacity: calc(var(--k) * 1); }
+  .grow__rings i {
+    position: absolute; translate: -50% -50%; border-radius: 50%;
+    width: var(--d); height: var(--d); border: 2px solid rgb(255 255 255 / 0.16);
+    scale: calc(0.55 + var(--k) * 0.45);
+  }
+  .grow__title { position: absolute; z-index: 3; left: var(--rx); top: 8svh; max-width: 22ch; font-size: var(--sc-t-xl); }
+  .grow__note { position: absolute; z-index: 3; right: var(--sc-gutter); bottom: 5svh; font-size: var(--sc-t-sm); color: var(--tone-soft); }
+
+  .ruler { position: absolute; z-index: 3; left: var(--rx); top: var(--rtop); bottom: var(--rbot); width: 2px; background: currentColor; }
+  .ruler i { position: absolute; left: 0; bottom: var(--pos); width: 0.75rem; height: 2px; translate: 0 50%; background: currentColor; opacity: 0.32;
+    transition: width 260ms var(--sc-ease-out), opacity 200ms linear; transform-origin: 0 50%; }
+  .ruler i.major { width: 1.35rem; opacity: 0.6; }
+  .ruler i b { position: absolute; left: 2.5rem; top: 50%; translate: 0 -50%; font: 600 var(--sc-t-sm) / 1 var(--sc-font-text); font-variant-numeric: tabular-nums; }
+  .ruler i.on { opacity: 1; background: var(--mark); }
+  .ruler i.major.on { width: 2rem; height: 3px; }
+  .ruler__head { position: absolute; left: -6px; bottom: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--mark);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--mark) 22%, transparent); transform: translate3d(0, calc(var(--g) * var(--rh) * -1), 0); will-change: transform; }
+  .grow__age { position: absolute; z-index: 3; left: calc(var(--rx) + 5rem); bottom: var(--rbot); translate: 0 50%;
+    transform: translate3d(0, calc(var(--g) * var(--rh) * -1), 0); will-change: transform;
+    font: 800 var(--sc-t-xl) / 1 var(--sc-font-display); letter-spacing: -0.02em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .grow__age small { font: 600 var(--sc-t-sm) / 1 var(--sc-font-text); letter-spacing: 0; margin-left: 0.3em; color: var(--tone-soft); }
+
+  .says { position: absolute; z-index: 2; left: max(29vw, 23rem); right: var(--sc-gutter); top: 16svh; bottom: 14svh; display: grid; align-items: center; }
+  .say { grid-area: 1 / 1; }
+  .say__en { font-family: var(--sc-font-display); font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; text-wrap: balance; }
+  .say__en mark { background: none; color: var(--red); }
+  .say__vi { margin-top: var(--sc-5); max-width: 34ch; font-size: var(--sc-t-lg); line-height: 1.45; color: var(--sc-ink-soft); text-wrap: pretty; }
+  .say__vi b { color: var(--sc-ink); font-weight: 700; }
+  .say--1 .say__en { font-size: clamp(9rem, 44svh, 26rem); line-height: 0.82; }
+  .say--2 .say__en { font-size: clamp(5rem, 15vw, 15rem); line-height: 0.9; letter-spacing: 0; }
+  .say--2 .say__en span { color: color-mix(in srgb, var(--sc-ink) 28%, transparent); padding-inline: 0.06em; }
+  .say--3 .say__en { font-size: clamp(2.6rem, 6.2vw, 6.4rem); max-width: 12ch; }
+  .say--4 .say__en { font-size: clamp(2.1rem, 4.5vw, 4.6rem); max-width: 17ch; }
+  .say--5 .say__en { font-size: clamp(2.4rem, 5.4vw, 5.6rem); max-width: 14ch; color: #fff; }
+  .say--5 .say__en mark { background: #fff; color: var(--red); border-radius: 0.12em; padding: 0 0.07em; margin-inline: 0.02em; }
+  .say--5 .say__vi, .say--5 .say__vi b { color: #fff; }
+
+  /* --------------------------------------------------------- the classroom -- */
+  .room { background: var(--sc-surface); padding-block: clamp(4rem, 9vw, 9rem) clamp(4.5rem, 10vw, 10rem); }
+  .room__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2.4vw, 2.5rem); }
+  .room h2 { font-size: clamp(2.2rem, 3.7vw, 3.7rem); }
+  .room h3 { font-size: var(--sc-t-2xl); }
+  .room p { color: var(--sc-ink-soft); max-width: 44ch; text-wrap: pretty; }
+  .room h2 + p, .room h3 + p { margin-top: var(--sc-5); }
+  .ph { margin: 0; border-radius: var(--r-photo); overflow: hidden; background: color-mix(in srgb, var(--red) 6%, var(--paper)); }
+  .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .room__a-ph { grid-column: 1 / span 7; grid-row: 1; aspect-ratio: 4 / 3; }
+  .room__a-tx { grid-column: 8 / -1; grid-row: 1; align-self: end; padding-bottom: var(--sc-6); }
+  .room__b-tx { grid-column: 1 / span 5; grid-row: 2; align-self: center; margin-top: clamp(4rem, 10vw, 9rem); }
+  .room__b-ph1 { grid-column: 6 / span 4; grid-row: 2; align-self: start; aspect-ratio: 3 / 4; margin-top: clamp(4rem, 10vw, 9rem); }
+  .room__b-ph2 { grid-column: 9 / -1; grid-row: 2; align-self: start; aspect-ratio: 3 / 4; margin-top: clamp(9rem, 19vw, 18rem); margin-left: -6%; position: relative; z-index: 1;
+    box-shadow: var(--sc-e3); }
+  .room__c-ph { grid-column: 1 / -1; grid-row: 3; aspect-ratio: 21 / 9; margin-top: clamp(4rem, 9vw, 8rem); }
+  .room__c-ph img { object-position: 50% 62%; }
+  .room__c-h { grid-column: 1 / span 5; grid-row: 4; margin-top: var(--sc-8); }
+  .facts { grid-column: 7 / -1; grid-row: 4; margin: var(--sc-8) 0 0; padding: 0; list-style: none; }
+  .facts li { padding-block: var(--sc-4); border-top: 1px solid var(--sc-hairline-strong); color: var(--sc-ink-soft); }
+  .facts li:last-child { border-bottom: 1px solid var(--sc-hairline-strong); }
+  .facts b { color: var(--sc-ink); font-weight: 700; }
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-wipe] { clip-path: inset(0 100% 0 0 round var(--r-photo)); will-change: clip-path; }
+    .js [data-wipe="up"] { clip-path: inset(100% 0 0 0 round var(--r-photo)); }
+  }
+
+  /* ------------------------------------------------------------ the reel -- */
+  .reel { background: var(--paper); padding-block: clamp(4rem, 9vw, 8rem) clamp(3.5rem, 8vw, 7rem); }
+  .reel__head { display: flex; align-items: end; justify-content: space-between; gap: var(--sc-6); }
+  .reel__head h2 { font-size: clamp(2.2rem, 3.7vw, 3.7rem); }
+  .reel__head p { margin-top: var(--sc-4); color: var(--sc-ink-soft); max-width: 40ch; text-wrap: pretty; }
+  .reel__nav { display: flex; gap: 8px; flex: none; }
+  .reel__nav button { width: 48px; height: 48px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+    background: #fff; color: var(--sc-ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 18%, transparent);
+    transition: background-color 140ms var(--sc-ease-out), transform 120ms var(--sc-ease-out); }
+  .reel__nav button:active { transform: scale(0.95); }
+  .reel__nav svg { width: 20px; height: 20px; }
+  .reel__strip { --edge: max(var(--sc-gutter), calc((100vw - var(--sc-maxw)) / 2 + var(--sc-gutter)));
+    margin-top: var(--sc-7); display: flex; gap: clamp(0.9rem, 1.6vw, 1.5rem); overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity; scroll-padding-inline: var(--edge); padding: 6px var(--edge) 30px; scrollbar-width: none; }
+  .reel__strip::-webkit-scrollbar { display: none; }
+  .clip { flex: 0 0 auto; width: clamp(13.5rem, 19.5vw, 17.5rem); margin: 0; scroll-snap-align: start; }
+  .clip__frame { position: relative; aspect-ratio: 9 / 16; border-radius: var(--r-photo); overflow: hidden; background: var(--night); box-shadow: var(--sc-e2); }
+  .clip video { width: 100%; height: 100%; object-fit: cover; }
+  .clip__play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; background: transparent; }
+  .clip__play span { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--red);
+    box-shadow: 0 2px 4px hsl(352 55% 10% / 0.25), 0 12px 24px -6px hsl(352 55% 10% / 0.45); transition: transform 160ms var(--sc-ease-out); }
+  .clip__play svg { width: 28px; height: 28px; margin-left: 3px; }
+  .clip__play:active span { transform: scale(0.94); }
+  .clip__play:focus-visible { outline-offset: -6px; outline-color: #fff; }
+  .clip.is-on .clip__play { display: none; }
+  .clip figcaption { margin-top: var(--sc-3); display: grid; gap: 2px; }
+  .clip figcaption b { font-weight: 700; line-height: 1.3; }
+  .clip figcaption span { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  @media (hover: hover) and (pointer: fine) {
+    .reel__nav button:hover { background: color-mix(in srgb, var(--red) 8%, #fff); }
+    .clip__play:hover span { transform: scale(1.06); }
+  }
+
+  /* ---------------------------------------------------------------- Nhật -- */
+  .jp { background: var(--night); --sc-ink: #FBF3EE; --sc-ink-soft: #CDB9BC; --jp-red: #FF6A5C; color: var(--sc-ink); }
+  .jp__stage { background: var(--night); }
+  .jp__rail { height: 100%; align-items: center; gap: clamp(1.75rem, 4.5vw, 4.5rem); padding-inline: var(--sc-gutter); }
+  .jp__rail > * { flex: 0 0 auto; width: clamp(17rem, 34vw, 30rem); }
+  .jp__lead { width: clamp(18rem, 42vw, 36rem); }
+  .jp__lead h2 { font-size: var(--sc-t-3xl); }
+  .jp__lead p { margin-top: var(--sc-5); font-size: var(--sc-t-lg); color: var(--sc-ink-soft); max-width: 24ch; }
+  .lv { padding-top: var(--sc-5); border-top: 1px solid color-mix(in srgb, var(--sc-ink) 22%, transparent); }
+  .lv__n { font: 800 clamp(4.5rem, 9vw, 8.5rem) / 0.9 var(--sc-font-display); letter-spacing: -0.04em; color: var(--jp-red); }
+  .lv__ja { margin-top: var(--sc-6); font: 700 clamp(1.5rem, 2.5vw, 2.3rem) / 1.4 "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif; letter-spacing: 0.01em; }
+  .lv__vi { margin-top: var(--sc-3); font-weight: 600; }
+  .lv__d { margin-top: var(--sc-4); color: var(--sc-ink-soft); max-width: 28ch; }
+  .jp__end p { font: 800 var(--sc-t-2xl) / 1.16 var(--sc-font-display); letter-spacing: -0.028em; }
+  .jp__end a { display: inline-block; margin-top: var(--sc-6); color: var(--jp-red); font-weight: 700; text-decoration-thickness: 2px; }
+  .jp :focus-visible { outline-color: var(--jp-red); }
+
+  /* ---------------------------------------------------- Nhật: the lessons -- */
+  .nihon { background: var(--night); --sc-ink: #FBF3EE; --sc-ink-soft: #CDB9BC; --jp-red: #FF6A5C; color: var(--sc-ink);
+    padding-block: clamp(2rem, 5vw, 4rem) clamp(4.5rem, 10vw, 9rem); }
+  .nihon :focus-visible { outline-color: var(--jp-red); }
+  .nihon__head h2 { font-size: clamp(2.2rem, 3.7vw, 3.7rem); }
+  .nihon__head p { margin-top: var(--sc-4); color: var(--sc-ink-soft); max-width: 46ch; text-wrap: pretty; }
+  .nihon__grid { margin-top: var(--sc-8); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(3rem, 6vw, 5.5rem) clamp(2rem, 5vw, 5rem); }
+  .lesson { display: grid; grid-template-columns: clamp(11.5rem, 15vw, 14.5rem) minmax(0, 1fr); column-gap: clamp(1.25rem, 2.4vw, 2.25rem);
+    grid-template-rows: auto 1fr; align-items: start; }
+  .lesson .clip { width: auto; grid-row: 1 / span 2; }
+  .lesson .clip__frame { box-shadow: 0 0 0 1px color-mix(in srgb, var(--sc-ink) 14%, transparent), 0 18px 34px -12px rgb(0 0 0 / 0.6); }
+  .lesson h3 { font: 700 clamp(1.7rem, 2.5vw, 2.4rem) / 1.25 "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif; letter-spacing: 0; color: var(--jp-red); text-wrap: balance; }
+  .lesson h3 { white-space: nowrap; } .lesson h3:has(span) { white-space: normal; } .lesson h3 span { display: inline-block; white-space: nowrap; }
+  .lesson__q { margin-top: var(--sc-2); font-weight: 600; text-wrap: pretty; }
+  .lesson dl { margin: var(--sc-5) 0 0; }
+  .lesson dl > div { padding-block: var(--sc-3); border-top: 1px solid color-mix(in srgb, var(--sc-ink) 20%, transparent); }
+  .lesson dt { font: 700 1.12rem / 1.5 "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif; }
+  .lesson dd { margin: 2px 0 0; }
+  .lesson dd small { display: block; margin-top: 2px; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  .lesson__tip { margin-top: var(--sc-4); padding-top: var(--sc-4); border-top: 1px solid color-mix(in srgb, var(--sc-ink) 20%, transparent);
+    font-size: var(--sc-t-sm); line-height: 1.6; color: var(--sc-ink-soft); text-wrap: pretty; }
+  .lesson__tip b { color: var(--jp-red); font-weight: 700; }
+
+  /* --------------------------------------------------------------- close -- */
+  .close { background: var(--paper); padding-block: clamp(4.5rem, 10vw, 9rem) var(--sc-7); min-height: 100svh; display: flex; flex-direction: column; }
+  .close__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; flex: 1; }
+  .close h2 { font-size: var(--sc-t-3xl); }
+  .close__lede { margin-top: var(--sc-5); color: var(--sc-ink-soft); font-size: var(--sc-t-lg); max-width: 36ch; line-height: 1.5; }
+  form { margin-top: var(--sc-7); }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  legend, .lbl { padding: 0; font-weight: 600; font-size: var(--sc-t-sm); }
+  .marks { margin-top: var(--sc-4); position: relative; padding-top: 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+    background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--sc-ink) 30%, transparent) 0 2px, transparent 2px calc(100% / 24)) 0 0 / 100% 9px no-repeat;
+    border-top: 2px solid var(--sc-ink); }
+  .marks label { position: relative; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 56px; padding: 8px 10px;
+    border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 16%, transparent);
+    font-weight: 600; line-height: 1.25; cursor: pointer;
+    transition: background-color 140ms var(--sc-ease-out), color 140ms var(--sc-ease-out), transform 120ms var(--sc-ease-out); }
+  .marks label::before { content: ""; position: absolute; left: 50%; top: -24px; width: 3px; height: 0; background: var(--red); translate: -50% 0;
+    transition: height 220ms var(--sc-ease-out); }
+  .marks input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .marks label:has(input:checked) { background: var(--red); color: #fff; box-shadow: none; }
+  .marks label:has(input:checked)::before { height: 22px; }
+  .marks label:has(input:focus-visible) { outline: 2px solid var(--sc-ink); outline-offset: 3px; }
+  .marks label:active { transform: scale(0.97); }
+  .fields { margin-top: var(--sc-6); display: grid; grid-template-columns: 1fr 1fr; gap: var(--sc-4); }
+  .field { display: grid; gap: 8px; }
+  .field input { min-height: 54px; padding: 0 16px; border-radius: 14px; border: 0; background: #fff; font-size: 1rem; width: 100%;
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 16%, transparent); transition: box-shadow 140ms var(--sc-ease-out); }
+  .field input::placeholder { color: color-mix(in srgb, var(--sc-ink-soft) 80%, transparent); }
+  .field input:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--red); }
+  .field input[aria-invalid="true"] { box-shadow: inset 0 0 0 2px var(--red); }
+  .err { min-height: 1.4em; font-size: var(--sc-t-sm); color: #B00000; font-weight: 600; }
+  .send { margin-top: var(--sc-4); display: flex; align-items: center; gap: var(--sc-5); flex-wrap: wrap; }
+  .send .btn { min-height: 56px; padding-inline: 30px; font-size: 1.05rem; }
+  .ticket { margin-top: var(--sc-6); padding: var(--sc-5); border-radius: 18px; background: #fff; box-shadow: var(--sc-e2); }
+  .ticket[hidden] { display: none; }
+  .ticket h3 { font-size: var(--sc-t-lg); letter-spacing: -0.01em; }
+  .ticket blockquote { margin: var(--sc-4) 0 0; padding: var(--sc-4); border-radius: 12px; background: color-mix(in srgb, var(--red) 6%, var(--paper)); line-height: 1.5; }
+  .ticket__go { margin-top: var(--sc-4); display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn--line { background: #fff; color: var(--sc-ink); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 22%, transparent); }
+  @media (hover: hover) and (pointer: fine) { .btn--line:hover { background: color-mix(in srgb, var(--red) 7%, #fff); } }
+  .ticket small { display: block; margin-top: var(--sc-4); color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
+
+  .place { padding-top: var(--sc-2); }
+  .place img { width: min(100%, 21rem); height: auto; margin-left: -6px; }
+  .place dl { margin: var(--sc-7) 0 0; display: grid; gap: var(--sc-5); }
+  .place dt { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  .place dd { margin: 4px 0 0; font: 800 var(--sc-t-xl) / 1.2 var(--sc-font-display); letter-spacing: -0.02em; }
+  .place dd a { text-decoration: none; }
+  .place dd.addr { font-size: var(--sc-t-lg); line-height: 1.35; max-width: 18ch; }
+  .place .map { display: inline-block; margin-top: var(--sc-3); font: 600 var(--sc-t-sm) / 1.3 var(--sc-font-text); letter-spacing: 0; color: var(--red); text-decoration: underline; text-underline-offset: 0.22em; }
+  .foot { margin-top: var(--sc-8); padding-top: var(--sc-4); border-top: 1px solid var(--sc-hairline-strong); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+
+  /* --------------------------------------------------------------- phone -- */
+  @media (max-width: 860px) {
+    :root { --dock-h: 76px; }
+    .dock { top: auto; right: 10px; left: 10px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); justify-content: space-between; }
+    .dock.is-away { transform: translateY(14px); }
+    .dock__call { padding-inline: 12px 14px; }
+    .dock .btn { flex: 1; padding-inline: 14px; }
+
+    .hero__logo { top: 16px; height: 34px; }
+    .scene { --W: min(calc(100vw - var(--sc-gutter) * 2), 64svh); right: auto; left: var(--sc-gutter); top: 47svh; translate: none; }
+    .pl--far { right: 34%; top: -46%; font-size: calc(var(--W) * 0.6); }
+    .pl--subject { border-radius: 14px; } .pl--subject img { border-radius: 9px; }
+    .fc { font-size: 1.45rem; border-radius: 11px; }
+    .fc--1 { --x: -3%; --y: 84%; --dx: -4vw; --dy: -24vh; }
+    .fc--2 { --x: 70%; --y: -15%; --dx: 3vw; --dy: -30vh; }
+    .fc--3 { display: none; }
+    .hero__copy, .hero__beat { bottom: auto; top: 68px; right: var(--sc-gutter); max-width: none; }
+    .hero__copy h1 { font-size: clamp(2.05rem, 9.4vw, 2.7rem); max-width: 12ch; }
+    .hero__sub { margin-top: var(--sc-3); font-size: 1rem; }
+    .hero__place { margin-top: var(--sc-3); }
+    .hero__beat { font-size: clamp(1.9rem, 8.6vw, 2.5rem); }
+
+    .quiet { min-height: 70svh; }
+    .quiet__in { padding-left: 0; }
+
+    .grow__stage { --rx: var(--sc-gutter); --rw: calc(100vw - var(--sc-gutter) * 2); --fx: calc(100vw - var(--sc-gutter)); --fy: 6.6rem; }
+    .grow__title { top: 1.1rem; font-size: var(--sc-t-lg); max-width: none; right: var(--sc-gutter); }
+    .ruler { top: 6.6rem; bottom: auto; right: var(--sc-gutter); width: auto; height: 2px; }
+    .ruler i { left: var(--pos); bottom: auto; top: 0; width: 2px; height: 0.55rem; translate: -50% 0; transition-property: height, opacity; }
+    .ruler i.major { width: 2px; height: 0.95rem; }
+    .ruler i.major.on { width: 3px; height: 1.35rem; }
+    .ruler i b { left: 50%; top: 1.75rem; translate: -50% 0; }
+    .ruler__head { left: -7px; bottom: auto; top: -7px; transform: translate3d(calc(var(--g) * var(--rw)), 0, 0); }
+    .grow__age { left: var(--sc-gutter); bottom: auto; top: 10rem; translate: none; transform: none; font-size: var(--sc-t-2xl); }
+    .grow__note { right: auto; left: var(--sc-gutter); bottom: calc(var(--dock-h) + 14px); }
+    .says { left: var(--sc-gutter); top: 13.5rem; bottom: calc(var(--dock-h) + 46px); }
+    .say--1 .say__en { font-size: clamp(8rem, 30svh, 15rem); }
+    .say--2 .say__en { font-size: clamp(4.4rem, 23vw, 8rem); }
+    .say__vi { margin-top: var(--sc-4); font-size: 1.05rem; }
+
+    .room__grid { display: block; }
+    .room__grid > * + * { margin-top: var(--sc-6); }
+    .room__b-tx { margin-top: var(--sc-9); }
+    .room__b-ph1 { margin-top: var(--sc-6); width: 78%; }
+    .room__b-ph2 { width: 62%; margin: -28% 0 0 auto; }
+    .room__c-ph { aspect-ratio: 4 / 3; margin-top: var(--sc-9); }
+    .room__c-h, .facts { margin-top: var(--sc-7); }
+
+    .reel__nav { display: none; }
+    .clip { width: 62vw; }
+
+    .jp__rail > * { width: 78vw; }
+
+    .nihon__grid { grid-template-columns: 1fr; row-gap: var(--sc-9); margin-top: var(--sc-7); }
+    .lesson { grid-template-columns: 40vw minmax(0, 1fr); grid-template-rows: auto; row-gap: var(--sc-4); }
+    .lesson .clip { width: auto; grid-row: 1; }
+    .lesson__top { align-self: center; }
+    .lesson h3 { font-size: clamp(1.25rem, 5.4vw, 1.7rem); }
+    .lesson__body { grid-column: 1 / -1; }
+    .lesson dl { margin-top: 0; }
+    .jp__lead { width: 82vw; }
+
+    .close { padding-bottom: calc(var(--dock-h) + var(--sc-5)); }
+    .close__grid { grid-template-columns: 1fr; }
+    .marks { grid-template-columns: 1fr 1fr; background: none; border-top: 0; padding-top: 0; }
+    .marks label::before { display: none; }
+    .fields { grid-template-columns: 1fr; }
+    .send .btn { width: 100%; }
+    .place { border-top: 1px solid var(--sc-hairline-strong); padding-top: var(--sc-7); }
+  }
+  @media (max-width: 860px) and (max-height: 700px) {
+    .hero__place { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* No lateral travel without motion: the levels stand as a plain grid instead
+       of a pinned stage the wheel turns through with nothing moving. */
+    .jp { height: auto !important; }
+    .jp .jp__stage { position: static; height: auto; overflow: visible !important; }
+    .jp__rail { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); height: auto; align-items: start; row-gap: var(--sc-8); padding-block: var(--sc-section); }
+    .jp__rail > * { width: auto; }
+    .jp__lead, .jp__end { grid-column: 1 / -1; }
+    .grow__flood { clip-path: none; opacity: var(--k); }
+    .ruler__head, .grow__age { transition: none; }
+  }
+</style>
+<noscript><style>
+  [data-sc-cue], [data-sc-in], [data-sc-stagger] > * { opacity: 1 !important; transform: none !important; }
+  .say { grid-area: auto; } .says { position: static; padding: 6rem var(--sc-gutter); } .hero__beat { display: none; }
+</style></noscript>
+</head>
+<body>
+
+<nav class="dock" aria-label="Liên hệ nhanh">
+  <a class="dock__call" href="tel:0789251499" aria-label="Gọi hotline Lino 0789 251 499">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+    <span>0789 251 499</span>
+  </a>
+  <a class="btn" href="#dang-ky">Đăng ký học thử</a>
+</nav>
+
+<main id="top">
+
+  <!-- 1 · RECOGNITION. Four planes on a short pin: sound rings, the far letterform,
+       the whole class as a photo print, the word cards in front. Copy rides at 1x. -->
+  <section class="hero" data-sc-act="pin" data-sc-span="1.9">
+    <div data-sc-stage class="hero__stage">
+      <img class="hero__logo" src="assets/logo-word.webp" width="640" height="267" alt="Lino">
+
+      <div class="scene">
+        <div class="pl pl--far" aria-hidden="true">ai</div>
+        <div class="pl pl--rings" aria-hidden="true">
+          <i style="--d:1.02;--a:22%"></i><i style="--d:1.42;--a:15%"></i><i style="--d:1.9;--a:9%"></i>
+        </div>
+        <div class="pl pl--subject">
+          <picture>
+            <source media="(max-width: 860px)" srcset="assets/group-m.webp" width="900" height="675">
+            <img src="assets/group.webp" width="1800" height="1350" fetchpriority="high"
+                 alt="Thầy giáo nước ngoài và mười bốn bạn học viên Lino mặc áo đỏ, tươi cười tạo dáng trước bức tường Learn English, Shape Your Future.">
+          </picture>
+        </div>
+        <span class="fc fc--1" aria-hidden="true"><b>ai</b>m</span>
+        <span class="fc fc--2" aria-hidden="true">r<b>ai</b>n</span>
+        <span class="fc fc--3" aria-hidden="true">f<b>ai</b>nt</span>
+      </div>
+
+      <div class="hero__copy" data-sc-cue="0 0.5 0">
+        <h1>Mọi thứ bắt đầu từ <span class="em">một âm.</span></h1>
+        <p class="hero__sub">Tiếng Anh cho trẻ 3 đến 15 tuổi theo Jolly Phonics. Tiếng Nhật N5 đến N3 cho học sinh và người đi làm.</p>
+        <p class="hero__place">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Gần ngã tư Tài Chính, Như Quỳnh, Hưng Yên
+        </p>
+      </div>
+      <p class="hero__beat" data-sc-cue="0.46 1 0.3 0">Một âm thành một từ. Một từ thành <span class="em">một câu.</span></p>
+    </div>
+  </section>
+
+  <!-- 2 · QUESTION. Authored silence before the peak (see BRIEF.md). -->
+  <section class="quiet" data-sc-act="flow">
+    <div class="sc-wrap">
+      <div class="quiet__in" data-sc-in data-sc-stagger="140">
+        <p class="quiet__a">Hôm nay, con mới biết một âm.</p>
+        <p class="quiet__b">Mười hai năm nữa thì sao?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · TURN, and the peak. The ruler climbs 3 to 15, the same sound stays in
+       every sentence, and the logo's target floods the stage at fifteen. -->
+  <section class="grow" id="lon-len" data-sc-act="pin" data-sc-span="4.4">
+    <div data-sc-stage class="grow__stage">
+      <div class="grow__flood" aria-hidden="true"></div>
+      <div class="grow__rings" aria-hidden="true"><i style="--d:46vmax"></i><i style="--d:84vmax"></i><i style="--d:128vmax"></i></div>
+
+      <h2 class="grow__title">Một âm, theo con từ 3 đến 15 tuổi.</h2>
+
+      <div class="ruler" aria-hidden="true">
+        <i class="major" style="--pos:0%" data-age="3"><b>3</b></i>
+        <i style="--pos:8.333%" data-age="4"></i>
+        <i class="major" style="--pos:16.667%" data-age="5"><b>5</b></i>
+        <i style="--pos:25%" data-age="6"></i>
+        <i style="--pos:33.333%" data-age="7"></i>
+        <i class="major" style="--pos:41.667%" data-age="8"><b>8</b></i>
+        <i style="--pos:50%" data-age="9"></i>
+        <i style="--pos:58.333%" data-age="10"></i>
+        <i class="major" style="--pos:66.667%" data-age="11"><b>11</b></i>
+        <i style="--pos:75%" data-age="12"></i>
+        <i style="--pos:83.333%" data-age="13"></i>
+        <i style="--pos:91.667%" data-age="14"></i>
+        <i class="major" style="--pos:100%" data-age="15"><b>15</b></i>
+        <span class="ruler__head"></span>
+      </div>
+      <p class="grow__age" aria-hidden="true"><span id="age">3</span><small>tuổi</small></p>
+
+      <div class="says">
+        <div class="say say--1" data-sc-cue="0 0.17 0 0.2">
+          <p class="say__en" lang="en"><mark>ai</mark></p>
+          <p class="say__vi"><b>3 tuổi.</b> Con nghe, nhìn thẻ và bắt chước một âm.</p>
+        </div>
+        <div class="say say--2" data-sc-cue="0.13 0.36 0.18 0.18">
+          <p class="say__en" lang="en" aria-label="r, ai, n: rain">r<span>·</span><mark>ai</mark><span>·</span>n</p>
+          <p class="say__vi"><b>5 tuổi.</b> Con ghép âm thành từ theo Jolly Phonics.</p>
+        </div>
+        <div class="say say--3" data-sc-cue="0.32 0.56 0.18 0.18">
+          <p class="say__en" lang="en">It’s r<mark>ai</mark>ning on the tr<mark>ai</mark>n.</p>
+          <p class="say__vi"><b>8 tuổi.</b> Con đọc trọn câu, luyện nói với giáo viên nước ngoài.</p>
+        </div>
+        <div class="say say--4" data-sc-cue="0.52 0.76 0.18 0.18">
+          <p class="say__en" lang="en">I stayed in and p<mark>ai</mark>nted because it r<mark>ai</mark>ned all day.</p>
+          <p class="say__vi"><b>11 tuổi.</b> Con kể chuyện của mình, phát âm rõ, vững bài trên lớp.</p>
+        </div>
+        <div class="say say--5" data-sc-cue="0.775 1 0.12 0">
+          <p class="say__en" lang="en">I’m not afr<mark>ai</mark>d to expl<mark>ai</mark>n what I think.</p>
+          <p class="say__vi"><b>15 tuổi.</b> Con tự nói điều con nghĩ, sẵn nền tảng cho kỳ thi Cambridge.</p>
+        </div>
+      </div>
+
+      <p class="grow__note">Lộ trình minh hoạ. Mỗi bé có nhịp riêng.</p>
+    </div>
+  </section>
+
+  <!-- 4 · SUBSTANCE. The real room. Photographs wipe in under the hand. -->
+  <section class="room" id="lop-hoc" data-sc-act="flow">
+    <div class="sc-wrap room__grid">
+      <figure class="ph room__a-ph" data-wipe="left">
+        <img src="assets/cards.webp" srcset="assets/cards-m.webp 880w, assets/cards.webp 1600w" sizes="(max-width: 860px) 92vw, 56vw"
+             width="1600" height="1200" loading="lazy" alt="Hai bạn nhỏ ngồi trên sàn gỗ chơi trò úp cốc màu lên thẻ từ.">
+      </figure>
+      <div class="room__a-tx" data-sc-in data-sc-stagger="70">
+        <h2>Con học bằng tai, bằng tay, bằng trò chơi.</h2>
+        <p>Jolly Phonics dạy con nghe âm, ghép âm, rồi tự đọc. Thẻ từ, cốc màu và những ván chơi trên sàn lớp làm phần còn lại.</p>
+      </div>
+
+      <div class="room__b-tx" data-sc-in data-sc-stagger="70">
+        <h3>Giáo viên nước ngoài, kèm đến từng bàn.</h3>
+        <p>Con luyện phát âm và luyện nói trực tiếp với giáo viên nước ngoài ngay trong buổi học, rồi lên bảng tự viết, tự nói.</p>
+      </div>
+      <figure class="ph room__b-ph1" data-wipe="up">
+        <img src="assets/desk.webp" srcset="assets/desk-m.webp 880w, assets/desk.webp 1600w" sizes="(max-width: 860px) 72vw, 30vw"
+             width="1600" height="2133" loading="lazy" alt="Giáo viên nước ngoài cúi xuống hướng dẫn các bé làm bài tại bàn học màu đỏ.">
+      </figure>
+      <figure class="ph room__b-ph2" data-wipe="up">
+        <img src="assets/board.webp" srcset="assets/board-m.webp 880w, assets/board.webp 1600w" sizes="(max-width: 860px) 58vw, 26vw"
+             width="1600" height="2133" loading="lazy" alt="Các bạn học sinh đứng viết trên bảng trắng trong lớp.">
+      </figure>
+
+      <figure class="ph room__c-ph" data-wipe="left">
+        <img src="assets/class.webp" srcset="assets/class-m.webp 880w, assets/class.webp 1600w" sizes="(max-width: 860px) 92vw, 90vw"
+             width="1600" height="1200" loading="lazy" alt="Lớp học của Lino: các bé ngồi đọc sách ở dãy bàn đỏ, tường dán hình thời tiết và số đếm.">
+      </figure>
+      <h3 class="room__c-h" data-sc-in>Năm việc Lino làm cùng con.</h3>
+      <ul class="facts" data-sc-in data-sc-stagger="60">
+        <li><b>Jolly Phonics</b> cho trẻ từ 3 tuổi.</li>
+        <li><b>Luyện phát âm</b> cho đúng ngay từ âm đầu tiên.</li>
+        <li><b>Luyện nói</b> với giáo viên nước ngoài.</li>
+        <li><b>Tăng điểm số</b> trên trường.</li>
+        <li><b>Nền tảng</b> cho các kỳ thi Cambridge.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4b · SUBSTANCE on film. The visitor drives this strip by hand; the scroll does not. -->
+  <section class="reel" id="video" data-sc-act="flow">
+    <div class="sc-wrap reel__head">
+      <div data-sc-in data-sc-stagger="70">
+        <h2>Xem con học thật thế nào.</h2>
+        <p>Tám đoạn video quay ngay trong lớp của Lino. Bấm vào để xem, video có tiếng.</p>
+      </div>
+      <div class="reel__nav">
+        <button type="button" data-reel="-1" aria-label="Xem các video trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" data-reel="1" aria-label="Xem các video tiếp theo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+    <div class="reel__strip" role="region" aria-label="Video lớp học Lino" tabindex="0">
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-08.webp" src="video/lop-08.mp4" aria-label="Video: Âm ai cùng thầy"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Âm ai cùng thầy"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Âm ai cùng thầy</b><span>Aim, rain, faint</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-01.webp" src="video/lop-01.mp4" aria-label="Video: Đố bố mẹ: đây là gì?"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Đố bố mẹ: đây là gì?"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Đố bố mẹ: đây là gì?</b><span>Đố vui cùng Lino</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-02.webp" src="video/lop-02.mp4" aria-label="Video: Nghe là hiểu, làm bài luôn"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Nghe là hiểu, làm bài luôn"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Nghe là hiểu, làm bài luôn</b><span>Một buổi ở Lino</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-03.webp" src="video/lop-03.mp4" aria-label="Video: Đi đâu đây? Let’s go!"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Đi đâu đây? Let’s go!"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Đi đâu đây? Let’s go!</b><span>Học về trường học</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-04.webp" src="video/lop-04.mp4" aria-label="Video: Ngôi trường mơ ước"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Ngôi trường mơ ước"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Ngôi trường mơ ước</b><span>Bé tả bằng tiếng Anh</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-05.webp" src="video/lop-05.mp4" aria-label="Video: Diều ở đâu? Bé tìm ngay!"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Diều ở đâu? Bé tìm ngay!"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Diều ở đâu? Bé tìm ngay!</b><span>Một buổi ở Lino</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-06.webp" src="video/lop-06.mp4" aria-label="Video: Âm J dễ ợt"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Âm J dễ ợt"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Âm J dễ ợt</b><span>Jam, juice, jet, jug</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="clip__frame">
+          <video preload="none" playsinline poster="video/lop-07.webp" src="video/lop-07.mp4" aria-label="Video: Vừa chơi vừa học"></video>
+          <button class="clip__play" type="button" aria-label="Phát video: Vừa chơi vừa học"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+        </div>
+        <figcaption><b>Vừa chơi vừa học</b><span>Một buổi ở Lino</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 5 · RANGE. Hard cut to ink. Three levels travel sideways, each sentence longer. -->
+  <section class="jp" id="tieng-nhat" data-sc-act="pan" data-sc-span="3.1">
+    <div data-sc-stage class="jp__stage">
+      <div class="jp__rail" data-sc-pan="0.04">
+        <div class="jp__lead">
+          <h2>Tiếng Nhật, từ N5 đến N3.</h2>
+          <p>Cho học sinh và người đi làm.</p>
+        </div>
+        <article class="lv">
+          <h3 class="lv__n">N5</h3>
+          <p class="lv__ja" lang="ja">はじめまして。</p>
+          <p class="lv__vi">Rất vui được gặp bạn.</p>
+          <p class="lv__d">Bảng chữ, lời chào, những câu đầu tiên.</p>
+        </article>
+        <article class="lv">
+          <h3 class="lv__n">N4</h3>
+          <p class="lv__ja" lang="ja">日本語を勉強しています。</p>
+          <p class="lv__vi">Tôi đang học tiếng Nhật.</p>
+          <p class="lv__d">Hội thoại hằng ngày, câu dài hơn.</p>
+        </article>
+        <article class="lv">
+          <h3 class="lv__n">N3</h3>
+          <p class="lv__ja" lang="ja">日本で働きたいと思っています。</p>
+          <p class="lv__vi">Tôi muốn làm việc ở Nhật.</p>
+          <p class="lv__d">Nói được điều mình muốn, đọc hiểu văn bản thường gặp.</p>
+        </article>
+        <div class="jp__end">
+          <p>Mỗi cấp, câu nói dài thêm một chút.</p>
+          <a href="#dang-ky" data-pick="nhat">Đăng ký học thử tiếng Nhật</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b · RANGE, made useful. Four short lessons a visitor can take away, each with its video. -->
+  <section class="nihon" id="bai-hoc-tieng-nhat" data-sc-act="flow">
+    <div class="sc-wrap">
+      <div class="nihon__head" data-sc-in data-sc-stagger="70">
+        <h2>Học thử tiếng Nhật, ngay tại đây.</h2>
+        <p>Bốn bài ngắn của giáo viên Lino về những câu người học hay dùng nhầm. Xem video, rồi đọc lại phần ghi nhớ bên cạnh.</p>
+      </div>
+      <div class="nihon__grid">
+        <article class="lesson">
+          <figure class="clip">
+            <div class="clip__frame">
+              <video preload="none" playsinline poster="video/nhat-01.webp" src="video/nhat-01.mp4" aria-label="Video bài học: けっこうです"></video>
+              <button class="clip__play" type="button" aria-label="Phát video bài học: けっこうです"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+            </div>
+          </figure>
+          <div class="lesson__top">
+            <h3 lang="ja">けっこうです</h3>
+            <p class="lesson__q">Là “vâng” hay “không”? Cả hai.</p>
+          </div>
+          <div class="lesson__body">
+            <dl>
+              <div><dt lang="ja">はい、けっこうです。</dt><dd>Vâng, được ạ.<small>Khi được mời: コーヒーは いかがですか？</small></dd></div>
+              <div><dt lang="ja">いいえ、けっこうです。</dt><dd>Không cần đâu ạ.<small>Khi được hỏi: ふくろは おつけしますか？</small></dd></div>
+            </dl>
+            <p class="lesson__tip"><b>Ghi nhớ.</b> Nghe từ đứng trước (はい, いいえ, いや) và câu người ta vừa hỏi để biết là nhận hay từ chối.</p>
+          </div>
+        </article>
+        <article class="lesson">
+          <figure class="clip">
+            <div class="clip__frame">
+              <video preload="none" playsinline poster="video/nhat-02.webp" src="video/nhat-02.mp4" aria-label="Video bài học: さようなら"></video>
+              <button class="clip__play" type="button" aria-label="Phát video bài học: さようなら"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+            </div>
+          </figure>
+          <div class="lesson__top">
+            <h3 lang="ja">さようなら</h3>
+            <p class="lesson__q">Không sai, nhưng người Nhật ít dùng hằng ngày.</p>
+          </div>
+          <div class="lesson__body">
+            <dl>
+              <div><dt lang="ja">おつかれさまでした。</dt><dd>Mọi người vất vả rồi ạ.<small>Với đồng nghiệp sau giờ làm</small></dd></div>
+              <div><dt lang="ja">またね。／じゃあね。</dt><dd>Hẹn gặp lại nhé.<small>Với bạn bè</small></dd></div>
+              <div><dt lang="ja">また あした。</dt><dd>Hẹn gặp lại ngày mai.<small>Khi mai còn gặp</small></dd></div>
+            </dl>
+            <p class="lesson__tip"><b>Ghi nhớ.</b> さようなら mang sắc thái chia tay lâu dài, có khi không gặp lại. Mai còn gặp nhau thì chọn ba câu trên.</p>
+          </div>
+        </article>
+        <article class="lesson">
+          <figure class="clip">
+            <div class="clip__frame">
+              <video preload="none" playsinline poster="video/nhat-03.webp" src="video/nhat-03.mp4" aria-label="Video bài học: 〜ませんか・〜ましょうか"></video>
+              <button class="clip__play" type="button" aria-label="Phát video bài học: 〜ませんか・〜ましょうか"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+            </div>
+          </figure>
+          <div class="lesson__top">
+            <h3 lang="ja"><span>〜ませんか・</span><span>〜ましょうか</span></h3>
+            <p class="lesson__q">Cùng là rủ, nhưng khác sắc thái.</p>
+          </div>
+          <div class="lesson__body">
+            <dl>
+              <div><dt lang="ja">あした、いっしょに 行きませんか。</dt><dd>Mai mình đi cùng nhau không?<small>〜ませんか: lời mời, người kia tự chọn</small></dd></div>
+              <div><dt lang="ja">そろそろ ごはんを 食べましょうか。</dt><dd>Mình đi ăn thôi nhỉ?<small>〜ましょうか: đề xuất khi đang ở cùng nhau</small></dd></div>
+              <div><dt lang="ja">にもつを もちましょうか。</dt><dd>Để tôi xách hành lý giúp nhé?<small>〜ましょうか: ngỏ ý giúp đỡ</small></dd></div>
+            </dl>
+            <p class="lesson__tip"><b>Ghi nhớ.</b> Đừng nói にもつを もちませんか khi muốn giúp: câu đó thành rủ người ta xách cùng.</p>
+          </div>
+        </article>
+        <article class="lesson">
+          <figure class="clip">
+            <div class="clip__frame">
+              <video preload="none" playsinline poster="video/nhat-04.webp" src="video/nhat-04.mp4" aria-label="Video bài học: あなた"></video>
+              <button class="clip__play" type="button" aria-label="Phát video bài học: あなた"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
+            </div>
+          </figure>
+          <div class="lesson__top">
+            <h3 lang="ja">あなた</h3>
+            <p class="lesson__q">Nghĩa là “bạn”, nhưng gọi thẳng dễ bị hiểu lầm.</p>
+          </div>
+          <div class="lesson__body">
+            <dl>
+              <div><dt lang="ja">田中さんは どう おもいますか。</dt><dd>Anh Tanaka nghĩ thế nào ạ?<small>Gọi bằng tên + さん</small></dd></div>
+              <div><dt lang="ja">ぶちょう、こちらを ごかくにん いただけますか。</dt><dd>Trưởng phòng xem giúp cái này ạ?<small>Gọi bằng chức danh</small></dd></div>
+              <div><dt lang="ja">今 どこに すんでいるんですか。</dt><dd>Bây giờ bạn đang sống ở đâu?<small>Đang nói trực tiếp thì bỏ luôn chủ ngữ</small></dd></div>
+            </dl>
+            <p class="lesson__tip"><b>Ghi nhớ.</b> Gọi thẳng あなた nghe lạnh lùng, xa cách, có khi như trách móc. Hạn chế dùng.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · COMMITMENT. The visitor's own mark, carried into the form. Last element. -->
+  <section class="close" id="dang-ky" data-sc-act="flow">
+    <div class="sc-wrap close__grid">
+      <div>
+        <h2>Con đang ở vạch nào?</h2>
+        <p class="close__lede">Chọn một vạch, điền hai dòng. Trang sẽ soạn sẵn tin nhắn để anh chị gửi cho Lino.</p>
+
+        <form id="trial" method="post" action="#dang-ky" novalidate>
+          <fieldset>
+            <legend>Học thử cho nhóm nào</legend>
+            <div class="marks">
+              <label><input type="radio" name="nhom" value="Tiếng Anh, 3 đến 5 tuổi" required>3 đến 5 tuổi</label>
+              <label><input type="radio" name="nhom" value="Tiếng Anh, 6 đến 10 tuổi">6 đến 10 tuổi</label>
+              <label><input type="radio" name="nhom" value="Tiếng Anh, 11 đến 15 tuổi">11 đến 15 tuổi</label>
+              <label><input type="radio" name="nhom" value="Tiếng Nhật, N5 đến N3" id="pick-nhat">Tiếng Nhật</label>
+            </div>
+          </fieldset>
+          <div class="fields">
+            <label class="field"><span class="lbl">Tên anh chị</span>
+              <input name="ten" autocomplete="name" placeholder="Ví dụ: chị Hoa" required></label>
+            <label class="field"><span class="lbl">Số điện thoại</span>
+              <input name="sdt" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxx" required></label>
+          </div>
+          <p class="err" id="err" role="alert"></p>
+          <div class="send"><button class="btn" type="submit">Đăng ký học thử</button></div>
+        </form>
+
+        <div class="ticket" id="ticket" hidden aria-live="polite">
+          <h3>Tin nhắn đã soạn xong.</h3>
+          <blockquote id="msg"></blockquote>
+          <div class="ticket__go">
+            <a class="btn" id="zalo" href="https://zalo.me/0789251499" target="_blank" rel="noopener">Sao chép, mở Zalo</a>
+            <a class="btn btn--line" href="tel:0789251499">Gọi 0789 251 499</a>
+          </div>
+          <small id="hint">Trang này chưa tự gửi tin. Anh chị bấm một trong hai nút để Lino nhận được.</small>
+        </div>
+        <noscript><p class="close__lede">Anh chị gọi hotline 0789 251 499 để đăng ký học thử.</p></noscript>
+      </div>
+
+      <aside class="place" aria-label="Địa chỉ và hotline">
+        <img src="assets/logo-full.webp" width="900" height="463" loading="lazy" alt="Lino. Học ngôn ngữ, chạm tương lai!">
+        <dl>
+          <div><dt>Hotline</dt><dd><a href="tel:0789251499">0789 251 499</a></dd></div>
+          <div><dt>Địa chỉ</dt>
+            <dd class="addr">Gần ngã tư Tài Chính, Như Quỳnh, Hưng Yên
+              <br><a class="map" href="https://www.google.com/maps/place/Trung+t%C3%A2m+ngo%E1%BA%A1i+ng%E1%BB%AF+Lino/@20.9564638,105.9977098,653m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3135a5635c7d5b63:0x1adde5ca2dc959e7!8m2!3d20.9564638!4d106.0002847!16s%2Fg%2F11x8jdsw3_?entry=ttu&amp;g_ep=EgoyMDI2MTExMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Xem Lino trên Google Maps</a></dd></div>
+        </dl>
+      </aside>
+    </div>
+    <footer class="sc-wrap"><p class="foot">© 2026 Trung tâm ngoại ngữ Lino. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd.</p></footer>
+  </section>
+
+</main>
+
+<script src="scrollcraft.js"></script>
+<script>
+ScrollCraft.mount(document.body);
+
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+
+  /* hero: the pointer leans the planes. Additive only. */
+  var hs = document.querySelector('.hero__stage');
+  var tx = 0, ty = 0, cx = 0, cy = 0;
+  if (fine && !reduce) {
+    hs.addEventListener('pointermove', function (e) {
+      var r = hs.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    });
+    hs.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+  }
+
+  /* the growth act: scroll progress becomes an age, the ruler keeps every mark passed */
+  var grow = document.querySelector('.grow');
+  var stage = grow.querySelector('.grow__stage');
+  var ageEl = document.getElementById('age');
+  var ticks = Array.prototype.slice.call(grow.querySelectorAll('.ruler i'));
+  var stops = [[0.115, 3], [0.17, 5], [0.31, 5], [0.365, 8], [0.51, 8], [0.565, 11], [0.715, 11], [0.795, 15]];
+  function ageAt(p) {
+    if (p <= stops[0][0]) return 3;
+    for (var i = 1; i < stops.length; i++) {
+      if (p <= stops[i][0]) {
+        var a = stops[i - 1], b = stops[i];
+        return a[1] + (b[1] - a[1]) * (p - a[0]) / (b[0] - a[0]);
+      }
+    }
+    return 15;
+  }
+  var lastP = -1;
+  function readGrow() {
+    var p = parseFloat(grow.style.getPropertyValue('--sc-p')) || 0;
+    if (p === lastP) return;
+    lastP = p;
+    var age = ageAt(p);
+    stage.style.setProperty('--g', ((age - 3) / 12).toFixed(4));
+    var whole = String(Math.floor(age + 0.02));
+    if (ageEl.textContent !== whole) ageEl.textContent = whole;
+    for (var i = 0; i < ticks.length; i++) ticks[i].classList.toggle('on', age + 0.02 >= +ticks[i].getAttribute('data-age'));
+  }
+
+  /* classroom photographs: a wipe tied to where the picture is, not to a clock */
+  var wipes = reduce ? [] : Array.prototype.slice.call(document.querySelectorAll('[data-wipe]'));
+  var lastY = -1;
+  function readWipes() {
+    var y = window.scrollY;
+    if (y === lastY) return;
+    lastY = y;
+    var vh = window.innerHeight;
+    for (var i = 0; i < wipes.length; i++) {
+      var el = wipes[i];
+      if (el._done) continue;
+      var r = el.getBoundingClientRect();
+      var t = clamp((vh * 0.94 - r.top) / (vh * 0.5));
+      t = 1 - Math.pow(1 - t, 3);
+      var rest = ((1 - t) * 100).toFixed(2) + '%';
+      el.style.clipPath = el.getAttribute('data-wipe') === 'up'
+        ? 'inset(' + rest + ' 0 0 0 round 22px)' : 'inset(0 ' + rest + ' 0 0 round 22px)';
+      if (t >= 1) { el._done = true; el.style.clipPath = 'none'; }
+    }
+  }
+
+  function frame() {
+    if (fine && !reduce && (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001)) {
+      cx += (tx - cx) * 0.07; cy += (ty - cy) * 0.07;
+      hs.style.setProperty('--mx', cx.toFixed(3));
+      hs.style.setProperty('--my', cy.toFixed(3));
+    }
+    readGrow();
+    readWipes();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* the reel: one clip plays at a time, with sound only because the visitor asked,
+     and everything stops when the strip leaves the screen */
+  var clips = Array.prototype.slice.call(document.querySelectorAll('.clip'));
+  var strip = document.querySelector('.reel__strip');
+  clips.forEach(function (c) {
+    var v = c.querySelector('video'), btn = c.querySelector('.clip__play');
+    btn.addEventListener('click', function () {
+      c.classList.add('is-on'); v.controls = true;
+      var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+      v.focus({ preventScroll: true });
+    });
+    v.addEventListener('play', function () { clips.forEach(function (o) { if (o !== c) o.querySelector('video').pause(); }); });
+    v.addEventListener('ended', function () { v.controls = false; c.classList.remove('is-on'); v.load(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-reel]'), function (b) {
+    b.addEventListener('click', function () {
+      strip.scrollBy({ left: +b.getAttribute('data-reel') * strip.clientWidth * 0.72, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+  if ('IntersectionObserver' in window) {
+    var away = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (!e.isIntersecting) e.target.querySelector('video').pause(); });
+    }, { threshold: 0 });
+    clips.forEach(function (c) { away.observe(c); });
+  }
+
+  /* the dock steps aside once the form itself is on screen */
+  var dock = document.querySelector('.dock');
+  var form = document.getElementById('trial');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      dock.classList.toggle('is-away', es[0].isIntersecting);
+    }, { threshold: 0.08 }).observe(form);
+  }
+
+  /* a choice made upstream is carried into the form */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-pick="nhat"]'), function (a) {
+    a.addEventListener('click', function () { document.getElementById('pick-nhat').checked = true; });
+  });
+
+  /* the form prepares a message. It sends nothing by itself, and says so. */
+  var err = document.getElementById('err');
+  var ticket = document.getElementById('ticket');
+  var msgEl = document.getElementById('msg');
+  var hint = document.getElementById('hint');
+  var message = '';
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nhom = form.querySelector('input[name="nhom"]:checked');
+    var ten = form.elements.ten, sdt = form.elements.sdt;
+    var phone = sdt.value.replace(/[\s.\-()]/g, '');
+    ten.removeAttribute('aria-invalid'); sdt.removeAttribute('aria-invalid');
+    if (!nhom) { err.textContent = 'Anh chị chọn giúp một vạch ở trên.'; form.querySelector('input[name="nhom"]').focus(); return; }
+    if (!ten.value.trim()) { err.textContent = 'Anh chị cho Lino xin tên để tiện xưng hô.'; ten.setAttribute('aria-invalid', 'true'); ten.focus(); return; }
+    if (!/^(0|\+84)\d{9}$/.test(phone)) { err.textContent = 'Số điện thoại cần đủ 10 số, bắt đầu bằng 0.'; sdt.setAttribute('aria-invalid', 'true'); sdt.focus(); return; }
+    err.textContent = '';
+    message = 'Chào Lino, tôi là ' + ten.value.trim() + ', số điện thoại ' + phone + '. Tôi muốn đăng ký học thử: ' + nhom.value + '.';
+    msgEl.textContent = message;
+    ticket.hidden = false;
+    ticket.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+  });
+  document.getElementById('zalo').addEventListener('click', function () {
+    if (navigator.clipboard && message) {
+      navigator.clipboard.writeText(message).then(function () {
+        hint.textContent = 'Đã sao chép tin nhắn. Anh chị dán vào khung chat Zalo của Lino rồi gửi.';
+      }, function () {
+        hint.textContent = 'Chưa sao chép được. Anh chị bôi đen tin nhắn ở trên để chép rồi dán vào Zalo.';
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>
