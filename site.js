@@ -60,6 +60,22 @@
     sheet.addEventListener('click', function (e) { if (e.target.closest('a')) closeSheet(); });
   }
 
+  /* --------------------------------------------- sign-ups to Google Sheet */
+  /* Sends name + phone to the owner's Apps Script, which appends a row to the
+     "Thông tin khách hàng đăng ký ở page" sheet. Fire-and-forget: the visitor's
+     Zalo / call options never wait on it. Resolves true when the request left. */
+  window.LinoLead = function (d) {
+    var url = window.LINO_SHEET_URL;
+    if (!url || !window.fetch) return Promise.resolve(false);
+    var body = JSON.stringify({
+      ten: d.ten || '', sdt: d.sdt || '', nhom: d.nhom || '', nguon: d.nguon || '',
+      ghichu: d.ghichu || '', trang: location.pathname.split('/').pop() || 'index.html', web: d.web || ''
+    });
+    return fetch(url, { method: 'POST', mode: 'no-cors', keepalive: true,
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: body })
+      .then(function () { return true; }, function () { return false; });
+  };
+
   /* ------------------------------------------------- speaking a word aloud */
   var voice = null;
   function pickVoice() {
@@ -273,8 +289,12 @@
       state.step = null; input.placeholder = 'Anh chị hỏi gì cũng được ạ…'; input.removeAttribute('inputmode');
       var text = 'Chào Lino, tôi là ' + state.ten + ', số điện thoại ' + state.sdt + '. Tôi muốn đăng ký học thử: ' + state.nhom + '.' +
         (state.asked.length ? ' Tôi có hỏi thêm: ' + state.asked.join('; ') + '.' : '');
-      bot(['Em soạn sẵn tin nhắn rồi ạ:', '<div class="chat__ticket">' + esc(text) + '</div>',
-           'Anh chị bấm <b>Gửi qua Zalo</b> (tin nhắn đã được sao chép, chỉ cần dán và gửi), hoặc gọi thẳng cho Lino. Lino sẽ gọi lại để hẹn giờ học thử ạ.'],
+      var saved = !!window.LINO_SHEET_URL;
+      window.LinoLead({ ten: state.ten, sdt: state.sdt, nhom: state.nhom, nguon: 'Ô chat tư vấn', ghichu: state.asked.join('; ') });
+      bot((saved ? ['Lino đã nhận tên và số điện thoại của anh chị rồi ạ. Cô ở Lino sẽ gọi lại để hẹn giờ học thử.',
+                    'Nếu muốn nhanh hơn, anh chị gửi luôn tin nhắn này qua Zalo nhé:']
+                 : ['Em soạn sẵn tin nhắn rồi ạ:']).concat(['<div class="chat__ticket">' + esc(text) + '</div>',
+           'Anh chị bấm <b>Gửi qua Zalo</b> (tin nhắn đã được sao chép, chỉ cần dán và gửi), hoặc gọi thẳng cho Lino.']),
         function () { chips([
           { label: 'Gửi qua Zalo', href: ZALO, onClick: function () { copy(text); } },
           { label: 'Gọi ' + PHONE_SHOW, href: 'tel:' + PHONE }

@@ -333,6 +333,7 @@
   .err { min-height: 1.4em; font-size: var(--sc-t-sm); color: #B00000; font-weight: 600; }
   .send { margin-top: var(--sc-4); display: flex; align-items: center; gap: var(--sc-5); flex-wrap: wrap; }
   .send .btn { min-height: 56px; padding-inline: 30px; font-size: 1.05rem; }
+  .consent { flex: 1 1 14rem; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); line-height: 1.45; }
   .ticket { margin-top: var(--sc-6); padding: var(--sc-5); border-radius: 18px; background: #fff; box-shadow: var(--sc-e2); }
   .ticket[hidden] { display: none; }
   .ticket h3 { font-size: var(--sc-t-lg); letter-spacing: -0.01em; }
@@ -881,8 +882,9 @@
             <label class="field"><span class="lbl">Số điện thoại</span>
               <input name="sdt" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxx" required></label>
           </div>
+          <label class="vh" aria-hidden="true">Để trống ô này <input name="web" tabindex="-1" autocomplete="off"></label>
           <p class="err" id="err" role="alert"></p>
-          <div class="send"><button class="btn" type="submit">Đăng ký học thử</button></div>
+          <div class="send"><button class="btn" type="submit">Đăng ký học thử</button><small class="consent">Tên và số điện thoại chỉ dùng để Lino gọi lại tư vấn cho anh chị.</small></div>
         </form>
 
         <div class="ticket" id="ticket" hidden aria-live="polite">
@@ -913,6 +915,7 @@
 </main>
 
 <script src="feedback/feedback.js"></script>
+<script src="data/cau-hinh.js"></script>
 <script src="vendor/lenis.min.js"></script>
 <script src="scrollcraft.js"></script>
 <script src="site.js"></script>
@@ -1083,6 +1086,7 @@ ScrollCraft.mount(document.body);
   var ticket = document.getElementById('ticket');
   var msgEl = document.getElementById('msg');
   var hint = document.getElementById('hint');
+  var ticketH = ticket.querySelector('h3');
   var message = '';
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -1096,6 +1100,11 @@ ScrollCraft.mount(document.body);
     err.textContent = '';
     message = 'Chào Lino, tôi là ' + ten.value.trim() + ', số điện thoại ' + phone + '. Tôi muốn đăng ký học thử: ' + nhom.value + '.';
     msgEl.textContent = message;
+    if (window.LINO_SHEET_URL) {
+      ticketH.textContent = 'Lino đã nhận thông tin của anh chị ạ.';
+      hint.textContent = 'Cô ở Lino sẽ gọi lại để hẹn giờ học thử. Muốn nhanh hơn, anh chị gửi luôn tin nhắn trên qua Zalo hoặc gọi Lino.';
+    }
+    window.LinoLead({ ten: ten.value.trim(), sdt: phone, nhom: nhom.value, nguon: 'Form đăng ký học thử', web: form.elements.web.value });
     ticket.hidden = false;
     ticket.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
   });
