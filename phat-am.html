@@ -54,6 +54,18 @@
   .sounds button small { display: block; font: 600 0.62rem/1 var(--sc-font-text); letter-spacing: 0; color: var(--sc-ink-soft); margin-top: 3px; }
   .sounds button[aria-pressed="true"] { background: var(--red); color: #fff; transform: translateY(-3px); box-shadow: 0 14px 24px -10px hsl(352 80% 30% / 0.55); }
   .sounds button[aria-pressed="true"] small { color: rgb(255 255 255 / 0.8); }
+  .sounds button.has-video::before { content: "🎬"; position: absolute; bottom: -7px; right: -5px; font-size: 0.8rem; line-height: 1; }
+  .vid { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 18px; align-items: center; padding: 14px; border-radius: 24px; background: var(--sc-ink); color: #fff; }
+  .vid__frame { position: relative; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; background: #000; }
+  .vid__frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vid__play { position: absolute; inset: 0; display: grid; place-items: center; border: 0; padding: 0; background: rgb(0 0 0 / 0.18); cursor: pointer; }
+  .vid__play span { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--red); box-shadow: 0 10px 24px -8px rgb(0 0 0 / 0.6); transition: transform 200ms var(--ease); }
+  .vid__play svg { width: 24px; height: 24px; margin-left: 3px; }
+  .vid__play:focus-visible { outline: 3px solid #fff; outline-offset: -6px; }
+  .vid.is-on .vid__play { display: none; }
+  .vid h3 { font: 700 1.15rem/1.3 var(--sc-font-display); letter-spacing: -0.01em; }
+  .vid p { margin-top: 6px; font-size: var(--sc-t-sm); line-height: 1.55; color: rgb(255 255 255 / 0.75); }
+  @media (hover: hover) and (pointer: fine) { .vid__play:hover span { transform: scale(1.07); } }
   .sounds button.has-star::after { content: "★"; position: absolute; top: -6px; right: -4px; font-size: 0.9rem; color: #F5A400; text-shadow: 0 1px 0 #fff; }
   .sounds button:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 2px; }
   @media (hover: hover) and (pointer: fine) {
@@ -142,6 +154,7 @@
     .cta__box { grid-template-columns: 1fr; }
     .cta { padding-bottom: calc(var(--dock-h) + var(--sc-6)); }
     .sounds button { min-width: 58px; min-height: 58px; font-size: 1.45rem; }
+    .vid { grid-template-columns: 112px minmax(0, 1fr); gap: 14px; }
     .am-big { font-size: 5.5rem; }
     .card-am { gap: var(--sc-4); }
   }
@@ -313,6 +326,7 @@ ScrollCraft.mount(document.body);
       b.setAttribute('aria-label', 'Âm ' + s.am + (s.ten ? ', ' + s.ten : ''));
       b.innerHTML = esc(s.am) + (s.ten ? '<small>' + esc(s.ten.replace('oo ', '').replace('th ', '')) + '</small>' : '');
       if ((stars[key(i)] || 0) >= 3) b.classList.add('has-star');
+      if (s.video) { b.classList.add('has-video'); b.setAttribute('aria-label', b.getAttribute('aria-label') + ', có video đọc mẫu'); }
       soundsEl.appendChild(b);
     });
   }
@@ -340,6 +354,20 @@ ScrollCraft.mount(document.body);
         '<div class="w__res" aria-live="polite"></div>';
       wordsEl.appendChild(w);
     });
+    if (s.video) {
+      var v = document.createElement('div'); v.className = 'vid';
+      v.innerHTML = '<div class="vid__frame"><video playsinline preload="none" src="' + esc(s.video) + '"' + (s.poster ? ' poster="' + esc(s.poster) + '"' : '') + '></video>' +
+        '<button class="vid__play" type="button" aria-label="Xem video thầy cô đọc mẫu âm ' + esc(s.am) + '"><span aria-hidden="true">' + ICON_PLAY + '</span></button></div>' +
+        '<div><h3>Xem thầy cô đọc mẫu âm “' + esc(s.am) + '”</h3><p>Video quay ngay trong lớp Lino, đọc và làm động tác theo đúng cách Jolly Phonics. Bố mẹ cho con xem rồi đọc theo, nhớ làm cả động tác nhé.</p></div>';
+      var vEl = v.querySelector('video');
+      v.querySelector('.vid__play').addEventListener('click', function () {
+        stopAll(); if (window.speechSynthesis) speechSynthesis.cancel();
+        v.classList.add('is-on'); vEl.controls = true;
+        var pr = vEl.play(); if (pr && pr.catch) pr.catch(function () {});
+      });
+      vEl.addEventListener('ended', function () { v.classList.remove('is-on'); vEl.controls = false; });
+      wordsEl.appendChild(v);
+    }
     drawSounds(); drawStars();
     if (anim && !reduce) { stage.classList.remove('is-swap'); void stage.offsetWidth; stage.classList.add('is-swap'); }
     try { history.replaceState(null, '', '#' + encodeURIComponent(key(i))); } catch (e) {}

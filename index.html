@@ -23,7 +23,8 @@
 
   /* ---------------------------------------------------------------- hero -- */
   .hero__stage { background: var(--paper); --mx: 0; --my: 0; }
-  .hero__logo { position: absolute; z-index: 5; left: var(--sc-gutter); top: 22px; width: auto; height: 46px; max-width: none; }
+  .hero__logo { position: absolute; z-index: 5; left: var(--sc-gutter); top: 22px; display: block; border-radius: 10px; }
+  .hero__logo img { width: auto; height: 46px; max-width: none; display: block; }
   .scene {
     --W: min(55vw, 108svh);
     position: absolute; right: var(--sc-gutter); top: 50%; translate: 0 -47%;
@@ -367,7 +368,7 @@
   /* --------------------------------------------------------------- phone -- */
   @media (max-width: 860px) {
 
-    .hero__logo { top: 16px; height: 34px; }
+    .hero__logo { top: 16px; } .hero__logo img { height: 34px; }
     .scene { --W: min(calc(100vw - var(--sc-gutter) * 2), 64svh); right: auto; left: var(--sc-gutter); top: 47svh; translate: none; }
     .pl--far { right: 34%; top: -46%; font-size: calc(var(--W) * 0.6); }
     .pl--subject { border-radius: 14px; } .pl--subject img { border-radius: 9px; }
@@ -459,6 +460,7 @@
 
 <nav class="dock" aria-label="Điều hướng">
   <div class="dock__links">
+    <a href="index.html" aria-current="page" data-home>Trang chủ</a>
     <a href="tai-lieu.html">Tài liệu</a>
     <a href="phat-am.html">Luyện phát âm</a>
     <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì</a>
@@ -476,6 +478,7 @@
 <div class="sheet" id="menu" aria-hidden="true">
   <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
   <nav class="sheet__panel" aria-label="Menu">
+    <a href="index.html" data-home>Trang chủ <small>Về đầu trang</small></a>
     <a href="#lop-hoc">Lớp học ở Lino <small>Ảnh, video</small></a>
     <a href="tai-lieu.html">Tài liệu bài tập <small>Theo độ tuổi</small></a>
     <a href="phat-am.html">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
@@ -491,7 +494,7 @@
        the whole class as a photo print, the word cards in front. Copy rides at 1x. -->
   <section class="hero" data-sc-act="pin" data-sc-span="1.9">
     <div data-sc-stage class="hero__stage">
-      <img class="hero__logo" src="assets/logo-word.webp" width="640" height="267" alt="Lino">
+      <a class="hero__logo" href="index.html" data-home aria-label="Lino, về trang chủ"><img src="assets/logo-word.webp" width="640" height="267" alt="Lino"></a>
 
       <div class="scene">
         <div class="pl pl--far" aria-hidden="true">ai</div>

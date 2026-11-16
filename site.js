@@ -26,6 +26,15 @@
     if (lenis) lenis.scrollTo(el, { offset: offset, duration: 1.2 });
     else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: reduce ? 'auto' : 'smooth' });
   };
+  /* already on the home page: "Trang chủ" and the logo glide back to the top instead of reloading */
+  document.addEventListener('click', function (e) {
+    var h = e.target.closest && e.target.closest('[data-home]');
+    if (!h || !document.querySelector('.hero')) return;
+    e.preventDefault();
+    closeSheet();
+    if (lenis) lenis.scrollTo(0, { duration: 1.6 }); else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    history.replaceState(null, '', location.pathname);
+  });
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="#"]');
     if (!a) return;
@@ -89,7 +98,24 @@
     }
   }
   if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', function () { voice = null; pickVoice(); }); }
+  /* Every practice word ships as one recorded mp3 (audio/<slug>.mp3), so a phone and a
+     computer play exactly the same voice. The browser's own voice is only a fallback
+     for text that has no recording yet. */
+  var player = null;
+  function slug(t) { return String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60).replace(/-+$/, ''); }
   window.LinoSpeak = function (text, rate) {
+    try { if (player) { player.pause(); } } catch (e) {}
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    player = new Audio('audio/' + slug(text) + '.mp3');
+    player.preload = 'auto';
+    var fellBack = false;
+    var fallback = function () { if (!fellBack) { fellBack = true; ttsSpeak(text, rate); } };
+    player.addEventListener('error', fallback, { once: true });
+    var pr = player.play();
+    if (pr && pr.catch) pr.catch(function (err) { if (err && err.name !== 'AbortError') fallback(); });
+    return true;
+  };
+  function ttsSpeak(text, rate) {
     if (!('speechSynthesis' in window)) return false;
     speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
