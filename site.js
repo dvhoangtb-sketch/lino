@@ -11,6 +11,8 @@
   var MAP = 'https://www.google.com/maps/place/Trung+t%C3%A2m+ngo%E1%BA%A1i+ng%E1%BB%AF+Lino/@20.9564638,105.9977098,653m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3135a5635c7d5b63:0x1adde5ca2dc959e7!8m2!3d20.9564638!4d106.0002847!16s%2Fg%2F11x8jdsw3_';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* one address: www.linoedugroup.com and lino-edu.pages.dev go to linoedugroup.com */
+  if (/^(www\.linoedugroup\.com|lino-edu\.pages\.dev)$/.test(location.hostname)) { location.replace('https://linoedugroup.com' + location.pathname + location.search + location.hash); return; }
   /* clean addresses: /index.html shows as /, /tai-lieu.html as /tai-lieu */
   (function () {
     var p = location.pathname, clean = p.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
