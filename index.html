@@ -24,8 +24,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans+JP:wght@500;700&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/group.webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="assets/group-m.webp" media="(max-width: 860px)">
-<link rel="stylesheet" href="scrollcraft.css?v=202611162222">
-<link rel="stylesheet" href="site.css?v=202611162222">
+<link rel="stylesheet" href="scrollcraft.css?v=202611162224">
+<link rel="stylesheet" href="site.css?v=202611162224">
 <script>document.documentElement.classList.add('js');</script>
 <style>
 
@@ -477,9 +477,9 @@
 
 <nav class="dock" aria-label="Điều hướng">
   <div class="dock__links">
-    <a href="index.html" aria-current="page" data-home>Trang chủ</a>
-    <a href="tai-lieu.html">Tài liệu</a>
-    <a href="phat-am.html">Luyện phát âm</a>
+    <a href="/" aria-current="page" data-home>Trang chủ</a>
+    <a href="/tai-lieu">Tài liệu</a>
+    <a href="/phat-am">Luyện phát âm</a>
     <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì</a>
   </div>
   <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
@@ -495,10 +495,10 @@
 <div class="sheet" id="menu" aria-hidden="true">
   <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
   <nav class="sheet__panel" aria-label="Menu">
-    <a href="index.html" data-home>Trang chủ <small>Về đầu trang</small></a>
+    <a href="/" data-home>Trang chủ <small>Về đầu trang</small></a>
     <a href="#lop-hoc">Lớp học ở Lino <small>Ảnh, video</small></a>
-    <a href="tai-lieu.html">Tài liệu bài tập <small>Theo độ tuổi</small></a>
-    <a href="phat-am.html">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
+    <a href="/tai-lieu">Tài liệu bài tập <small>Theo độ tuổi</small></a>
+    <a href="/phat-am">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
     <a href="#tieng-nhat">Tiếng Nhật <small>N5 đến N3</small></a>
     <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì <small>Tin nhắn Zalo</small></a>
     <a href="#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
@@ -512,7 +512,7 @@
   <section class="hero" data-sc-act="pin" data-sc-span="1.9">
     <div data-sc-stage class="hero__stage">
       <div class="hero__brand">
-        <a class="hero__logo" href="index.html" data-home aria-label="Lino, về trang chủ"><img src="assets/logo-word.webp" width="640" height="267" alt="Lino"></a>
+        <a class="hero__logo" href="/" data-home aria-label="Lino, về trang chủ"><img src="assets/logo-word.webp" width="640" height="267" alt="Lino"></a>
         <p class="hero__slogan">Học ngôn ngữ, <span>chạm tương lai!</span></p>
       </div>
 
@@ -737,16 +737,16 @@
             <button type="button" data-speak="train"><span>tr<b>ai</b>n</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             <button type="button" data-speak="paint"><span>p<b>ai</b>nt</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
           </div>
-          <a class="btn btn--white" href="phat-am.html">Bắt đầu luyện cùng con</a>
+          <a class="btn btn--white" href="/phat-am">Bắt đầu luyện cùng con</a>
         </article>
         <article class="tile tile--docs">
           <div class="papers" aria-hidden="true"><i></i><i></i><i><b>Phiếu bài tập</b><s></s><s></s><s></s><s></s></i></div>
           <h3>Tài liệu bài tập theo tuổi</h3>
           <p>Các dạng bài con hay gặp: phonics, từ vựng, đọc hiểu, dạng bài thi Cambridge, và cả tiếng Nhật. Dạng nào cũng có ví dụ và cách bố mẹ kèm con.</p>
           <div class="pills">
-            <a href="tai-lieu.html#3-5">3 đến 5 tuổi</a><a href="tai-lieu.html#6-10">6 đến 10 tuổi</a><a href="tai-lieu.html#11-15">11 đến 15 tuổi</a><a href="tai-lieu.html#nhat">Tiếng Nhật</a>
+            <a href="/tai-lieu#3-5">3 đến 5 tuổi</a><a href="/tai-lieu#6-10">6 đến 10 tuổi</a><a href="/tai-lieu#11-15">11 đến 15 tuổi</a><a href="/tai-lieu#nhat">Tiếng Nhật</a>
           </div>
-          <a class="btn" href="tai-lieu.html">Mở tài liệu</a>
+          <a class="btn" href="/tai-lieu">Mở tài liệu</a>
         </article>
       </div>
     </div>
@@ -949,16 +949,16 @@
         </dl>
       </aside>
     </div>
-    <footer class="sc-wrap"><p class="foot">© 2026 Trung tâm ngoại ngữ Lino. <a href="tai-lieu.html">Tài liệu</a> · <a href="phat-am.html">Luyện phát âm</a>. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd.</p></footer>
+    <footer class="sc-wrap"><p class="foot">© 2026 Trung tâm ngoại ngữ Lino. <a href="/tai-lieu">Tài liệu</a> · <a href="/phat-am">Luyện phát âm</a>. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd.</p></footer>
   </section>
 
 </main>
 
-<script src="feedback/feedback.js?v=202611162222"></script>
-<script src="data/cau-hinh.js?v=202611162222"></script>
+<script src="feedback/feedback.js?v=202611162224"></script>
+<script src="data/cau-hinh.js?v=202611162224"></script>
 <script src="vendor/lenis.min.js"></script>
-<script src="scrollcraft.js?v=202611162222"></script>
-<script src="site.js?v=202611162222"></script>
+<script src="scrollcraft.js?v=202611162224"></script>
+<script src="site.js?v=202611162224"></script>
 <script>
 ScrollCraft.mount(document.body);
 

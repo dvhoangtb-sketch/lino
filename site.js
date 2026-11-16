@@ -10,6 +10,12 @@
   var ZALO = 'https://zalo.me/' + PHONE;
   var MAP = 'https://www.google.com/maps/place/Trung+t%C3%A2m+ngo%E1%BA%A1i+ng%E1%BB%AF+Lino/@20.9564638,105.9977098,653m/data=!3m2!1e3!4b1!4m6!3m5!1s0x3135a5635c7d5b63:0x1adde5ca2dc959e7!8m2!3d20.9564638!4d106.0002847!16s%2Fg%2F11x8jdsw3_';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* clean addresses: /index.html shows as /, /tai-lieu.html as /tai-lieu */
+  (function () {
+    var p = location.pathname, clean = p.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+    if (clean !== p && history.replaceState) history.replaceState(null, '', clean + location.search + location.hash);
+  })();
   var root = document.documentElement;
 
   /* ------------------------------------------------------------ smooth scroll */
@@ -79,7 +85,7 @@
     if (!url || !window.fetch) return Promise.resolve(false);
     var body = JSON.stringify({
       ten: d.ten || '', sdt: d.sdt || '', nhom: d.nhom || '', nguon: d.nguon || '',
-      ghichu: d.ghichu || '', trang: location.pathname.split('/').pop() || 'index.html', web: d.web || ''
+      ghichu: d.ghichu || '', trang: location.pathname.split('/').pop() || '/', web: d.web || ''
     });
     return fetch(url, { method: 'POST', mode: 'no-cors', keepalive: true,
       headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: body })
@@ -389,7 +395,7 @@
       bot(['Không cần giỏi tiếng Anh vẫn kèm con được ạ. Mỗi tối chỉ 5 phút:',
            '1. Mở trang <b>Luyện phát âm</b>, bấm nghe mẫu, cho con đọc theo rồi nghe lại giọng con.<br>2. Khen trước, sửa sau.<br>3. Làm động tác cùng con, con nhớ âm bằng cả tay.',
            'Ở mục <b>Tài liệu</b>, anh chị xem các dạng bài con hay gặp kèm gợi ý kèm con ở nhà.'],
-        function () { chips([{ label: 'Mở trang luyện phát âm', href: 'phat-am.html' }, { label: 'Mở mục tài liệu', href: 'tai-lieu.html' }, { label: 'Hỏi câu khác', next: 'more' }]); });
+        function () { chips([{ label: 'Mở trang luyện phát âm', href: '/phat-am' }, { label: 'Mở mục tài liệu', href: '/tai-lieu' }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
     nhat: function () {
       state.nhom = 'Tiếng Nhật, N5 đến N3';
@@ -416,11 +422,11 @@
     },
     phatam: function () {
       bot(['Anh chị có thể luyện phát âm cùng con ngay trên web của Lino: nghe mẫu, cho con đọc theo, rồi nghe lại giọng con.'],
-        function () { chips([{ label: 'Mở trang luyện phát âm', href: 'phat-am.html' }, { label: 'Hỏi câu khác', next: 'more' }]); });
+        function () { chips([{ label: 'Mở trang luyện phát âm', href: '/phat-am' }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
     tailieu: function () {
       bot(['Lino có mục tài liệu gom các dạng bài tập con hay gặp, theo từng độ tuổi, kèm cách bố mẹ kèm con ở nhà.'],
-        function () { chips([{ label: 'Mở mục tài liệu', href: 'tai-lieu.html' }, { label: 'Hỏi câu khác', next: 'more' }]); });
+        function () { chips([{ label: 'Mở mục tài liệu', href: '/tai-lieu' }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
     more: function () {
       bot(['Anh chị cần hỏi thêm gì ạ? Câu nào nhỏ anh chị cũng cứ hỏi nhé.'],
@@ -497,7 +503,7 @@
   }
   function askTrial() { chips([{ label: 'Có, đăng ký học thử', next: 'dangky', go: true }, { label: 'Hỏi thêm', next: 'more' }]); }
   function reply(key, arg) { (A[key] || A.unknown)(arg); }
-  function pageHref(hash) { return document.querySelector(hash) ? hash : 'index.html' + hash; }
+  function pageHref(hash) { return document.querySelector(hash) ? hash : '/' + hash; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function copy(t) { try { navigator.clipboard && navigator.clipboard.writeText(t); } catch (e) {} }
 
