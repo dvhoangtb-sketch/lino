@@ -100,7 +100,7 @@ p { margin: 0; }
 .top a { display: block; border-radius: 10px; }
 .top img { height: 46px; width: auto; max-width: none; display: block; }
 .top__slogan { padding-left: 16px; border-left: 2px solid color-mix(in srgb, var(--red) 30%, transparent);
-  font: italic 600 1.08rem/1.25 Georgia, "Times New Roman", serif; color: var(--red); white-space: nowrap; }
+  font: italic 600 1.08rem/1.25 "Noto Serif", "Times New Roman", Georgia, serif; color: var(--red); white-space: nowrap; }
 .top__slogan span { display: block; }
 
 /* --------------------------------------------------------------------- chat -- */
