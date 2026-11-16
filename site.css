@@ -116,7 +116,7 @@ p { margin: 0; }
 @media (hover: hover) and (pointer: fine) { .chat-fab:hover { background: var(--red-deep); transform: translateY(-2px); } }
 
 .chat-nudge {
-  position: fixed; z-index: 59; right: 22px; bottom: 96px; max-width: 18rem;
+  position: fixed; z-index: 59; right: 96px; bottom: 26px; max-width: 18rem;
   padding: 14px 40px 14px 16px; border-radius: 18px 18px 6px 18px; background: #fff; color: var(--sc-ink);
   font: 500 0.98rem/1.45 var(--sc-font-text);
   box-shadow: 0 2px 4px hsl(352 55% 18% / 0.12), 0 18px 34px -14px hsl(352 55% 18% / 0.4), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent);
@@ -180,6 +180,30 @@ p { margin: 0; }
 .chat__send svg { width: 20px; height: 20px; }
 .chat__send:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 2px; }
 
+/* ---------------------------------------------------------- quick contact -- */
+.quick { position: fixed; z-index: 58; right: 22px; bottom: 98px; display: flex; flex-direction: column; gap: 10px;
+  transition: opacity 260ms var(--ease), transform 320ms var(--ease); }
+.chat-open .quick { opacity: 0; transform: translateY(12px); pointer-events: none; }
+.quick__btn { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; text-decoration: none; color: #fff;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.16), 0 12px 24px -10px rgb(0 0 0 / 0.45); transition: transform 240ms var(--ease); }
+.quick__btn:active { transform: scale(0.94); }
+.quick__btn:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 3px; }
+.quick__btn--zalo { background: #0068FF; }
+.quick__btn--mess { background: linear-gradient(135deg, #00B2FF 0%, #006AFF 55%, #A033FF 100%); }
+.quick__btn--call { background: #13A04A; }
+.quick__ico { display: grid; place-items: center; font: 800 0.86rem/1 "Be Vietnam Pro", system-ui, sans-serif; letter-spacing: -0.02em; }
+.quick__ico svg { width: 25px; height: 25px; }
+.quick__btn--call::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgb(19 160 74 / 0.55); animation: ring 2.4s var(--ease) infinite; }
+@keyframes ring { 0% { box-shadow: 0 0 0 0 rgb(19 160 74 / 0.5); } 70%, 100% { box-shadow: 0 0 0 14px rgb(19 160 74 / 0); } }
+.quick__tip { position: absolute; right: calc(100% + 10px); top: 50%; translate: 0 -50%; white-space: nowrap; padding: 7px 12px; border-radius: 999px;
+  background: var(--sc-ink); color: #fff; font: 600 0.85rem/1 var(--sc-font-text); opacity: 0; transform: translateX(6px); pointer-events: none;
+  transition: opacity 200ms var(--ease), transform 260ms var(--ease); }
+@media (hover: hover) and (pointer: fine) {
+  .quick__btn:hover { transform: translateY(-2px) scale(1.05); }
+  .quick__btn:hover .quick__tip, .quick__btn:focus-visible .quick__tip { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .quick__btn--call::after { animation: none; } }
+
 /* -------------------------------------------------------------------- phone -- */
 @media (max-width: 860px) {
   :root { --dock-h: 76px; }
@@ -198,7 +222,11 @@ p { margin: 0; }
   .chat-fab > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .chat-fab__dot { top: 8px; left: auto; right: 8px; }
   .dock.is-away ~ .chat-fab { bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
-  .chat-nudge { right: 14px; bottom: calc(var(--dock-h) + 80px + env(safe-area-inset-bottom, 0px)); }
+  .quick { right: 18px; bottom: calc(var(--dock-h) + 82px + env(safe-area-inset-bottom, 0px)); gap: 9px; transition: opacity 260ms var(--ease), transform 320ms var(--ease), bottom 320ms var(--ease); }
+  .dock.is-away ~ .quick { bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+  .quick__btn { width: 48px; height: 48px; }
+  .quick__ico svg { width: 23px; height: 23px; }
+  .chat-nudge { right: 80px; bottom: calc(var(--dock-h) + 18px + env(safe-area-inset-bottom, 0px)); max-width: 15rem; }
   .chat { right: 0; bottom: 0; width: 100vw; height: min(92svh, 46rem); border-radius: 24px 24px 0 0; transform-origin: 50% 100%; transform: translateY(40px); }
 }
 

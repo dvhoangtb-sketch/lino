@@ -164,6 +164,19 @@
     '<input id="chat-in" name="q" placeholder="Anh chị hỏi gì cũng được ạ…" enterkeyhint="send">' +
     '<button class="chat__send" type="submit" aria-label="Gửi">' + ICON_SEND + '</button></form>';
 
+  /* quick contact: Zalo, Messenger, phone call, one tap each */
+  var MESSENGER = 'https://m.me/609653045570181';
+  var quick = document.createElement('nav');
+  quick.className = 'quick'; quick.setAttribute('aria-label', 'Liên hệ nhanh với Lino');
+  quick.innerHTML =
+    '<a class="quick__btn quick__btn--zalo" href="' + ZALO + '" target="_blank" rel="noopener" aria-label="Nhắn Zalo cho Lino, số ' + PHONE_SHOW + '">' +
+      '<span class="quick__ico" aria-hidden="true">Zalo</span><span class="quick__tip">Nhắn Zalo</span></a>' +
+    '<a class="quick__btn quick__btn--mess" href="' + MESSENGER + '" target="_blank" rel="noopener" aria-label="Nhắn tin fanpage Lino qua Messenger">' +
+      '<span class="quick__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5C6.6 2.5 2.5 6.4 2.5 11.6c0 2.8 1.2 5.2 3.2 6.9v3.3l3-1.7c1 .3 2.1.4 3.3.4 5.4 0 9.5-3.9 9.5-9S17.4 2.5 12 2.5zm1 12.1-2.4-2.6-4.7 2.6 5.2-5.5 2.5 2.6 4.6-2.6-5.2 5.5z"/></svg></span><span class="quick__tip">Nhắn fanpage</span></a>' +
+    '<a class="quick__btn quick__btn--call" href="tel:' + PHONE + '" aria-label="Gọi hotline Lino ' + PHONE_SHOW + '">' +
+      '<span class="quick__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><span class="quick__tip">' + PHONE_SHOW + '</span></a>';
+  document.body.appendChild(quick);
+
   document.body.appendChild(nudge);
   document.body.appendChild(fab);
   document.body.appendChild(box);
