@@ -228,72 +228,190 @@
     })();
   }
 
+  /* ------------------------------------------------------------ the script
+     Facts used here come only from what Lino has stated (ages 3 to 15, Jolly Phonics,
+     foreign teachers for speaking and pronunciation, school results, Cambridge
+     foundation, Japanese N5 to N3, address, hotline). Fees and timetables are never
+     invented: the chat hands those to a person. The consultation asks about the child
+     first, then answers for that child. */
+  var kid = { ten: '', tuoi: '', nen: '', lo: [], tinh: '' };
+  function be() { return kid.ten ? 'bé ' + esc(kid.ten) : 'con'; }
+  function Be() { return kid.ten ? 'Bé ' + esc(kid.ten) : 'Con'; }
+  function hi() { var h = new Date().getHours(); return h < 11 ? 'Chào buổi sáng' : h < 14 ? 'Chào buổi trưa' : h < 18 ? 'Chào buổi chiều' : 'Chào buổi tối'; }
+  function notes() {
+    var n = [];
+    if (kid.ten) n.push('Con: ' + kid.ten);
+    if (kid.tuoi) n.push(kid.tuoi);
+    if (kid.nen) n.push(kid.nen);
+    if (kid.lo.length) n.push('Bố mẹ quan tâm: ' + kid.lo.join(', '));
+    if (kid.tinh) n.push('Tính cách: ' + kid.tinh);
+    return n.concat(state.asked).join('; ');
+  }
+
   var MENU = [
+    { label: 'Tư vấn tiếng Anh cho con', next: 'tienganh', go: true },
     { label: 'Con mấy tuổi thì học được?', next: 'tuoi' },
+    { label: 'Con ngại nói tiếng Anh', next: 'loNgai' },
     { label: 'Học phí thế nào?', next: 'hocphi' },
     { label: 'Có giáo viên nước ngoài không?', next: 'gvnn' },
     { label: 'Tôi muốn học tiếng Nhật', next: 'nhat' },
-    { label: 'Đăng ký cho con học thử', next: 'dangky', go: true }
+    { label: 'Đăng ký học thử', next: 'dangky' }
+  ];
+  var AGE = [
+    { label: '3 đến 5 tuổi', v: 'Tiếng Anh, 3 đến 5 tuổi' },
+    { label: '6 đến 10 tuổi', v: 'Tiếng Anh, 6 đến 10 tuổi' },
+    { label: '11 đến 15 tuổi', v: 'Tiếng Anh, 11 đến 15 tuổi' }
   ];
 
   var A = {
     hello: function () {
-      bot(['Chào anh chị ạ 👋 Em là Lino đây.',
-           'Anh chị cần tư vấn cho con, hay đang tìm lớp tiếng Nhật cho mình ạ? Anh chị bấm câu hỏi bên dưới, hoặc gõ bất kỳ điều gì cũng được.'],
+      bot([hi() + ' anh chị ạ 👋 Em là Lino đây.',
+           'Mỗi bé một tính, một nhịp học, nên em muốn hiểu con trước rồi mới tư vấn ạ. Anh chị đang tìm lớp <b>tiếng Anh cho con</b>, hay <b>tiếng Nhật</b> cho mình hoặc con lớn ạ?'],
         function () { chips(MENU); });
     },
+
+    /* ---- English consultation: child first, then the plan for that child ---- */
+    tienganh: function () {
+      bot(['Dạ, Lino rất vui được đồng hành cùng con ạ.',
+           'Em hỏi anh chị vài câu ngắn về con, chừng một phút thôi, để gợi ý đúng cách học cho con nhé.',
+           'Bé nhà mình tên gì ạ? Anh chị gõ tên hoặc tên ở nhà của con cũng được.'],
+        function () {
+          state.step = 'tencon'; input.placeholder = 'Ví dụ: Na, Bông, Minh Anh';
+          chips([{ label: 'Bỏ qua câu này', next: 'askAge' }]);
+          input.focus({ preventScroll: true });
+        });
+    },
+    askAge: function () {
+      state.step = null; input.placeholder = 'Anh chị hỏi gì cũng được ạ…';
+      bot([(kid.ten ? 'Tên ' + esc(kid.ten) + ' dễ thương quá ạ. ' : '') + Be() + ' năm nay mấy tuổi ạ?'],
+        function () { chips(AGE.map(function (a) { return { label: a.label, next: 'askNen', onClick: function () { state.nhom = a.v; kid.tuoi = a.label; } }; })); });
+    },
+    askNen: function () {
+      var lead = /^3/.test(kid.tuoi) ? 'Tuổi này là lúc tai của con nhạy âm nhất, bắt đầu bây giờ là rất đẹp ạ.'
+               : /^6/.test(kid.tuoi) ? 'Tuổi này con vừa học trên trường, vừa là lúc nên sửa phát âm cho chuẩn ạ.'
+               : 'Ở tuổi này, con cần cả điểm trên trường lẫn sự tự tin khi nói ạ.';
+      bot([lead, 'Trước giờ ' + be() + ' đã học tiếng Anh ở đâu chưa ạ?'],
+        function () { chips([
+          { label: 'Chưa học bao giờ', next: 'askLo', onClick: function () { kid.nen = 'Chưa học tiếng Anh'; } },
+          { label: 'Mới học ở trường', next: 'askLo', onClick: function () { kid.nen = 'Đang học tiếng Anh ở trường'; } },
+          { label: 'Đã học trung tâm khác', next: 'askLo', onClick: function () { kid.nen = 'Đã học trung tâm khác'; } }
+        ]); });
+    },
+    askLo: function () {
+      var first = kid.nen === 'Chưa học tiếng Anh' ? 'Bắt đầu từ đầu lại hay anh chị ạ: con học đúng âm ngay từ đầu, sau này không phải sửa.'
+                : kid.nen === 'Đã học trung tâm khác' ? 'Dạ, cảm ơn anh chị đã chia sẻ. Ở buổi học thử, thầy cô sẽ nghe con đọc, nói để biết con đang ở đâu rồi mới xếp lớp ạ.'
+                : 'Dạ, vậy con đã có chút nền rồi ạ.';
+      bot([first, 'Điều anh chị đang <b>băn khoăn nhất</b> về tiếng Anh của ' + be() + ' là gì ạ?'],
+        function () { chips([
+          { label: 'Phát âm chưa chuẩn', next: 'loPhatAm', onClick: function () { kid.lo.push('phát âm'); } },
+          { label: 'Con ngại nói, chưa tự tin', next: 'loNgai', onClick: function () { kid.lo.push('con ngại nói'); } },
+          { label: 'Điểm trên trường chưa tốt', next: 'loDiem', onClick: function () { kid.lo.push('điểm trên trường'); } },
+          { label: 'Muốn con có nền thi Cambridge', next: 'loCam', onClick: function () { kid.lo.push('thi Cambridge'); } },
+          { label: 'Con chưa thích học', next: 'loThich', onClick: function () { kid.lo.push('con chưa hứng thú'); } }
+        ]); });
+    },
+    loPhatAm: function () {
+      bot(['Anh chị lo đúng chỗ ạ. Phát âm sai từ nhỏ thì lớn lên rất khó sửa.',
+           'Ở Lino, ' + be() + ' học từng âm theo <b>Jolly Phonics</b>: nghe, nhìn thẻ, làm động tác cho mỗi âm, rồi luyện với <b>giáo viên nước ngoài</b> để thầy cô sửa trực tiếp cho con.'],
+        afterLo);
+    },
+    loNgai: function () {
+      bot(['Nhiều bé cũng vậy anh chị ạ, con hiểu nhưng ngại mở miệng. Không phải con kém đâu ạ.',
+           'Ở lớp, thầy cô cho con nói qua trò chơi, thẻ từ và động tác trước, rồi mới tới câu dài. Con được lên bảng tự nói, tự viết, nên dạn dần lên.',
+           'Anh chị cứ báo trước ở buổi học thử để thầy cô để ý ' + be() + ' hơn nhé.'],
+        afterLo);
+    },
+    loDiem: function () {
+      bot(['Dạ, em hiểu ạ. Điểm chưa tốt thường do con chưa đọc được từ mới, hoặc chưa chắc ngữ pháp.',
+           'Lino giúp con đọc được từ mới bằng phonics, luyện các dạng bài hay gặp trên trường, nên con theo bài trên lớp nhẹ nhàng hơn.',
+           'Ở mục Tài liệu trên web, anh chị xem được các dạng bài theo độ tuổi, kèm cách kèm con ở nhà.'],
+        afterLo);
+    },
+    loCam: function () {
+      bot(['Anh chị nhìn xa quá ạ 👍',
+           'Lino tập trung xây <b>nền tảng cho các kỳ thi Cambridge</b>: con nghe, đọc, nói đúng từ đầu và làm quen dần các dạng bài thi cho thiếu nhi.',
+           'Ở buổi học thử, thầy cô sẽ đánh giá để biết ' + be() + ' nên bắt đầu từ đâu ạ.'],
+        afterLo);
+    },
+    loThich: function () {
+      bot(['Dạ, con chưa thích thì ép học sẽ càng sợ anh chị ạ.',
+           'Ở Lino con học bằng tai, bằng tay và bằng trò chơi: hát, làm động tác cho từng âm, chơi thẻ từ ngay trên sàn lớp. Nhiều bé đến lớp vì muốn chơi trước, rồi mới thích học sau.',
+           'Anh chị xem thử vài video quay trong lớp để thấy không khí nhé.'],
+        function () { chips([{ label: 'Xem video lớp học', href: pageHref('#video') }, { label: 'Tiếp tục tư vấn', next: 'askTinh' }]); });
+    },
+    askTinh: function () {
+      bot([Be() + ' nhà mình tính cách thế nào ạ? Em hỏi để thầy cô biết cách bắt chuyện với con.'],
+        function () { chips([
+          { label: 'Hiếu động, thích chơi', next: 'tinhDong', onClick: function () { kid.tinh = 'hiếu động'; } },
+          { label: 'Nhút nhát, ít nói', next: 'tinhNhat', onClick: function () { kid.tinh = 'nhút nhát'; } },
+          { label: 'Ngoan, thích tự học', next: 'tinhNgoan', onClick: function () { kid.tinh = 'tập trung, thích tự học'; } }
+        ]); });
+    },
+    tinhDong: function () { bot(['Bé hiếu động học Jolly Phonics rất hợp đấy ạ: mỗi âm đều có một động tác, con vừa vận động vừa nhớ âm.'], summary); },
+    tinhNhat: function () { bot(['Dạ, em sẽ ghi chú để thầy cô làm quen với ' + be() + ' từ từ, bắt đầu bằng trò chơi và động tác, chưa vội bắt con nói trước lớp ạ.'], summary); },
+    tinhNgoan: function () { bot(['Tuyệt quá ạ. Bé thích tự học thì về nhà luyện thêm với trang <b>Luyện phát âm</b> của Lino sẽ tiến bộ rất nhanh.'], summary); },
+    summary: function () { summary(); },
+
     tuoi: function () {
       bot(['Lino nhận các bé từ <b>3 đến 15 tuổi</b> ạ.',
            'Bé nhỏ học bằng Jolly Phonics: nghe âm, chơi thẻ, hát và làm động tác. Bé lớn hơn thì luyện đọc, luyện nói với giáo viên nước ngoài và học theo nền tảng Cambridge.',
            'Con nhà mình năm nay mấy tuổi ạ?'],
-        function () { chips([
-          { label: '3 đến 5 tuổi', next: 'tuoi35', onClick: function () { state.nhom = 'Tiếng Anh, 3 đến 5 tuổi'; } },
-          { label: '6 đến 10 tuổi', next: 'tuoi610', onClick: function () { state.nhom = 'Tiếng Anh, 6 đến 10 tuổi'; } },
-          { label: '11 đến 15 tuổi', next: 'tuoi1115', onClick: function () { state.nhom = 'Tiếng Anh, 11 đến 15 tuổi'; } }
-        ]); });
+        function () { chips(AGE.map(function (a, i) { return { label: a.label, next: ['tuoi35', 'tuoi610', 'tuoi1115'][i], onClick: function () { state.nhom = a.v; kid.tuoi = a.label; } }; })); });
     },
     tuoi35: function () {
       bot(['Tuổi này là đẹp nhất để bắt đầu đấy ạ. Con chưa cần biết chữ, chỉ cần nghe và bắt chước.',
-           'Ở Lino, mỗi âm có một động tác và một bài hát riêng, nên con nhớ âm bằng cả tai lẫn tay. Chỉ với sáu âm đầu tiên s, a, t, i, p, n, con đã ghép được những từ như <b>sat, pin, tap</b>.',
-           'Anh chị muốn cho con vào học thử một buổi để xem con có thích không ạ?'], askTrial);
+           'Ở Lino, mỗi âm có một động tác và một bài hát riêng, nên con nhớ âm bằng cả tai lẫn tay. Chỉ với sáu âm đầu tiên s, a, t, i, p, n, con đã ghép được những từ như <b>sat, pin, tap</b>.'], offerMore);
     },
     tuoi610: function () {
       bot(['Tuổi này con vừa học trên trường, vừa cần phát âm cho chuẩn ạ.',
-           'Ở Lino con được luyện đọc theo phonics để thấy từ mới là đọc được, luyện nói với giáo viên nước ngoài, và làm quen dần với các dạng bài thi Cambridge cho thiếu nhi.',
-           'Anh chị cho con học thử một buổi nhé?'], askTrial);
+           'Ở Lino con được luyện đọc theo phonics để thấy từ mới là đọc được, luyện nói với giáo viên nước ngoài, và làm quen dần với các dạng bài thi Cambridge cho thiếu nhi.'], offerMore);
     },
     tuoi1115: function () {
       bot(['Với các bạn lớn, Lino tập trung vào ba việc: <b>tăng điểm trên trường</b>, <b>nói tự tin</b> và <b>nền tảng thi Cambridge</b>.',
-           'Con được sửa phát âm kỹ, luyện nói thành câu dài với giáo viên nước ngoài, và làm quen dạng bài đọc, viết của kỳ thi.',
-           'Anh chị muốn đăng ký cho con học thử không ạ?'], askTrial);
+           'Con được sửa phát âm kỹ, luyện nói thành câu dài với giáo viên nước ngoài, và làm quen dạng bài đọc, viết của kỳ thi.'], offerMore);
     },
     hocphi: function () {
       bot(['Học phí ở Lino tuỳ lớp và số buổi mỗi tuần, nên em không muốn báo đại một con số ạ.',
-           'Anh chị để lại số điện thoại hoặc nhắn Zalo, Lino sẽ gửi bảng học phí đúng với lớp của con.'],
+           'Anh chị để lại số điện thoại hoặc nhắn Zalo, Lino sẽ gửi học phí đúng với lớp của con, kèm lịch học để anh chị cân nhắc thoải mái.'],
         function () { chips([{ label: 'Để lại số điện thoại', next: 'dangky', go: true }, { label: 'Nhắn Zalo cho Lino', href: ZALO }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
     lich: function () {
       bot(['Lịch học mỗi lớp khác nhau theo độ tuổi và trình độ ạ.',
-           'Anh chị cho Lino biết con mấy tuổi và khung giờ tiện, Lino xếp lớp phù hợp rồi báo lại ngay.'],
+           'Anh chị cho Lino biết con mấy tuổi và khung giờ nhà mình tiện đưa đón, Lino xếp lớp phù hợp rồi báo lại ngay.'],
         function () { chips([{ label: 'Để lại số điện thoại', next: 'dangky', go: true }, { label: 'Nhắn Zalo cho Lino', href: ZALO }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
     gvnn: function () {
       bot(['Có ạ. Con được <b>luyện phát âm và luyện nói trực tiếp với giáo viên nước ngoài</b> ngay trong giờ học.',
            'Thầy cô kèm đến từng bàn, rồi cho con lên bảng tự viết, tự nói. Anh chị xem thử vài video quay ngay trong lớp nhé.'],
-        function () { chips([{ label: 'Xem video lớp học', href: pageHref('#video') }, { label: 'Đăng ký học thử', next: 'dangky', go: true }, { label: 'Hỏi câu khác', next: 'more' }]); });
+        function () { chips([{ label: 'Xem video lớp học', href: pageHref('#video') }, { label: 'Tư vấn cho con', next: 'tienganh', go: true }, { label: 'Hỏi câu khác', next: 'more' }]); });
+    },
+    onha: function () {
+      bot(['Không cần giỏi tiếng Anh vẫn kèm con được ạ. Mỗi tối chỉ 5 phút:',
+           '1. Mở trang <b>Luyện phát âm</b>, bấm nghe mẫu, cho con đọc theo rồi nghe lại giọng con.<br>2. Khen trước, sửa sau.<br>3. Làm động tác cùng con, con nhớ âm bằng cả tay.',
+           'Ở mục <b>Tài liệu</b>, anh chị xem các dạng bài con hay gặp kèm gợi ý kèm con ở nhà.'],
+        function () { chips([{ label: 'Mở trang luyện phát âm', href: 'phat-am.html' }, { label: 'Mở mục tài liệu', href: 'tai-lieu.html' }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
     nhat: function () {
       state.nhom = 'Tiếng Nhật, N5 đến N3';
       bot(['Lino có lớp <b>tiếng Nhật từ N5 đến N3</b> cho học sinh và người đi làm ạ.',
-           'Người mới bắt đầu học từ bảng chữ và câu chào ở N5. Ai cần đi làm hay đi du học thì học tiếp lên N4, N3.',
-           'Anh chị đang ở trình độ nào ạ?'],
+           'Anh chị học tiếng Nhật để làm gì ạ? Em hỏi để gợi ý đúng lộ trình.'],
+        function () { chips([
+          { label: 'Đi làm, đi xuất khẩu lao động', next: 'nhatMuc', onClick: function () { state.asked.push('Mục tiêu tiếng Nhật: đi làm'); } },
+          { label: 'Đi du học', next: 'nhatMuc', onClick: function () { state.asked.push('Mục tiêu tiếng Nhật: du học'); } },
+          { label: 'Học cho con lớn', next: 'nhatMuc', onClick: function () { state.asked.push('Học tiếng Nhật cho con'); } },
+          { label: 'Học vì thích', next: 'nhatMuc', onClick: function () { state.asked.push('Học tiếng Nhật vì sở thích'); } }
+        ]); });
+    },
+    nhatMuc: function () {
+      bot(['Dạ hay quá ạ. Người mới bắt đầu học từ bảng chữ và câu chào ở N5, cần đi làm hay du học thì học tiếp lên N4, N3.',
+           'Hiện anh chị đã biết chút tiếng Nhật nào chưa ạ?'],
         function () { chips([{ label: 'Chưa biết gì', next: 'nhatMoi' }, { label: 'Đã học một chút', next: 'nhatCu' }]); });
     },
-    nhatMoi: function () { bot(['Không sao ạ, lớp N5 bắt đầu từ chữ cái đầu tiên. Anh chị vào học thử một buổi cho quen nhé?'], askTrial); },
-    nhatCu: function () { bot(['Vậy Lino sẽ kiểm tra nhanh trình độ trong buổi học thử để xếp đúng lớp cho anh chị ạ.'], askTrial); },
+    nhatMoi: function () { state.asked.push('Chưa học tiếng Nhật'); bot(['Không sao ạ, lớp N5 bắt đầu từ chữ cái đầu tiên. Anh chị vào học thử một buổi cho quen nhé?'], askTrial); },
+    nhatCu: function () { state.asked.push('Đã học tiếng Nhật một chút'); bot(['Vậy Lino sẽ kiểm tra nhanh trình độ trong buổi học thử để xếp đúng lớp cho anh chị ạ.'], askTrial); },
     diachi: function () {
       bot(['Lino ở <b>gần ngã tư Tài Chính, Như Quỳnh, Hưng Yên</b> ạ.',
-           'Anh chị bấm vào đây để mở bản đồ: <a href="' + MAP + '" target="_blank" rel="noopener">xem Lino trên Google Maps</a>.'],
+           'Anh chị bấm vào đây để mở bản đồ: <a href="' + MAP + '" target="_blank" rel="noopener">xem Lino trên Google Maps</a>. Lần đầu đưa con tới, anh chị gọi ' + PHONE_SHOW + ' để Lino ra đón nhé.'],
         function () { chips([{ label: 'Đăng ký học thử', next: 'dangky', go: true }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
     phatam: function () {
@@ -304,22 +422,22 @@
       bot(['Lino có mục tài liệu gom các dạng bài tập con hay gặp, theo từng độ tuổi, kèm cách bố mẹ kèm con ở nhà.'],
         function () { chips([{ label: 'Mở mục tài liệu', href: 'tai-lieu.html' }, { label: 'Hỏi câu khác', next: 'more' }]); });
     },
-    more: function () { bot(['Anh chị cần hỏi thêm gì ạ?'], function () { chips(MENU.concat([{ label: 'Lịch học', next: 'lich' }, { label: 'Địa chỉ ở đâu?', next: 'diachi' }])); }); },
+    more: function () {
+      bot(['Anh chị cần hỏi thêm gì ạ? Câu nào nhỏ anh chị cũng cứ hỏi nhé.'],
+        function () { chips(MENU.concat([{ label: 'Kèm con học ở nhà', next: 'onha' }, { label: 'Lịch học', next: 'lich' }, { label: 'Địa chỉ ở đâu?', next: 'diachi' }])); });
+    },
 
     /* sign-up, one question at a time */
     dangky: function () {
       if (!state.nhom) {
-        bot(['Dạ, anh chị đăng ký học thử cho nhóm nào ạ?'], function () { chips([
-          { label: 'Bé 3 đến 5 tuổi', next: 'askName', onClick: function () { state.nhom = 'Tiếng Anh, 3 đến 5 tuổi'; } },
-          { label: 'Bé 6 đến 10 tuổi', next: 'askName', onClick: function () { state.nhom = 'Tiếng Anh, 6 đến 10 tuổi'; } },
-          { label: 'Bé 11 đến 15 tuổi', next: 'askName', onClick: function () { state.nhom = 'Tiếng Anh, 11 đến 15 tuổi'; } },
-          { label: 'Tiếng Nhật', next: 'askName', onClick: function () { state.nhom = 'Tiếng Nhật, N5 đến N3'; } }
-        ]); });
+        bot(['Dạ, anh chị đăng ký học thử cho nhóm nào ạ?'], function () { chips(AGE.map(function (a) {
+          return { label: 'Bé ' + a.label, next: 'askName', onClick: function () { state.nhom = a.v; kid.tuoi = kid.tuoi || a.label; } };
+        }).concat([{ label: 'Tiếng Nhật', next: 'askName', onClick: function () { state.nhom = 'Tiếng Nhật, N5 đến N3'; } }])); });
       } else A.askName();
     },
     askName: function () {
       state.step = 'ten';
-      bot(['Anh chị cho Lino xin tên để tiện xưng hô nhé.'], function () { input.placeholder = 'Ví dụ: chị Hoa, mẹ bé Na'; input.focus({ preventScroll: true }); });
+      bot(['Anh chị cho Lino xin tên để tiện xưng hô nhé.'], function () { input.placeholder = kid.ten ? 'Ví dụ: mẹ bé ' + kid.ten : 'Ví dụ: chị Hoa, mẹ bé Na'; input.focus({ preventScroll: true }); });
     },
     askPhone: function () {
       state.step = 'sdt';
@@ -328,27 +446,55 @@
     },
     done: function () {
       state.step = null; input.placeholder = 'Anh chị hỏi gì cũng được ạ…'; input.removeAttribute('inputmode');
-      var text = 'Chào Lino, tôi là ' + state.ten + ', số điện thoại ' + state.sdt + '. Tôi muốn đăng ký học thử: ' + state.nhom + '.' +
-        (state.asked.length ? ' Tôi có hỏi thêm: ' + state.asked.join('; ') + '.' : '');
+      var ghi = notes();
+      var text = 'Chào Lino, tôi là ' + state.ten + ', số điện thoại ' + state.sdt + '. Tôi muốn đăng ký học thử: ' + state.nhom + '.' + (ghi ? ' Ghi chú: ' + ghi + '.' : '');
       var saved = !!window.LINO_SHEET_URL;
-      window.LinoLead({ ten: state.ten, sdt: state.sdt, nhom: state.nhom, nguon: 'Ô chat tư vấn', ghichu: state.asked.join('; ') });
-      bot((saved ? ['Lino đã nhận tên và số điện thoại của anh chị rồi ạ. Cô ở Lino sẽ gọi lại để hẹn giờ học thử.',
+      window.LinoLead({ ten: state.ten, sdt: state.sdt, nhom: state.nhom, nguon: 'Ô chat tư vấn', ghichu: ghi });
+      bot((saved ? ['Lino đã nhận thông tin của anh chị rồi ạ 🎉 Cô ở Lino sẽ gọi lại để hẹn giờ học thử' + (kid.ten ? ' cho bé ' + esc(kid.ten) : '') + ' sớm nhất.',
                     'Nếu muốn nhanh hơn, anh chị gửi luôn tin nhắn này qua Zalo nhé:']
                  : ['Em soạn sẵn tin nhắn rồi ạ:']).concat(['<div class="chat__ticket">' + esc(text) + '</div>',
-           'Anh chị bấm <b>Gửi qua Zalo</b> (tin nhắn đã được sao chép, chỉ cần dán và gửi), hoặc gọi thẳng cho Lino.']),
+           'Anh chị bấm <b>Gửi qua Zalo</b> (tin nhắn đã được sao chép, chỉ cần dán và gửi), hoặc gọi thẳng cho Lino. Cảm ơn anh chị đã tin tưởng Lino ạ.']),
         function () { chips([
           { label: 'Gửi qua Zalo', href: ZALO, onClick: function () { copy(text); } },
-          { label: 'Gọi ' + PHONE_SHOW, href: 'tel:' + PHONE }
+          { label: 'Gọi ' + PHONE_SHOW, href: 'tel:' + PHONE },
+          { label: 'Kèm con học ở nhà', next: 'onha' }
         ]); });
     },
     unknown: function (q) {
       state.asked.push(q);
-      bot(['Câu này để cô ở Lino trả lời trực tiếp cho chính xác anh chị nhé.',
+      bot(['Dạ, câu này để cô ở Lino trả lời trực tiếp cho chính xác anh chị nhé.',
            'Anh chị bấm nhắn Zalo, em đã chép sẵn câu hỏi để anh chị dán vào luôn.'],
         function () { chips([{ label: 'Nhắn Zalo cho Lino', href: ZALO, onClick: function () { copy('Chào Lino, tôi muốn hỏi: ' + q); } },
                              { label: 'Gọi ' + PHONE_SHOW, href: 'tel:' + PHONE }, { label: 'Hỏi câu khác', next: 'more' }]); });
     }
   };
+  /* after a worry is answered: one more question if we have not asked about the child's nature yet */
+  function afterLo() {
+    chips([{ label: 'Tiếp tục tư vấn', next: kid.tinh ? 'summary' : 'askTinh', go: true },
+           { label: 'Con còn điều khác', next: 'askLoAgain' }]);
+  }
+  A.askLoAgain = function () {
+    bot(['Dạ, anh chị còn băn khoăn điều gì nữa ạ?'], function () { chips([
+      { label: 'Phát âm chưa chuẩn', next: 'loPhatAm', onClick: function () { kid.lo.push('phát âm'); } },
+      { label: 'Con ngại nói', next: 'loNgai', onClick: function () { kid.lo.push('con ngại nói'); } },
+      { label: 'Điểm trên trường', next: 'loDiem', onClick: function () { kid.lo.push('điểm trên trường'); } },
+      { label: 'Thi Cambridge', next: 'loCam', onClick: function () { kid.lo.push('thi Cambridge'); } },
+      { label: 'Vậy thôi ạ', next: kid.tinh ? 'summary' : 'askTinh' }
+    ]); });
+  };
+  function summary() {
+    var bits = [];
+    if (kid.tuoi) bits.push(kid.tuoi);
+    if (kid.nen) bits.push(kid.nen.charAt(0).toLowerCase() + kid.nen.slice(1));
+    if (kid.lo.length) bits.push('anh chị quan tâm ' + kid.lo.join(', '));
+    if (kid.tinh) bits.push('tính ' + kid.tinh);
+    bot([(bits.length ? 'Em tóm lại nhé: ' + be() + ' ' + bits.join(', ') + '.' : 'Em cảm ơn anh chị đã chia sẻ ạ.'),
+         'Cách tốt nhất là cho ' + be() + ' <b>học thử một buổi</b>: thầy cô gặp con trực tiếp, nghe con đọc, nói, rồi tư vấn lộ trình riêng cho con. Em đã ghi lại những điều anh chị chia sẻ để gửi cho thầy cô ạ.'],
+      function () { chips([{ label: 'Đăng ký học thử cho con', next: 'dangky', go: true }, { label: 'Kèm con học ở nhà', next: 'onha' }, { label: 'Hỏi câu khác', next: 'more' }]); });
+  }
+  function offerMore() {
+    chips([{ label: 'Tư vấn kỹ hơn cho con', next: kid.nen ? 'askLo' : 'askNen', go: true }, { label: 'Đăng ký học thử', next: 'dangky' }, { label: 'Hỏi câu khác', next: 'more' }]);
+  }
   function askTrial() { chips([{ label: 'Có, đăng ký học thử', next: 'dangky', go: true }, { label: 'Hỏi thêm', next: 'more' }]); }
   function reply(key, arg) { (A[key] || A.unknown)(arg); }
   function pageHref(hash) { return document.querySelector(hash) ? hash : 'index.html' + hash; }
@@ -361,12 +507,18 @@
     ['hocphi', /hoc phi|bao nhieu tien|gia|chi phi|phi|tien hoc|uu dai|khuyen mai/],
     ['lich', /lich|gio hoc|may gio|buoi|thu may|cuoi tuan|ca hoc/],
     ['nhat', /nhat|jlpt|n5|n4|n3|japan/],
+    ['loNgai', /ngai|nhut nhat|so noi|khong dam|rut re|it noi/],
+    ['loDiem', /diem|hoc kem|hoc yeu|theo kip|mat goc|hong kien thuc/],
+    ['loCam', /cambridge|starters|movers|flyers|\bket\b|\bpet\b|chung chi|ielts/],
+    ['loThich', /luoi|khong thich|chan hoc|so hoc|khong chiu hoc/],
+    ['onha', /o nha|kem con|day con|tu hoc|bo me kem/],
     ['gvnn', /nuoc ngoai|giao vien|tay|ban xu|thay|co giao/],
     ['diachi', /dia chi|o dau|cho nao|duong|ban do|map|den lop/],
     ['dangky', /dang ky|hoc thu|dang ki|thu mot buoi|giu cho|ghi danh/],
     ['phatam', /phat am|doc|luyen noi|noi tieng anh|giong/],
     ['tailieu', /tai lieu|bai tap|phieu|sach|worksheet/],
-    ['tuoi', /tuoi|be may|con may|lop may|mau giao|mam non|tieu hoc|cap 2|lop \d/]
+    ['tuoi', /tuoi|be may|con may|lop may|mau giao|mam non|tieu hoc|cap 2|lop \d/],
+    ['tienganh', /tieng anh|english|hoc anh|anh van|tu van/]
   ];
   bar.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -375,6 +527,7 @@
     input.value = '';
     clearChips();
     add(q, 'me');
+    if (state.step === 'tencon') { kid.ten = q.replace(/^(bé|be|con|cháu)\s+/i, '').slice(0, 30); reply('askAge'); return; }
     if (state.step === 'ten') { state.ten = q; reply('askPhone'); return; }
     if (state.step === 'sdt') {
       var p = q.replace(/[\s.\-()]/g, '');
@@ -382,7 +535,7 @@
       state.sdt = p; reply('done'); return;
     }
     var f = fold(q);
-    if (/^(chao|xin chao|hi|hello|alo|a lo)\b/.test(f) && f.length < 14) { bot(['Dạ chào anh chị ạ. Anh chị cần Lino tư vấn gì ạ?'], function () { chips(MENU); }); return; }
+    if (/^(chao|xin chao|hi|hello|alo|a lo)\b/.test(f) && f.length < 14) { bot([hi() + ' anh chị ạ. Anh chị cần Lino tư vấn gì cho con ạ?'], function () { chips(MENU); }); return; }
     if (/cam on|thank/.test(f)) { bot(['Dạ không có gì ạ. Anh chị cần thêm gì cứ nhắn em nhé 😊']); return; }
     for (var i = 0; i < ROUTES.length; i++) if (ROUTES[i][1].test(f)) { reply(ROUTES[i][0]); return; }
     reply('unknown', q);
