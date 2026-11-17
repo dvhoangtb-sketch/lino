@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="scrollcraft.css?v=202611172050">
-<link rel="stylesheet" href="site.css?v=202611172050">
+<link rel="stylesheet" href="scrollcraft.css?v=202611172112">
+<link rel="stylesheet" href="site.css?v=202611172112">
 <style>
   body { background: var(--paper); }
   .ql { width: min(100% - 32px, 980px); margin: 0 auto; padding: 22px 0 80px; }
@@ -64,6 +64,19 @@
     box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 14%, transparent); }
   .nhap:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--red); }
   textarea.nhap { min-height: 42px; padding: 10px 12px; resize: vertical; }
+  .nen { margin: 0 0 14px; padding: 0; border: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .nen legend { padding: 0; margin-bottom: 8px; font-weight: 700; font-size: 0.95rem; }
+  .nen__o { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; padding: 12px; border-radius: 14px; background: var(--paper); cursor: pointer;
+    box-shadow: inset 0 0 0 1.5px transparent; transition: box-shadow 160ms var(--ease), background-color 160ms var(--ease); }
+  .nen__o:has(input:checked) { background: color-mix(in srgb, var(--red) 6%, #fff); box-shadow: inset 0 0 0 2px var(--red); }
+  .nen__o input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--red); }
+  .nen__o b { display: block; font-size: 0.95rem; }
+  .nen__o em { font-style: normal; font-size: 0.72rem; font-weight: 700; color: #fff; background: var(--red); border-radius: 999px; padding: 1px 7px; margin-left: 4px; vertical-align: 1px; white-space: nowrap; }
+  .nen__o small { display: block; margin-top: 3px; color: var(--sc-ink-soft); font-size: 0.82rem; line-height: 1.4; }
+  .nen__dt { grid-column: 1 / -1; }
+  .nen__ghi { grid-column: 1 / -1; margin: 2px 2px 0; color: var(--sc-ink-soft); font-size: 0.82rem; line-height: 1.45; }
+  .tt b { color: #13803D; }
+  @media (max-width: 700px) { .nen { grid-template-columns: 1fr; } }
   .x { width: 40px; height: 40px; border-radius: 50%; border: 0; background: #fff; cursor: pointer; font-size: 18px; color: var(--sc-ink-soft); }
   .hang { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 14px; }
   .hang .btn { min-height: 46px; }
@@ -134,7 +147,15 @@
 
   <section class="o">
     <h2 id="tai-tieu-de">Tải file lên</h2>
-    <p id="tai-ghi">Ảnh chụp, PDF, Word, Excel, PowerPoint. Mỗi file tối đa 20 MB. Ảnh to sẽ được tự thu nhỏ cho nhẹ mà vẫn rõ chữ.</p>
+    <p id="tai-ghi">Ảnh chụp, PDF, Word, Excel, PowerPoint. Mỗi file tối đa 20 MB.</p>
+    <fieldset class="nen" id="nen">
+      <legend>Mức nén file trước khi tải lên</legend>
+      <label class="nen__o"><input type="radio" name="nen" value="nhe"><span><b>Nhẹ nhất <em>khuyên dùng cho bài tập</em></b><small>File nhỏ nhất, mở nhanh trên điện thoại, vẫn đủ rõ để đọc và in.</small></span></label>
+      <label class="nen__o"><input type="radio" name="nen" value="vua"><span><b>Cân bằng</b><small>Nét hơn, nặng hơn một chút. Hợp với ảnh chứng nhận.</small></span></label>
+      <label class="nen__o"><input type="radio" name="nen" value="goc"><span><b>Giữ nguyên file gốc</b><small>Không nén gì cả.</small></span></label>
+      <label class="nen__o nen__dt"><input type="checkbox" id="den-trang"><span><b>Phiếu chụp bằng điện thoại: làm trắng nền, đậm chữ</b><small>Nền giấy xám, bóng đổ sẽ thành trắng, chữ đậm rõ như bản photo, in tiết kiệm mực. Phiếu có hình tô màu thì nên tắt để giữ màu.</small></span></label>
+      <p class="nen__ghi">Word, Excel, PowerPoint không nén được trên web. Anh nên lưu thành PDF trước (File → Save As → PDF) để phụ huynh mở trên điện thoại dễ hơn.</p>
+    </fieldset>
     <label class="tha" id="tha" tabindex="0">
       <b>Kéo thả file vào đây</b>
       <span>hoặc</span>
@@ -156,7 +177,7 @@
   </section>
 </div>
 
-<script src="tep-chung.js?v=202611172050"></script>
+<script src="tep-chung.js?v=202611172112"></script>
 <script>
 (function () {
   var L = window.LinoTep;
@@ -218,6 +239,7 @@
 
   /* ---------------------------------------------------------- tabs & classes */
   function veTab() {
+    nhoNen();
     Array.prototype.forEach.call(document.querySelectorAll('[data-tab]'), function (b) { b.setAttribute('aria-selected', b.getAttribute('data-tab') === tab); });
     $('#o-lop').hidden = tab !== 'bai-tap';
     var ten = D['bai-tap'] ? D['bai-tap'].ten[lop - 1] : 'Lớp ' + lop;
@@ -296,26 +318,145 @@
   });
   $('#huy').addEventListener('click', function () { cho = []; veCho(); });
 
-  /* big photos are shrunk to 2400px; every photo also gets a 640px preview */
-  function veLai(bmp, max, q) {
-    var s = Math.min(1, max / Math.max(bmp.width, bmp.height));
-    var c = document.createElement('canvas'); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
-    var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(bmp, 0, 0, c.width, c.height);
-    return new Promise(function (ok) { c.toBlob(function (b) { ok({ b: b, w: c.width, h: c.height }); }, 'image/jpeg', q); });
+  /* ------------------------------------------------ compression choices
+     nhe: photos 1600px, PDFs re-drawn at about 100 dpi; vua: 2400px / 144 dpi;
+     goc: nothing changes. A compressed file is only used when it really is
+     smaller. Every photo and PDF also gets a 640px preview for the list. */
+  var MUC_NEN = {
+    nhe: { canh: 1600, q: 0.7, pdf: 1.4, pq: 0.62 },
+    vua: { canh: 2400, q: 0.84, pdf: 2, pq: 0.78 }
+  };
+  var KHOA_NEN = 'lino-ql-nen-';
+  function cheDo() { var r = document.querySelector('input[name="nen"]:checked'); return r ? r.value : 'nhe'; }
+  function denTrang() { return $('#den-trang').checked; }
+  function nhoNen() {
+    var md = { 'bai-tap': ['nhe', false], 'chung-nhan': ['vua', false] }[tab], v = md;
+    try { var s = JSON.parse(localStorage.getItem(KHOA_NEN + tab) || 'null'); if (s) v = s; } catch (e) {}
+    var r = document.querySelector('input[name="nen"][value="' + v[0] + '"]'); if (r) r.checked = true;
+    $('#den-trang').checked = !!v[1];
   }
-  function chuanBi(c) {
-    if (kieuCua(c.f) !== 'anh' || /gif$/i.test(c.f.type)) return Promise.resolve({ file: c.f, ten: c.f.name });
-    if (!window.createImageBitmap) return Promise.resolve({ file: c.f, ten: c.f.name });
+  $('#nen').addEventListener('change', function () {
+    try { localStorage.setItem(KHOA_NEN + tab, JSON.stringify([cheDo(), denTrang()])); } catch (e) {}
+  });
+
+  /* paper photographed on a phone: grey and darker in one corner. Each pixel is
+     compared with the paper around it (a heavily blurred copy), so the paper
+     turns white everywhere and only the ink stays dark. */
+  function lamTrang(g, w, h) {
+    var d = g.getImageData(0, 0, w, h), p = d.data, n = w * h, Y = new Uint8Array(n), i, j;
+    for (i = 0, j = 0; j < n; i += 4, j++) Y[j] = (p[i] * 299 + p[i + 1] * 587 + p[i + 2] * 114) / 1000;
+    /* paper brightness per 32px tile = its 90th percentile (ink and noise ignored) */
+    var T = 32, tx = Math.ceil(w / T), ty = Math.ceil(h / T), nen = new Float32Array(tx * ty), hist = new Uint32Array(256);
+    for (var a = 0; a < ty; a++) for (var b2 = 0; b2 < tx; b2++) {
+      hist.fill(0);
+      var y0 = a * T, x0 = b2 * T, y1 = Math.min(h, y0 + T), x1 = Math.min(w, x0 + T), dem = (y1 - y0) * (x1 - x0), k, c = 0;
+      for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++) hist[Y[y * w + x]]++;
+      for (k = 0; k < 256; k++) { c += hist[k]; if (c >= dem * 0.9) break; }
+      nen[a * tx + b2] = Math.max(40, k);
+    }
+    /* each pixel against the paper around it (smooth blend between tile centres) */
+    for (var yy = 0; yy < h; yy++) {
+      var fy = Math.min(ty - 1, Math.max(0, (yy - T / 2) / T)), ay = Math.floor(fy), by = Math.min(ty - 1, ay + 1), ry = fy - ay;
+      for (var xx = 0; xx < w; xx++) {
+        var fx = Math.min(tx - 1, Math.max(0, (xx - T / 2) / T)), ax = Math.floor(fx), bx = Math.min(tx - 1, ax + 1), rx = fx - ax;
+        var bg = (nen[ay * tx + ax] * (1 - rx) + nen[ay * tx + bx] * rx) * (1 - ry) + (nen[by * tx + ax] * (1 - rx) + nen[by * tx + bx] * rx) * ry;
+        var t = Y[yy * w + xx] / (bg * 0.95);
+        var v = t >= 0.8 ? 255 : Math.round(255 * Math.pow(Math.max(0, (t - 0.3) / 0.5), 1.6));
+        i = (yy * w + xx) * 4; p[i] = p[i + 1] = p[i + 2] = v;
+      }
+    }
+    g.putImageData(d, 0, 0);
+  }
+  function veCanvas(nguon, w0, h0, max, bw) {
+    var s = Math.min(1, max / Math.max(w0, h0));
+    var c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w0 * s)); c.height = Math.max(1, Math.round(h0 * s));
+    var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(nguon, 0, 0, c.width, c.height);
+    if (bw) lamTrang(g, c.width, c.height);
+    return c;
+  }
+  /* WebP when the browser can write it (about a third smaller), else JPEG */
+  function maHoa(c, q) {
+    return new Promise(function (ok) {
+      c.toBlob(function (b) {
+        if (b && b.type === 'image/webp') ok({ b: b, duoi: 'webp' });
+        else c.toBlob(function (j) { ok({ b: j, duoi: 'jpg' }); }, 'image/jpeg', q);
+      }, 'image/webp', q);
+    });
+  }
+  function doiDuoi(ten, duoi) { return ten.replace(/\.[^.]+$/, '') + '.' + duoi; }
+
+  function nenAnh(c, che, bw) {
+    if (/gif$/i.test(c.f.type) || !window.createImageBitmap) return Promise.resolve({ file: c.f, ten: c.f.name });
     return createImageBitmap(c.f).then(function (bmp) {
-      var to = Math.max(bmp.width, bmp.height) > 2400 || c.f.size > 1.5 * 1024 * 1024 || !/^image\/(jpeg|png|webp)$/.test(c.f.type);
-      return Promise.all([to ? veLai(bmp, 2400, 0.86) : null, veLai(bmp, 640, 0.8)]).then(function (r) {
-        var ten = to ? c.f.name.replace(/\.[^.]+$/, '') + '.jpg' : c.f.name;
-        return { file: to ? r[0].b : c.f, ten: ten, nho: r[1].b, w: to ? r[0].w : bmp.width, h: to ? r[0].h : bmp.height };
+      var m = MUC_NEN[che], laAnhWeb = /^image\/(jpeg|png|webp)$/.test(c.f.type);
+      var nho = maHoa(veCanvas(bmp, bmp.width, bmp.height, 640, bw), 0.72);
+      if (che === 'goc' && !bw && laAnhWeb) return nho.then(function (n) { return { file: c.f, ten: c.f.name, nho: n.b, w: bmp.width, h: bmp.height }; });
+      var cv = veCanvas(bmp, bmp.width, bmp.height, m ? m.canh : 4000, bw);
+      return Promise.all([maHoa(cv, m ? m.q : 0.92), nho]).then(function (r) {
+        var dung = laAnhWeb && !bw && r[0].b.size >= c.f.size;
+        return { file: dung ? c.f : r[0].b, ten: dung ? c.f.name : doiDuoi(c.f.name, r[0].duoi), nho: r[1].b, w: dung ? bmp.width : cv.width, h: dung ? bmp.height : cv.height };
       });
     }).catch(function () { throw new Error('Không đọc được ảnh này. Anh thử chụp lại hoặc đổi sang JPG.'); });
   }
+
+  /* PDFs: each page is re-drawn as a picture and packed into a new PDF.
+     Huge for scanned or photo PDFs; a light text-only PDF is kept as it was. */
+  var thuVien = null;
+  function nap(src) { return new Promise(function (ok, hong) { var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = hong; document.head.appendChild(s); }); }
+  function napPdf() {
+    if (!thuVien) thuVien = Promise.all([
+      nap('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js'),
+      nap('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+    ]).then(function () { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; });
+    return thuVien;
+  }
+  function nenPdf(c, che, bw) {
+    var m = MUC_NEN[che];
+    return napPdf().then(function () { return c.f.arrayBuffer(); }).then(function (buf) {
+      return window.pdfjsLib.getDocument({ data: buf }).promise;
+    }).then(function (pdf) {
+      var lam = !!m && pdf.numPages <= 80, doc = null, nho = null, i = 0;
+      bw = bw && lam;
+      function trang() {
+        i++;
+        if (i > (lam ? pdf.numPages : 1)) return Promise.resolve();
+        if (lam) { c.tt = 'Đang nén trang ' + i + '/' + pdf.numPages + '…'; veCho(); }
+        return pdf.getPage(i).then(function (pg) {
+          var v1 = pg.getViewport({ scale: 1 }), v = pg.getViewport({ scale: lam ? m.pdf : 640 / Math.max(v1.width, v1.height) });
+          var cv = document.createElement('canvas'); cv.width = Math.ceil(v.width); cv.height = Math.ceil(v.height);
+          var g = cv.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, cv.width, cv.height);
+          return pg.render({ canvasContext: g, viewport: v }).promise.then(function () {
+            if (bw) lamTrang(g, cv.width, cv.height);
+            if (i === 1) nho = maHoa(veCanvas(cv, cv.width, cv.height, 640, false), 0.72);
+            if (lam) {
+              var w = v1.width, h = v1.height, huong = w > h ? 'l' : 'p';
+              if (!doc) doc = new window.jspdf.jsPDF({ unit: 'pt', format: [w, h], orientation: huong, compress: true });
+              else doc.addPage([w, h], huong);
+              doc.addImage(cv.toDataURL('image/jpeg', m.pq), 'JPEG', 0, 0, w, h, undefined, 'FAST');
+            }
+            pg.cleanup();
+          }).then(trang);
+        });
+      }
+      return trang().then(function () { return nho; }).then(function (n) {
+        var moi = doc ? doc.output('blob') : null;
+        var dung = !moi || moi.size > c.f.size * 0.9;
+        return { file: dung ? c.f : moi, ten: c.f.name, nho: n && n.b };
+      });
+    }).catch(function () { return { file: c.f, ten: c.f.name }; });
+  }
+
+  function chuanBi(c) {
+    var k = kieuCua(c.f), che = cheDo(), bw = denTrang();
+    if (k === 'anh') return nenAnh(c, che, bw);
+    if (k === 'pdf') return nenPdf(c, che, bw);
+    return Promise.resolve({ file: c.f, ten: c.f.name });
+  }
   function guiMot(c) {
     return chuanBi(c).then(function (p) {
+      c.sau = p.file.size;
+      c.tt = c.sau < c.f.size ? 'nén còn ' + L.co(c.sau) + ', đang tải lên…' : 'Đang tải lên…';
+      veCho();
       return new Promise(function (ok, hong) {
         var fd = new FormData();
         fd.append('k', tab); if (tab === 'bai-tap') fd.append('lop', lop);
@@ -338,16 +479,19 @@
   }
   $('#tai').addEventListener('click', function () {
     var nut = this; nut.disabled = true;
-    var ds = cho.slice(), loi = 0, i = 0;
+    var ds = cho.slice(), loi = 0, i = 0, truoc = 0, sau = 0;
     (function tiep() {
       if (i >= ds.length) {
         nut.disabled = false;
         cho = cho.filter(function (c) { return c.tt !== 'Đã tải lên'; }); veCho();
-        layDs().then(function () { bao(loi ? 'Còn ' + loi + ' file chưa tải được, anh xem lại dòng báo đỏ.' : 'Đã tải lên. Phụ huynh xem được ngay.', 4500); });
+        var giam = truoc ? Math.round((1 - sau / truoc) * 100) : 0;
+        var tom = sau ? ' Tổng ' + L.co(truoc) + ' → ' + L.co(sau) + (giam > 0 ? ' (nhẹ hơn ' + giam + '%)' : '') + '.' : '';
+        layDs().then(function () { bao(loi ? 'Còn ' + loi + ' file chưa tải được, anh xem lại dòng báo đỏ.' + tom : 'Đã tải lên, phụ huynh xem được ngay.' + tom, 6500); });
         return;
       }
-      var c = ds[i++]; c.tt = 'Đang tải…'; c.loi = false; veCho();
-      guiMot(c).then(function () { c.tt = 'Đã tải lên'; c.pt = 100; veCho(); tiep(); })
+      var c = ds[i++]; c.tt = 'Đang chuẩn bị…'; c.loi = false; veCho();
+      c.xong = function () { truoc += c.f.size; sau += c.sau || c.f.size; };
+      guiMot(c).then(function () { c.xong(); c.tt = 'Đã tải lên'; c.pt = 100; veCho(); tiep(); })
         .catch(function (er) { c.tt = er.message; c.loi = true; c.pt = 0; loi++; veCho(); tiep(); });
     })();
   });
@@ -361,7 +505,7 @@
       var chuyen = tab === 'bai-tap' && d ? '<select data-chuyen="' + m.id + '" aria-label="Chuyển sang lớp khác"><option value="">Chuyển lớp…</option>' +
         d.ten.map(function (t, j) { return j + 1 === lop ? '' : '<option value="' + (j + 1) + '">' + L.esc(t) + '</option>'; }).join('') + '</select>' : '';
       return '<div class="ds__d" data-id="' + m.id + '"><a class="hinh" href="' + L.link(m) + '" target="_blank" rel="noopener" aria-label="Xem file">' +
-        (m.kieu === 'anh' ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m)) + '</a>' +
+        (m.kieu === 'anh' || m.nho ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m)) + '</a>' +
         '<div class="o2"><input class="nhap" data-sua="ten" maxlength="120" value="' + L.esc(m.ten) + '" aria-label="Tên hiển thị">' +
         '<textarea class="nhap" data-sua="ghi" maxlength="400" rows="1" placeholder="Ghi chú cho phụ huynh" aria-label="Ghi chú">' + L.esc(m.ghi || '') + '</textarea>' +
         '<span class="tt">' + L.nhan(m) + ' · ' + L.co(m.co) + ' · đăng ' + L.ngay(m.luc) + ' <span class="luu-roi" hidden>✓ Đã lưu</span></span></div>' +

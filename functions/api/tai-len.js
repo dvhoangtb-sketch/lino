@@ -29,7 +29,7 @@ export async function onRequestPost({ request, env }) {
 
   let coNho = false;
   const nho = f.get('nho');
-  if (loai.kieu === 'anh' && nho && typeof nho !== 'string' && nho.size < 1024 * 1024) {
+  if ((loai.kieu === 'anh' || loai.kieu === 'pdf') && nho && typeof nho !== 'string' && nho.size < 1024 * 1024) {
     const nb = await nho.arrayBuffer();
     const nl = nhanDang(nb, nho.name);
     if (nl && nl.kieu === 'anh') { await env.TEP.put('nho:' + id, nb, { metadata: { mime: nl.mime, ten: tenTep } }); coNho = true; }
