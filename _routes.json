@@ -9,6 +9,13 @@
     "/phat-am.html",
     "/video-hoc",
     "/video-hoc.html",
+    "/chung-nhan",
+    "/chung-nhan.html",
+    "/bai-tap",
+    "/bai-tap.html",
+    "/quan-ly",
+    "/quan-ly.html",
+    "/tep/*",
     "/api/*"
   ],
   "exclude": []

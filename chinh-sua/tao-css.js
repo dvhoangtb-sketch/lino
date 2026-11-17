@@ -49,7 +49,9 @@ export const TRANG = [
   { k: '/', ten: 'Trang chủ' },
   { k: '/tai-lieu', ten: 'Tài liệu' },
   { k: '/phat-am', ten: 'Luyện phát âm' },
-  { k: '/video-hoc', ten: 'Video học' }
+  { k: '/video-hoc', ten: 'Video học' },
+  { k: '/bai-tap', ten: 'Bài tập về nhà' },
+  { k: '/chung-nhan', ten: 'Chứng nhận' }
 ];
 
 export function trangCua(path) {

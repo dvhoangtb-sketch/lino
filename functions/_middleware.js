@@ -7,7 +7,7 @@ import { lamSach, taoCss, linkFont, trangCua } from '../chinh-sua/tao-css.js';
 export async function onRequest(ctx) {
   var request = ctx.request, env = ctx.env;
   var url = new URL(request.url);
-  if (request.method !== 'GET' || url.pathname.indexOf('/api/') === 0 || !env.GIAO_DIEN) return ctx.next();
+  if (request.method !== 'GET' || url.pathname.indexOf('/api/') === 0 || url.pathname.indexOf('/tep/') === 0 || !env.GIAO_DIEN) return ctx.next();
 
   var raw = null;
   try { raw = await env.GIAO_DIEN.get('giao-dien', { cacheTtl: 60 }); } catch (e) { raw = null; }

@@ -24,8 +24,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans+JP:wght@500;700&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/group.webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="assets/group-m.webp" media="(max-width: 860px)">
-<link rel="stylesheet" href="scrollcraft.css?v=202611172021">
-<link rel="stylesheet" href="site.css?v=202611172021">
+<link rel="stylesheet" href="scrollcraft.css?v=202611172050">
+<link rel="stylesheet" href="site.css?v=202611172050">
 <script>document.documentElement.classList.add('js');</script>
 <style>
 
@@ -279,6 +279,15 @@
   @keyframes say { 30% { transform: translateY(-6px) rotate(-2deg) scale(1.05); } }
   .tile--docs { background: #fff; box-shadow: var(--sc-e2), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); padding-top: clamp(9rem, 14vw, 12rem); }
   .tile--docs p { color: var(--sc-ink-soft); }
+  .cert { background: var(--paper); padding-block: clamp(3rem, 6vw, 5rem); }
+  .cert__dau { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 14px 24px; margin-bottom: var(--sc-6); }
+  .cert__dau h2 { font-size: clamp(2rem, 3.6vw, 3.4rem); max-width: 18ch; }
+  .cert__hang { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(0.8rem, 1.6vw, 1.3rem); }
+  .cert__the { display: grid; gap: 10px; align-content: start; padding: 10px; border: 0; border-radius: 20px; background: #fff; cursor: zoom-in; text-align: left; font: inherit; color: inherit;
+    box-shadow: 0 1px 2px hsl(352 55% 18% / 0.07), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); transition: transform 420ms var(--ease); }
+  .cert__the img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; background: var(--blush); display: block; }
+  .cert__the b { font: 700 0.98rem/1.3 var(--sc-font-display); padding: 0 4px 4px; }
+  @media (hover: hover) and (pointer: fine) { .cert__the:hover { transform: translateY(-3px); } }
   .tile--yt { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(1.25rem, 3vw, 2.5rem); align-items: center;
     background: var(--sc-ink); color: #fff; }
   .tile--yt p { color: rgb(255 255 255 / 0.8); margin-top: var(--sc-4); }
@@ -443,6 +452,8 @@
     .room__c-h, .facts { margin-top: var(--sc-7); }
 
     .home__head, .home__grid { grid-template-columns: 1fr; }
+    .cert__hang { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .cert__the b { font-size: 0.88rem; }
     .tile--yt { grid-template-columns: 1fr; }
     .ytc-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
     .ytc b { font-size: 0.82rem; }
@@ -499,6 +510,7 @@
 <nav class="dock" aria-label="Điều hướng">
   <div class="dock__links">
     <a href="/" aria-current="page" data-home>Trang chủ</a>
+    <a href="/bai-tap">Bài tập</a>
     <a href="/tai-lieu">Tài liệu</a>
     <a href="/phat-am">Luyện phát âm</a>
     <a href="/video-hoc">Video học</a>
@@ -518,10 +530,12 @@
   <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
   <nav class="sheet__panel" aria-label="Menu">
     <a href="/" data-home>Trang chủ <small>Về đầu trang</small></a>
+    <a href="/bai-tap">Bài tập về nhà <small>Theo lớp</small></a>
     <a href="#lop-hoc">Lớp học ở Lino <small>Ảnh, video</small></a>
     <a href="/tai-lieu">Tài liệu bài tập <small>Theo độ tuổi</small></a>
     <a href="/phat-am">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
     <a href="/video-hoc">Video học cùng con <small>Kênh YouTube Lino</small></a>
+    <a href="/chung-nhan">Chứng nhận <small>Giấy phép, chứng chỉ</small></a>
     <a href="#tieng-nhat">Tiếng Nhật <small>N5 đến N3</small></a>
     <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì <small>Tin nhắn Zalo</small></a>
     <a href="#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
@@ -932,6 +946,16 @@
   </section>
 
   <!-- 6 · COMMITMENT. The visitor's own mark, carried into the form. Last element. -->
+  <section class="cert" id="chung-nhan" data-sc-act="flow" hidden>
+    <div class="sc-wrap">
+      <div class="cert__dau">
+        <h2>Giấy tờ rõ ràng, <span class="em">thầy cô có chứng chỉ.</span></h2>
+        <a class="btn btn--line" href="/chung-nhan">Xem tất cả chứng nhận</a>
+      </div>
+      <div class="cert__hang" id="cert-hang"></div>
+    </div>
+  </section>
+
   <section class="close" id="dang-ky" data-sc-act="flow">
     <div class="sc-wrap close__grid">
       <div>
@@ -987,19 +1011,36 @@
         </dl>
       </aside>
     </div>
-    <footer class="sc-wrap"><p class="foot">© 2026 Trung tâm ngoại ngữ Lino. <a href="/tai-lieu">Tài liệu</a> · <a href="/phat-am">Luyện phát âm</a>. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd.</p></footer>
+    <footer class="sc-wrap"><p class="foot">© 2026 Trung tâm ngoại ngữ Lino. <a href="/bai-tap">Bài tập về nhà</a> · <a href="/tai-lieu">Tài liệu</a> · <a href="/phat-am">Luyện phát âm</a> · <a href="/video-hoc">Video học</a> · <a href="/chung-nhan">Chứng nhận</a>. Jolly Phonics là nhãn hiệu của Jolly Learning Ltd.</p></footer>
   </section>
 
 </main>
 
-<script src="chinh-sua/ap-dung.js?v=202611172021"></script>
-<script src="feedback/feedback.js?v=202611172021"></script>
-<script src="data/cau-hinh.js?v=202611172021"></script>
+<script src="chinh-sua/ap-dung.js?v=202611172050"></script>
+<script src="tep-chung.js?v=202611172050"></script>
+<script src="feedback/feedback.js?v=202611172050"></script>
+<script src="data/cau-hinh.js?v=202611172050"></script>
 <script src="vendor/lenis.min.js"></script>
-<script src="scrollcraft.js?v=202611172021"></script>
-<script src="site.js?v=202611172021"></script>
+<script src="scrollcraft.js?v=202611172050"></script>
+<script src="site.js?v=202611172050"></script>
 <script>
 ScrollCraft.mount(document.body);
+
+/* certificates strip: shows only once the owner has uploaded some */
+(function () {
+  var sec = document.getElementById('chung-nhan'), hang = document.getElementById('cert-hang');
+  if (!sec || !window.LinoTep) return;
+  window.LinoTep.lay('chung-nhan').then(function (d) {
+    var L = window.LinoTep, anh = ((d && d.ds) || []).filter(function (m) { return m.kieu === 'anh'; });
+    if (!anh.length) return;
+    hang.innerHTML = anh.slice(0, 4).map(function (m, i) {
+      return '<button class="cert__the" type="button" data-i="' + i + '"><img src="' + L.nho(m) + '" alt="' + L.esc(m.ten) + '" loading="lazy"><b>' + L.esc(m.ten) + '</b></button>';
+    }).join('');
+    hang.addEventListener('click', function (e) { var b = e.target.closest('.cert__the'); if (b) L.xemAnh(anh, +b.getAttribute('data-i')); });
+    sec.hidden = false;
+    setTimeout(function () { dispatchEvent(new Event('resize')); }, 60);
+  });
+})();
 
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -113,6 +113,7 @@ const bang = tao(`<aside class="gd gd-ui gd--trai" id="gd" aria-label="Chỉnh g
   </footer>
   <div class="gd-menu" hidden>
     <button type="button" data-lenh="xem">👁 Xem thử như phụ huynh</button>
+    <a href="/quan-ly" class="gd-menu__a">📁 Tải file lên (bài tập, chứng nhận)</a>
     <button type="button" data-lenh="lichsu">🕘 Các bản đã lưu trước đây</button>
     <button type="button" data-lenh="taive">⬇ Tải bản sao lưu về máy</button>
     <button type="button" data-lenh="macdinh">↺ Về giao diện gốc của Lino</button>

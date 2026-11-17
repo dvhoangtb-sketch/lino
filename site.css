@@ -286,3 +286,37 @@ p { margin: 0; }
   .msg, .chips { animation: none; }
   .chat, .chat-nudge, .sheet__panel, .sheet__bg { transition-duration: 1ms !important; }
 }
+
+/* ------------------------------------------------- photo viewer (tep-chung.js) -- */
+html.xa-mo { overflow: hidden; }
+.xa { position: fixed; inset: 0; z-index: 90; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px;
+  padding: 18px; background: rgb(14 7 9 / 0.94); color: #fff; animation: xa-vao 220ms var(--ease); }
+@keyframes xa-vao { from { opacity: 0; } }
+.xa__khung { margin: 0; display: grid; gap: 12px; justify-items: center; align-content: center; min-height: 0; max-height: 100%; }
+.xa__khung img { max-width: 100%; max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); object-fit: contain; border-radius: 10px; background: #fff; box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.6); }
+.xa__khung figcaption { display: grid; gap: 4px; text-align: center; max-width: 60ch; line-height: 1.45; }
+.xa__khung figcaption b { font: 700 1.05rem/1.3 var(--sc-font-display); }
+.xa__khung figcaption span { color: rgb(255 255 255 / 0.78); font-size: 0.92rem; }
+.xa__khung figcaption small { color: rgb(255 255 255 / 0.55); font-size: 0.8rem; }
+.xa__nut, .xa__dong { display: grid; place-items: center; border: 0; border-radius: 50%; background: rgb(255 255 255 / 0.14); color: #fff; cursor: pointer; line-height: 1; }
+.xa__nut { width: 54px; height: 54px; font-size: 34px; padding-bottom: 4px; }
+.xa__dong { position: absolute; top: 14px; right: 14px; width: 46px; height: 46px; font-size: 20px; z-index: 1; }
+.xa__nut:focus-visible, .xa__dong:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .xa__nut:hover, .xa__dong:hover { background: rgb(255 255 255 / 0.26); } }
+@media (max-width: 860px) {
+  .xa { grid-template-columns: minmax(0, 1fr); padding: 64px 10px 92px; }
+  .xa__nut { position: absolute; bottom: 20px; width: 50px; height: 50px; }
+  .xa__nut--t { left: 20px; } .xa__nut--s { right: 20px; }
+  .xa__khung img { max-height: calc(100dvh - 230px); }
+}
+@media (prefers-reduced-motion: reduce) { .xa { animation: none; } }
+
+/* mid-size screens: keep the dock clear of the logo now that it has five links */
+@media (min-width: 861px) and (max-width: 1260px) {
+  .dock__call { padding-inline: 12px; }
+  .dock__call span { display: none; }
+}
+@media (min-width: 861px) and (max-width: 1140px) {
+  .dock__links { display: none; }
+  .dock__menu { display: inline-flex; padding: 0 14px; }
+}

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bài tập về nhà · Lino</title>
+<meta name="description" content="Bài tập về nhà thầy cô Lino giao cho từng lớp, xem trên điện thoại hoặc tải về in. Trung tâm ngoại ngữ Lino, Như Quỳnh, Hưng Yên.">
+<meta name="theme-color" content="#CC0000">
+<meta property="og:title" content="Bài tập về nhà · Lino">
+<link rel="canonical" href="https://linoedugroup.com/bai-tap">
+<meta property="og:description" content="Bài tập về nhà thầy cô Lino giao cho từng lớp, xem trên điện thoại hoặc tải về in.">
+<meta property="og:url" content="https://linoedugroup.com/bai-tap">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lino Edu">
+<meta property="og:image" content="https://linoedugroup.com/assets/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/mark.webp" type="image/webp">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css?v=202611172050">
+<link rel="stylesheet" href="site.css?v=202611172050">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  body { background: var(--paper); }
+  .p-hero { position: relative; padding: clamp(7.5rem, 13vw, 11rem) 0 clamp(2rem, 4vw, 3rem); overflow: hidden; }
+  .p-hero::after { content: ""; position: absolute; z-index: 0; right: -8vw; top: -14vw; width: 46vw; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 12%, transparent), 0 0 0 7vw color-mix(in srgb, var(--red) 3%, transparent), 0 0 0 calc(7vw + 2px) color-mix(in srgb, var(--red) 9%, transparent); }
+  .p-hero .sc-wrap { position: relative; z-index: 1; }
+  .p-hero h1 { font-size: clamp(2.6rem, 6vw, 5.4rem); max-width: 14ch; }
+  .p-hero p { margin-top: var(--sc-5); max-width: 46ch; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.55; text-wrap: pretty; }
+
+  .cn { padding-block: var(--sc-4) clamp(4rem, 9vw, 8rem); }
+  .cn__anh { columns: 3 280px; column-gap: clamp(0.9rem, 1.6vw, 1.4rem); }
+  .cn__the { break-inside: avoid; display: grid; gap: 10px; width: 100%; margin: 0 0 clamp(1.1rem, 2vw, 1.6rem); padding: 12px; border: 0; border-radius: 22px; background: #fff; cursor: zoom-in;
+    text-align: left; color: inherit; font: inherit; box-shadow: 0 1px 2px hsl(352 55% 18% / 0.07), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent);
+    transition: transform 420ms var(--ease), box-shadow 420ms var(--ease); }
+  .cn__the img { width: 100%; height: auto; display: block; border-radius: 12px; background: var(--blush); }
+  .cn__the b { font: 700 1.05rem/1.3 var(--sc-font-display); padding: 0 4px; }
+  .cn__the small { color: var(--sc-ink-soft); font-size: 0.88rem; line-height: 1.45; padding: 0 4px 4px; margin-top: -4px; }
+  .cn__the:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+  @media (hover: hover) and (pointer: fine) { .cn__the:hover { transform: translateY(-3px); box-shadow: 0 22px 40px -24px hsl(352 55% 18% / 0.5), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); } }
+
+  .cn__tep { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: var(--sc-6); }
+  .tepc { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 16px; border-radius: 20px; background: #fff;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent); }
+  .tepc svg { width: 40px; height: 48px; }
+  .tepc b { display: block; font: 700 1.02rem/1.3 var(--sc-font-display); }
+  .tepc small { display: block; margin-top: 2px; color: var(--sc-ink-soft); font-size: 0.85rem; }
+  .tepc__nut { display: flex; gap: 6px; }
+  .tepc__nut .btn { min-height: 40px; padding: 0 14px; font-size: 0.9rem; }
+
+
+  .lop-chon { position: sticky; top: 80px; z-index: 20; padding-block: 12px; background: color-mix(in srgb, var(--paper) 92%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .lop-chon p { margin: 0 0 8px; font-weight: 700; font-size: 0.9rem; color: var(--sc-ink-soft); }
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+  .seg button { position: relative; min-height: 46px; padding: 0 18px; border-radius: 999px; border: 0; cursor: pointer; background: #fff; color: var(--sc-ink);
+    font: 700 0.98rem/1 var(--sc-font-text); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 12%, transparent); transition: background-color 200ms var(--ease), color 200ms var(--ease); }
+  .seg button[aria-pressed="true"] { background: var(--red); color: #fff; box-shadow: none; }
+  .seg button i { position: absolute; top: -3px; right: -3px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; background: #13A04A; color: #fff; font: 700 0.7rem/20px var(--sc-font-text); font-style: normal; }
+  .seg button:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) { .seg button:not([aria-pressed="true"]):hover { background: var(--blush); } }
+  .bt { padding-block: var(--sc-5) clamp(4rem, 9vw, 8rem); }
+  .bt__dau { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px; margin-bottom: var(--sc-5); }
+  .bt__dau h2 { font-size: clamp(1.7rem, 3vw, 2.6rem); }
+  .bt__dau span { color: var(--sc-ink-soft); font-weight: 600; font-size: var(--sc-t-sm); }
+  .bt__ds { display: grid; gap: 12px; }
+  .bai { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 14px; border-radius: 22px; background: #fff;
+    box-shadow: 0 1px 2px hsl(352 55% 18% / 0.06), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); }
+  .bai__hinh { width: 76px; height: 76px; border-radius: 14px; overflow: hidden; display: grid; place-items: center; background: var(--paper); border: 0; padding: 0; cursor: pointer; }
+  .bai__hinh img { width: 100%; height: 100%; object-fit: cover; }
+  .bai__hinh svg { width: 40px; height: 48px; }
+  .bai__ngay { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 0.8rem; font-weight: 700; color: var(--sc-ink-soft); }
+  .bai__moi { padding: 2px 8px; border-radius: 999px; background: var(--red); color: #fff; }
+  .bai b { display: block; margin-top: 4px; font: 700 1.1rem/1.3 var(--sc-font-display); text-wrap: balance; }
+  .bai p { margin-top: 4px; color: var(--sc-ink-soft); line-height: 1.5; font-size: 0.95rem; }
+  .bai__nut { display: flex; gap: 6px; }
+  .bai__nut .btn { min-height: 42px; padding: 0 16px; font-size: 0.92rem; }
+  .hoi { margin-top: clamp(2.5rem, 6vw, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sc-5); align-items: center;
+    padding: clamp(1.5rem, 3.5vw, 2.75rem); border-radius: 28px; background: var(--red); color: #fff; }
+  .hoi h2 { font-size: clamp(1.5rem, 2.6vw, 2.3rem); max-width: 20ch; }
+  .hoi p { margin-top: 8px; color: rgb(255 255 255 / 0.86); max-width: 46ch; line-height: 1.55; }
+  .hoi .btn { background: #fff; color: var(--red-deep); }
+  @media (max-width: 860px) {
+    .lop-chon { top: 0; }
+    .seg { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--sc-gutter) * -1); padding: 4px var(--sc-gutter); }
+    .seg::-webkit-scrollbar { display: none; }
+    .seg button { flex: none; }
+    .bai { grid-template-columns: 60px minmax(0, 1fr); gap: 12px; }
+    .bai__hinh { width: 60px; height: 60px; }
+    .bai__nut { grid-column: 1 / -1; }
+    .bai__nut .btn { flex: 1; }
+    .hoi { grid-template-columns: 1fr; }
+  }
+  .trong { padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 3vw, 2.5rem); border-radius: 26px; background: #fff; text-align: center; color: var(--sc-ink-soft); line-height: 1.6;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent); }
+  .trong b { display: block; color: var(--sc-ink); font: 700 1.3rem/1.3 var(--sc-font-display); margin-bottom: 6px; }
+  .quan-ly-nut { position: fixed; z-index: 57; left: 22px; bottom: 22px; }
+  .foot { margin-top: var(--sc-8); padding-block: var(--sc-4) var(--sc-7); border-top: 1px solid var(--sc-hairline-strong); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  @media (max-width: 860px) {
+    .cn__anh { columns: 2 150px; column-gap: 10px; }
+    .cn__the { padding: 8px; border-radius: 16px; margin-bottom: 10px; }
+    .cn__the b { font-size: 0.92rem; }
+    .cn__the small { display: none; }
+    .cn__tep { grid-template-columns: 1fr; }
+    .tepc { grid-template-columns: 40px minmax(0, 1fr); }
+    .tepc__nut { grid-column: 1 / -1; }
+    .tepc__nut .btn { flex: 1; }
+    .quan-ly-nut { bottom: calc(var(--dock-h) + 16px); left: 16px; }
+    .foot { padding-bottom: calc(var(--dock-h) + var(--sc-6)); }
+  }
+</style>
+</head>
+<body>
+
+<nav class="dock" aria-label="Điều hướng">
+  <div class="dock__links">
+    <a href="/">Trang chủ</a>
+    <a href="/bai-tap" aria-current="page">Bài tập</a>
+    <a href="/tai-lieu">Tài liệu</a>
+    <a href="/phat-am">Luyện phát âm</a>
+    <a href="/video-hoc">Video học</a>
+  </div>
+  <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu
+  </button>
+  <a class="dock__call" href="tel:0789251499" aria-label="Gọi hotline Lino 0789 251 499">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+    <span>0789 251 499</span>
+  </a>
+  <a class="btn" href="/#dang-ky">Đăng ký học thử</a>
+</nav>
+<div class="sheet" id="menu" aria-hidden="true">
+  <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
+  <nav class="sheet__panel" aria-label="Menu">
+    <a href="/">Trang chủ <small>Lino</small></a>
+    <a href="/bai-tap">Bài tập về nhà <small>Bạn đang ở đây</small></a>
+    <a href="/tai-lieu">Tài liệu bài tập <small>Theo độ tuổi</small></a>
+    <a href="/phat-am">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
+    <a href="/video-hoc">Video học cùng con <small>Kênh YouTube Lino</small></a>
+    <a href="/chung-nhan">Chứng nhận <small>Giấy phép, chứng chỉ</small></a>
+    <a href="/#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
+  </nav>
+</div>
+
+<div class="top"><a href="/"><img src="assets/logo-word.webp" width="640" height="267" alt="Lino, về trang chủ"></a><p class="top__slogan">Học ngôn ngữ, <span>chạm tương lai!</span></p></div>
+
+<main>
+  <header class="p-hero">
+    <div class="sc-wrap" data-sc-in data-sc-stagger="90">
+      <h1>Bài tập về nhà, <span class="em">chia theo lớp.</span></h1>
+      <p>Chọn lớp của con để xem bài thầy cô giao. Xem ngay trên điện thoại hoặc tải về in. Bài mới nhất luôn ở trên cùng.</p>
+    </div>
+  </header>
+
+  <div class="lop-chon" id="lop-chon">
+    <div class="sc-wrap"><p>Con học lớp nào?</p><div class="seg" id="lop" role="group" aria-label="Chọn lớp"></div></div>
+  </div>
+
+  <section class="bt">
+    <div class="sc-wrap">
+      <div id="noi-dung"><p class="trong">Đang tải…</p></div>
+      <div class="hoi">
+        <div>
+          <h2>Con chưa hiểu bài, bố mẹ cần hỏi?</h2>
+          <p>Nhắn Zalo cho Lino kèm tên con và lớp, thầy cô sẽ hướng dẫn lại.</p>
+        </div>
+        <a class="btn" href="https://zalo.me/0789251499" target="_blank" rel="noopener">Nhắn Zalo cho thầy cô</a>
+      </div>
+      <p class="foot">© 2026 Trung tâm ngoại ngữ Lino. <a href="/">Trang chủ</a> · <a href="/tai-lieu">Tài liệu</a> · <a href="/chung-nhan">Chứng nhận</a></p>
+    </div>
+  </section>
+</main>
+
+<script src="chinh-sua/ap-dung.js?v=202611172050"></script>
+<script src="tep-chung.js?v=202611172050"></script>
+<script src="data/cau-hinh.js?v=202611172050"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="scrollcraft.js?v=202611172050"></script>
+<script src="site.js?v=202611172050"></script>
+<script>
+ScrollCraft.mount(document.body);
+(function () {
+  var L = window.LinoTep, el = document.getElementById('noi-dung'), seg = document.getElementById('lop');
+  var D = null, chon = 1, KHOA = 'lino-lop';
+  var h = /lop-(\d)/.exec(location.hash);
+  try { chon = h ? +h[1] : (+localStorage.getItem(KHOA) || 1); } catch (e) { chon = h ? +h[1] : 1; }
+  if (!(chon >= 1 && chon <= 9)) chon = 1;
+
+  function ve() {
+    var ten = D.ten, ds = D.lop[chon] || [];
+    seg.innerHTML = ten.map(function (t, i) {
+      var n = (D.lop[i + 1] || []).filter(function (m) { return L.moi(m.luc); }).length;
+      return '<button type="button" data-l="' + (i + 1) + '" aria-pressed="' + (chon === i + 1) + '">' + L.esc(t) + (n ? '<i title="Bài mới trong tuần">' + n + '</i>' : '') + '</button>';
+    }).join('');
+    var anh = ds.filter(function (m) { return m.kieu === 'anh'; });
+    el.innerHTML = '<div class="bt__dau"><h2>Bài tập ' + L.esc(ten[chon - 1]) + '</h2><span>' + (ds.length ? ds.length + ' bài' : '') + '</span></div>' +
+      (ds.length ? '<div class="bt__ds">' + ds.map(function (m) {
+        var hinh = m.kieu === 'anh' ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m);
+        var xem = m.kieu === 'anh' ? '<button class="btn" type="button" data-anh="' + anh.indexOf(m) + '">Xem ảnh</button>'
+          : m.kieu === 'pdf' ? '<a class="btn" href="' + L.link(m) + '" target="_blank" rel="noopener">Xem</a>' : '';
+        var mo = m.kieu === 'anh'
+          ? '<button class="bai__hinh" type="button" data-anh="' + anh.indexOf(m) + '" aria-label="Xem ảnh ' + L.esc(m.ten) + '">' + hinh + '</button>'
+          : '<a class="bai__hinh" href="' + L.link(m, m.kieu !== 'pdf') + '"' + (m.kieu === 'pdf' ? ' target="_blank" rel="noopener"' : '') + ' aria-label="Mở ' + L.esc(m.ten) + '">' + hinh + '</a>';
+        return '<article class="bai">' + mo +
+          '<div><span class="bai__ngay">' + (L.moi(m.luc) ? '<span class="bai__moi">Mới</span>' : '') + 'Giao ngày ' + L.ngay(m.luc) + ' · ' + L.nhan(m) + ' · ' + L.co(m.co) + '</span>' +
+          '<b>' + L.esc(m.ten) + '</b>' + (m.ghi ? '<p>' + L.esc(m.ghi) + '</p>' : '') + '</div>' +
+          '<div class="bai__nut">' + xem + '<a class="btn btn--line" href="' + L.link(m, true) + '">Tải về</a></div></article>';
+      }).join('') + '</div>'
+      : '<div class="trong"><b>' + L.esc(ten[chon - 1]) + ' chưa có bài tập mới.</b>Trong lúc chờ, con ôn lại bài trong mục <a href="/tai-lieu">Tài liệu</a> hoặc xem <a href="/video-hoc">Video học</a> nhé.</div>');
+    el.onclick = function (e) { var b = e.target.closest('[data-anh]'); if (b) L.xemAnh(anh, +b.getAttribute('data-anh')); };
+  }
+  seg.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b || !D) return;
+    chon = +b.getAttribute('data-l');
+    try { localStorage.setItem(KHOA, chon); history.replaceState(null, '', '#lop-' + chon); } catch (er) {}
+    ve();
+  });
+  L.lay('bai-tap').then(function (d) {
+    D = d || { ten: ['Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5', 'Lớp 6', 'Lớp 7', 'Lớp 8', 'Lớp 9'], lop: {} };
+    ve();
+  });
+  try {
+    if (sessionStorage.getItem('gd-mk')) {
+      var a = document.createElement('a'); a.className = 'btn quan-ly-nut'; a.href = '/quan-ly#bai-tap'; a.textContent = '＋ Giao bài tập mới';
+      document.body.appendChild(a);
+    }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
