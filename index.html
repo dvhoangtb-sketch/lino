@@ -24,8 +24,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans+JP:wght@500;700&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/group.webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="assets/group-m.webp" media="(max-width: 860px)">
-<link rel="stylesheet" href="scrollcraft.css?v=202611171335">
-<link rel="stylesheet" href="site.css?v=202611171335">
+<link rel="stylesheet" href="scrollcraft.css?v=202611172021">
+<link rel="stylesheet" href="site.css?v=202611172021">
 <script>document.documentElement.classList.add('js');</script>
 <style>
 
@@ -279,6 +279,23 @@
   @keyframes say { 30% { transform: translateY(-6px) rotate(-2deg) scale(1.05); } }
   .tile--docs { background: #fff; box-shadow: var(--sc-e2), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); padding-top: clamp(9rem, 14vw, 12rem); }
   .tile--docs p { color: var(--sc-ink-soft); }
+  .tile--yt { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(1.25rem, 3vw, 2.5rem); align-items: center;
+    background: var(--sc-ink); color: #fff; }
+  .tile--yt p { color: rgb(255 255 255 / 0.8); margin-top: var(--sc-4); }
+  .tile--yt__nut { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--sc-5); }
+  .tile--yt .btn { margin-top: 0; }
+  .btn--ytline { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.4); }
+  .btn--ytline svg { width: 20px; height: 20px; color: #FF3B30; }
+  .ytc-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .ytc { display: grid; gap: 8px; color: #fff; text-decoration: none; }
+  .ytc__anh { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: rgb(255 255 255 / 0.08); transition: transform 420ms var(--ease); }
+  .ytc__anh img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ytc__anh i { position: absolute; left: 8px; bottom: 8px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--red); color: #fff; }
+  .ytc__anh i svg { width: 14px; height: 14px; margin-left: 2px; }
+  .ytc b { font: 700 0.98rem/1.3 var(--sc-font-display); }
+  .ytc small { margin-top: -4px; color: rgb(255 255 255 / 0.6); font-size: 0.8rem; }
+  .ytc:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 16px; }
+  @media (hover: hover) and (pointer: fine) { .ytc:hover .ytc__anh { transform: translateY(-3px); } .btn--ytline:hover { background: rgb(255 255 255 / 0.1); } .tile--yt:hover { transform: none; } }
   .papers { position: absolute; top: clamp(1.4rem, 2.6vw, 2.4rem); right: clamp(1.4rem, 3vw, 3rem); width: clamp(8rem, 12vw, 10.5rem); aspect-ratio: 3 / 3.4; }
   .papers i { position: absolute; inset: 0; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px hsl(352 55% 18% / 0.12), 0 10px 20px -8px hsl(352 55% 18% / 0.28), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent);
     transition: transform 600ms var(--ease); }
@@ -426,6 +443,10 @@
     .room__c-h, .facts { margin-top: var(--sc-7); }
 
     .home__head, .home__grid { grid-template-columns: 1fr; }
+    .tile--yt { grid-template-columns: 1fr; }
+    .ytc-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .ytc b { font-size: 0.82rem; }
+    .ytc small { display: none; }
     .home__head { gap: var(--sc-4); }
     .tile { border-radius: 24px; }
     .say-demo button { min-height: 56px; padding: 0 14px 0 16px; gap: 8px; }
@@ -480,6 +501,7 @@
     <a href="/" aria-current="page" data-home>Trang chủ</a>
     <a href="/tai-lieu">Tài liệu</a>
     <a href="/phat-am">Luyện phát âm</a>
+    <a href="/video-hoc">Video học</a>
     <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì</a>
   </div>
   <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
@@ -499,6 +521,7 @@
     <a href="#lop-hoc">Lớp học ở Lino <small>Ảnh, video</small></a>
     <a href="/tai-lieu">Tài liệu bài tập <small>Theo độ tuổi</small></a>
     <a href="/phat-am">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
+    <a href="/video-hoc">Video học cùng con <small>Kênh YouTube Lino</small></a>
     <a href="#tieng-nhat">Tiếng Nhật <small>N5 đến N3</small></a>
     <a href="#phu-huynh" data-needs-feedback hidden>Phụ huynh nói gì <small>Tin nhắn Zalo</small></a>
     <a href="#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
@@ -748,6 +771,21 @@
           </div>
           <a class="btn" href="/tai-lieu">Mở tài liệu</a>
         </article>
+        <article class="tile tile--yt">
+          <div class="tile--yt__txt">
+            <h3>Học cùng thầy Aden trên YouTube</h3>
+            <p>Video Jolly Phonics đủ 7 nhóm âm, từ bất quy tắc và âm thay thế, quay ngay ở lớp Lino. Mỗi tối mở một video cho con xem, kèm gợi ý để bố mẹ kèm con.</p>
+            <div class="tile--yt__nut">
+              <a class="btn btn--white" href="/video-hoc">Xem video học cùng con</a>
+              <a class="btn btn--ytline" href="https://www.youtube.com/@LINOEdu-y3s?sub_confirmation=1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .4-4.8 31 31 0 0 0-.4-4.8zM9.7 15.1V8.9l5.9 3.1-5.9 3.1z"/></svg>Đăng ký kênh</a>
+            </div>
+          </div>
+          <div class="ytc-row">
+            <a class="ytc" href="/video-hoc#v=PR9jdyAQGok"><span class="ytc__anh"><img src="https://i.ytimg.com/vi/PR9jdyAQGok/mqdefault.jpg" alt="" width="320" height="180" loading="lazy"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg></i></span><b>Nhóm 1: s a t i p n</b><small>Jolly Phonics</small></a>
+            <a class="ytc" href="/video-hoc#v=tJdTwZGH3p0"><span class="ytc__anh"><img src="https://i.ytimg.com/vi/tJdTwZGH3p0/mqdefault.jpg" alt="" width="320" height="180" loading="lazy"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg></i></span><b>Nhóm 2: c k e h r m d</b><small>Jolly Phonics</small></a>
+            <a class="ytc" href="/video-hoc#v=cNyEnqFz060"><span class="ytc__anh"><img src="https://i.ytimg.com/vi/cNyEnqFz060/mqdefault.jpg" alt="" width="320" height="180" loading="lazy"><i aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg></i></span><b>Từ bất quy tắc nhóm 1</b><small>Tricky words</small></a>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -954,12 +992,12 @@
 
 </main>
 
-<script src="chinh-sua/ap-dung.js?v=202611171335"></script>
-<script src="feedback/feedback.js?v=202611171335"></script>
-<script src="data/cau-hinh.js?v=202611171335"></script>
+<script src="chinh-sua/ap-dung.js?v=202611172021"></script>
+<script src="feedback/feedback.js?v=202611172021"></script>
+<script src="data/cau-hinh.js?v=202611172021"></script>
 <script src="vendor/lenis.min.js"></script>
-<script src="scrollcraft.js?v=202611171335"></script>
-<script src="site.js?v=202611171335"></script>
+<script src="scrollcraft.js?v=202611172021"></script>
+<script src="site.js?v=202611172021"></script>
 <script>
 ScrollCraft.mount(document.body);
 

@@ -48,7 +48,8 @@ export const FONT_GOC = { tieuDe: 'Bricolage Grotesque', noiDung: 'Be Vietnam Pr
 export const TRANG = [
   { k: '/', ten: 'Trang chủ' },
   { k: '/tai-lieu', ten: 'Tài liệu' },
-  { k: '/phat-am', ten: 'Luyện phát âm' }
+  { k: '/phat-am', ten: 'Luyện phát âm' },
+  { k: '/video-hoc', ten: 'Video học' }
 ];
 
 export function trangCua(path) {

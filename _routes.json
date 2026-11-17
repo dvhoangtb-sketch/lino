@@ -1,5 +1,15 @@
 {
   "version": 1,
-  "include": ["/", "/index.html", "/tai-lieu", "/tai-lieu.html", "/phat-am", "/phat-am.html", "/api/*"],
+  "include": [
+    "/",
+    "/index.html",
+    "/tai-lieu",
+    "/tai-lieu.html",
+    "/phat-am",
+    "/phat-am.html",
+    "/video-hoc",
+    "/video-hoc.html",
+    "/api/*"
+  ],
   "exclude": []
 }

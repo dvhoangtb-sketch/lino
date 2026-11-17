@@ -22,8 +22,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="scrollcraft.css?v=202611171335">
-<link rel="stylesheet" href="site.css?v=202611171335">
+<link rel="stylesheet" href="scrollcraft.css?v=202611172021">
+<link rel="stylesheet" href="site.css?v=202611172021">
 <script>document.documentElement.classList.add('js');</script>
 <style>
   body { background: var(--paper); }
@@ -64,6 +64,20 @@
   .sounds button[aria-pressed="true"] { background: var(--red); color: #fff; transform: translateY(-3px); box-shadow: 0 14px 24px -10px hsl(352 80% 30% / 0.55); }
   .sounds button[aria-pressed="true"] small { color: rgb(255 255 255 / 0.8); }
   .sounds button.has-video::before { content: "🎬"; position: absolute; bottom: -7px; right: -5px; font-size: 0.8rem; line-height: 1; }
+  .ytn { margin: 4px 0 16px; border-radius: 22px; background: var(--sc-ink); color: #fff; overflow: hidden; }
+  .ytn__mo { width: 100%; display: grid; grid-template-columns: 132px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 10px; border: 0; background: none; color: inherit; cursor: pointer; text-align: left; font: inherit; }
+  .ytn__anh { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: rgb(255 255 255 / 0.08); }
+  .ytn__anh img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ytn__mo b { display: block; font: 700 1.05rem/1.3 var(--sc-font-display); }
+  .ytn__mo small { display: block; margin-top: 2px; color: rgb(255 255 255 / 0.7); font-size: 0.85rem; line-height: 1.4; }
+  .ytn__nut { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--red); color: #fff; margin-right: 6px; }
+  .ytn__nut svg { width: 18px; height: 18px; margin-left: 2px; }
+  .ytn__man { position: relative; aspect-ratio: 16 / 9; margin: 0 10px; border-radius: 14px; overflow: hidden; background: #000; }
+  .ytn__man iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .ytn__chan { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; padding: 10px 12px 12px; font-size: 0.85rem; color: rgb(255 255 255 / 0.75); }
+  .ytn__chan a, .ytn__chan button { color: #fff; font: 600 0.88rem/1 var(--sc-font-text); background: rgb(255 255 255 / 0.12); border: 0; border-radius: 999px; min-height: 38px; padding: 0 14px; display: inline-flex; align-items: center; text-decoration: none; cursor: pointer; }
+  .ytn__mo:focus-visible { outline: 3px solid #fff; outline-offset: -4px; border-radius: 22px; }
+  @media (max-width: 860px) { .ytn__mo { grid-template-columns: 104px minmax(0, 1fr); } .ytn__nut { display: none; } .ytn__mo b { font-size: 0.95rem; } }
   .vid { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 18px; align-items: center; padding: 14px; border-radius: 24px; background: var(--sc-ink); color: #fff; }
   .vid__frame { position: relative; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; background: #000; }
   .vid__frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -180,6 +194,7 @@
     <a href="/">Trang chủ</a>
     <a href="/tai-lieu">Tài liệu</a>
     <a href="/phat-am" aria-current="page">Luyện phát âm</a>
+    <a href="/video-hoc">Video học</a>
   </div>
   <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu
@@ -196,6 +211,7 @@
     <a href="/">Trang chủ <small>Lino</small></a>
     <a href="/tai-lieu">Tài liệu bài tập <small>Theo độ tuổi</small></a>
     <a href="/phat-am">Luyện phát âm cùng con <small>Bạn đang ở đây</small></a>
+    <a href="/video-hoc">Video học cùng con <small>Kênh YouTube Lino</small></a>
     <a href="/#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
   </nav>
 </div>
@@ -222,6 +238,7 @@
     <div class="sc-wrap">
       <div class="groups" id="groups" role="group" aria-label="Chọn nhóm âm"></div>
       <div class="sounds" id="sounds" role="group" aria-label="Chọn âm"></div>
+      <div class="ytn" id="ytn" hidden></div>
 
       <div class="stage" id="stage">
         <article class="card-am" aria-live="polite">
@@ -272,12 +289,14 @@
   </section>
 </main>
 
-<script src="chinh-sua/ap-dung.js?v=202611171335"></script>
-<script src="data/am.js?v=202611171335"></script>
-<script src="data/cau-hinh.js?v=202611171335"></script>
+<script src="chinh-sua/ap-dung.js?v=202611172021"></script>
+<script src="data/youtube.js?v=202611172021"></script>
+<script src="video-yt.js?v=202611172021"></script>
+<script src="data/am.js?v=202611172021"></script>
+<script src="data/cau-hinh.js?v=202611172021"></script>
 <script src="vendor/lenis.min.js"></script>
-<script src="scrollcraft.js?v=202611171335"></script>
-<script src="site.js?v=202611171335"></script>
+<script src="scrollcraft.js?v=202611172021"></script>
+<script src="site.js?v=202611172021"></script>
 <script>
 ScrollCraft.mount(document.body);
 (function () {
@@ -327,6 +346,7 @@ ScrollCraft.mount(document.body);
 
   function drawSounds() {
     var g = S[cur].nhom;
+    veYt(g);
     Array.prototype.forEach.call(groupsEl.children, function (b) { b.setAttribute('aria-pressed', +b.getAttribute('data-g') === g ? 'true' : 'false'); });
     soundsEl.innerHTML = '';
     S.forEach(function (s, i) {
@@ -477,9 +497,35 @@ ScrollCraft.mount(document.body);
     }
   }
 
+  /* the YouTube video of the whole group, played here only when asked */
+  var ytn = document.getElementById('ytn'), ytNhom = 0, ytDs = null;
+  var PLAY_YT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>';
+  if (window.LinoVideo) window.LinoVideo.lay().then(function (d) { ytDs = d.muc.phonics; ytNhom = 0; if (S[cur]) veYt(S[cur].nhom); });
+  function veYt(g) {
+    if (!ytDs || g === ytNhom) return;
+    ytNhom = g;
+    var v = ytDs.filter(function (x) { return x.nhom === g; })[0];
+    if (!v) { ytn.hidden = true; ytn.innerHTML = ''; return; }
+    var V = window.LinoVideo;
+    ytn.hidden = false;
+    ytn.innerHTML = '<button class="ytn__mo" type="button" aria-label="Xem video nhóm ' + g + ' cùng thầy Aden">' +
+      '<span class="ytn__anh"><img src="' + V.anh(v.id) + '" alt="" width="320" height="180" loading="lazy"></span>' +
+      '<span><b>Xem video cả nhóm ' + g + ' cùng thầy Aden</b><small>Thầy đọc mẫu và làm động tác từng âm. Cho con xem trước, rồi luyện từng từ bên dưới.</small></span>' +
+      '<span class="ytn__nut" aria-hidden="true">' + PLAY_YT + '</span></button>';
+    ytn.querySelector('.ytn__mo').addEventListener('click', function () {
+      stopAll(); if (window.speechSynthesis) speechSynthesis.cancel();
+      V.danhDau(v.id, true);
+      ytn.innerHTML = '<div class="ytn__man" style="margin-top:10px"><iframe src="' + V.nhung(v.id) + '" title="Jolly Phonics nhóm ' + g + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' +
+        '<div class="ytn__chan"><span>Nhóm ' + g + ': ' + V.NHOM[g - 1] + '</span><span style="display:flex;gap:8px;flex-wrap:wrap"><a href="/video-hoc#v=' + v.id + '">Tất cả video học</a><button type="button" data-dong>Đóng video</button></span></div>';
+      ytn.querySelector('[data-dong]').addEventListener('click', function () { ytNhom = 0; veYt(g); });
+    });
+  }
+
   /* start on the sound in the address, or the first one */
   var h = decodeURIComponent(location.hash.slice(1)), start = 0;
   for (var i = 0; i < S.length; i++) if (key(i) === h) start = i;
+  var hn = /^nhom-(\d)$/.exec(h);
+  if (hn) for (var j = S.length - 1; j >= 0; j--) if (S[j].nhom === +hn[1]) start = j;
   show(start, false);
 })();
 </script>
