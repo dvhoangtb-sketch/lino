@@ -59,6 +59,22 @@
     var san = window.LINO_YT_SAN || { kenh: [], ds: {} };
     saved = fetch('/api/youtube').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
       .then(function (moi) {
+        if (!(moi && moi.an && moi.an.length) || !window.crypto || !crypto.subtle) return [moi, null];
+        var tat = [].concat.apply(san.kenh || [], Object.keys(san.ds || {}).map(function (p) { return san.ds[p] || []; }));
+        return Promise.all(tat.map(function (v) {
+          return crypto.subtle.digest('SHA-256', new TextEncoder().encode('lino:' + v[0])).then(function (h) {
+            return [v[0], Array.from(new Uint8Array(h).slice(0, 6), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('')];
+          });
+        })).then(function (cap) {
+          var bo = {};
+          cap.forEach(function (c) { if (moi.an.indexOf(c[1]) >= 0) bo[c[0]] = 1; });
+          return [moi, bo];
+        });
+      })
+      .then(function (kq) {
+        var moi = kq[0], bo = kq[1] || {};
+        var loc = function (ds) { return (ds || []).filter(function (v) { return !bo[v[0]]; }); };
+        san = { kenh: loc(san.kenh), ds: Object.keys(san.ds || {}).reduce(function (o, p) { o[p] = loc(san.ds[p]); return o; }, {}) };
         var d = { kenh: (moi && moi.kenh) || san.kenh || [], ds: {} };
         var tat = {};
         Object.keys(san.ds || {}).forEach(function (p) { tat[p] = 1; });

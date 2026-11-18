@@ -42,11 +42,29 @@ async function lay(q) {
   }
 }
 
+async function bam(s) {
+  const h = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('lino:' + s)));
+  return Array.from(h.slice(0, 6), (x) => x.toString(16).padStart(2, '0')).join('');
+}
+
+/* the owner can sell a channel video as a paid lesson; it then disappears here */
+async function locBan(ctx, res) {
+  let an = [];
+  try { an = ctx.env.TEP ? JSON.parse((await ctx.env.TEP.get('yt-an', { cacheTtl: 60 })) || '[]') : []; } catch (e) { an = []; }
+  const d = await res.clone().json();
+  const bo = (ds) => (ds ? ds.filter((v) => an.indexOf(v[0]) < 0) : ds);
+  d.kenh = bo(d.kenh);
+  Object.keys(d.ds || {}).forEach((p) => { d.ds[p] = bo(d.ds[p]); });
+  if (an.length) d.an = await Promise.all(an.map(bam));
+  /* the browser must ask again each time, so a video the owner sells disappears at once */
+  return new Response(JSON.stringify(d), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-cache' } });
+}
+
 export async function onRequestGet(ctx) {
   const cache = caches.default;
   const key = new Request(new URL('/api/youtube?bo-nho=1', ctx.request.url).toString());
   const co = await cache.match(key);
-  if (co) return co;
+  if (co) return locBan(ctx, co);
 
   const ket = await Promise.all([lay('channel_id=' + KENH)].concat(DS.map((p) => lay('playlist_id=' + p))));
   const out = { luc: Date.now(), kenh: ket[0], ds: {} };
@@ -55,5 +73,5 @@ export async function onRequestGet(ctx) {
     headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=1800' }
   });
   if (ket[0]) ctx.waitUntil(cache.put(key, res.clone()));
-  return res;
+  return locBan(ctx, res);
 }

@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="scrollcraft.css?v=202611181311">
-<link rel="stylesheet" href="site.css?v=202611181311">
+<link rel="stylesheet" href="scrollcraft.css?v=202611181323">
+<link rel="stylesheet" href="site.css?v=202611181323">
 <style>
   body { background: var(--paper); }
   .ql { width: min(100% - 32px, 980px); margin: 0 auto; padding: 22px 0 80px; }
@@ -89,6 +89,30 @@
   .vd .rong2 { grid-column: 1 / -1; }
   .gia-d { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--sc-ink-soft); }
   .gia-d input { width: 110px; min-height: 32px; padding: 0 8px; border: 0; border-radius: 8px; background: #fff; font: 700 0.88rem/1 var(--sc-font-text); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 14%, transparent); }
+  .phi { display: inline-flex; padding: 3px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 12%, transparent); }
+  .phi button { min-height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: none; cursor: pointer; font: 700 0.82rem/1 var(--sc-font-text); color: var(--sc-ink-soft); }
+  .phi button[aria-pressed="true"][data-phi="0"] { background: #E3F5EA; color: #13803D; }
+  .phi button[aria-pressed="true"][data-phi="1"] { background: #F5A400; color: #fff; }
+  .phi-hang { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .chon-o { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--sc-ink-soft); cursor: pointer; }
+  .chon-o input { width: 18px; height: 18px; accent-color: var(--red); }
+  .ds__d.is-chon { box-shadow: inset 0 0 0 2px var(--red); }
+  .nhieu { position: sticky; bottom: 10px; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; padding: 10px 12px; border-radius: 16px; background: var(--sc-ink); color: #fff; box-shadow: 0 14px 30px rgb(0 0 0 / 0.25); }
+  .nhieu b { margin-right: 4px; }
+  .nhieu input { width: 120px; min-height: 40px; padding: 0 10px; border: 0; border-radius: 10px; font: 700 0.95rem/1 var(--sc-font-text); }
+  .nhieu .btn { min-height: 40px; padding: 0 14px; font-size: 0.88rem; }
+  .nhieu .btn--toi { background: rgb(255 255 255 / 0.14); color: #fff; }
+  .chon-tat { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.88rem; }
+  .mo-rong summary { cursor: pointer; color: var(--sc-ink-soft); font-weight: 600; font-size: 0.9rem; }
+  .kenh { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+  .kv { display: grid; gap: 6px; align-content: start; padding: 8px; border-radius: 14px; background: var(--paper); }
+  .kv img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; background: #ddd; }
+  .kv b { font-size: 0.88rem; line-height: 1.3; }
+  .kv .btn { min-height: 38px; font-size: 0.85rem; }
+  .kv--ban { box-shadow: inset 0 0 0 2px #F5A400; }
+  .kv small { color: #8A5300; font-weight: 700; font-size: 0.78rem; }
+  .canh-bao { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: #FFF2D6; color: #6B4100; font-size: 0.88rem; line-height: 1.5; }
+  @media (max-width: 700px) { .kenh { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .nhan-phi { display: inline-block; padding: 1px 8px; border-radius: 999px; background: #FFF2D6; color: #8A5300; font-weight: 700; }
   .don-loc { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .don-loc button { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 0; background: var(--paper); font: 700 0.9rem/1 var(--sc-font-text); cursor: pointer; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 10%, transparent); }
@@ -229,6 +253,12 @@
     <div class="hang"><button class="btn" type="button" id="vd-them">Thêm video</button></div>
   </section>
 
+  <section class="o" id="o-kenh">
+    <h2>Bán video có sẵn trên kênh YouTube</h2>
+    <p>Chọn video đang có ở trang <b>Video học</b> để chuyển thành bài giảng <b>trả phí</b> cho lớp đang chọn. Video đó sẽ tự ẩn khỏi trang Video học.</p>
+    <details class="mo-rong" id="kenh-mo"><summary>Xem danh sách video của kênh</summary><div class="kenh" id="kenh"><p class="rong">Đang tải…</p></div></details>
+  </section>
+
   <section class="o" id="o-don" hidden>
     <h2>Đơn mua bài tập / video</h2>
     <div class="huong"><b>Cách xác nhận:</b><ol>
@@ -261,7 +291,7 @@
   </section>
 </div>
 
-<script src="tep-chung.js?v=202611181311"></script>
+<script src="tep-chung.js?v=202611181323"></script>
 <script>
 (function () {
   var L = window.LinoTep;
@@ -328,6 +358,7 @@
     $('#o-lop').hidden = tab !== 'bai-tap';
     $('#o-tai').hidden = $('#o-ds').hidden = laDon;
     $('#o-video').hidden = tab !== 'bai-tap';
+    $('#o-kenh').hidden = tab !== 'bai-tap';
     $('#gia-tai').hidden = tab !== 'bai-tap';
     $('#o-don').hidden = !laDon;
     try { history.replaceState(null, '', '#' + tab); } catch (e) {}
@@ -620,16 +651,35 @@
 
   /* ---------------------------------------------------------- the list */
   function dsHienTai() { var d = D[tab]; if (!d) return []; return tab === 'bai-tap' ? (d.lop[lop] || []) : d.ds; }
+  var daChon = {};
+  function giaCuoi() { try { return +localStorage.getItem('lino-gia-cuoi') || 50000; } catch (e) { return 50000; } }
+  function nhoGia(g) { try { if (g > 0) localStorage.setItem('lino-gia-cuoi', g); } catch (e) {} }
+  function veNhieu() {
+    var ids = Object.keys(daChon), el = $('#nhieu');
+    if (!el) return;
+    el.hidden = !ids.length || tab !== 'bai-tap';
+    $('#nhieu-so').textContent = ids.length;
+  }
   function veDs() {
     var ds = dsHienTai(), d = D['bai-tap'];
+    Object.keys(daChon).forEach(function (id) { if (!ds.some(function (m) { return m.id === id; })) delete daChon[id]; });
+    var dau = tab === 'bai-tap' && ds.length ? '<div class="chon-tat"><label class="chon-o"><input type="checkbox" id="chon-tat"' + (ds.length && ds.every(function (m) { return daChon[m.id]; }) ? ' checked' : '') + '> Chọn tất cả</label><span>' +
+      ds.filter(function (m) { return m.gia > 0; }).length + '/' + ds.length + ' bài đang trả phí</span></div>' +
+      '<div class="nhieu" id="nhieu" hidden><b>Đã chọn <span id="nhieu-so">0</span> bài:</b>' +
+      '<input id="nhieu-gia" inputmode="numeric" aria-label="Giá cho các bài đã chọn" value="' + dinhDang(giaCuoi()) + '"> đ' +
+      '<button class="btn" type="button" id="nhieu-tra">🔒 Đặt trả phí</button><button class="btn btn--toi" type="button" id="nhieu-mien">Đặt miễn phí</button>' +
+      '<button class="btn btn--toi" type="button" id="nhieu-bo">Bỏ chọn</button></div>' : '';
     if (!ds.length) { $('#ds').innerHTML = '<p class="rong">Chưa có file nào. Anh tải lên ở ô phía trên nhé.</p>'; return; }
-    $('#ds').innerHTML = ds.map(function (m, i) {
+    $('#ds').innerHTML = dau + ds.map(function (m, i) {
       var chuyen = tab === 'bai-tap' && d ? '<select data-chuyen="' + m.id + '" aria-label="Chuyển sang lớp khác"><option value="">Chuyển lớp…</option>' +
         d.ten.map(function (t, j) { return j + 1 === lop ? '' : '<option value="' + (j + 1) + '">' + L.esc(t) + '</option>'; }).join('') + '</select>' : '';
       var laVd = m.kieu === 'video';
-      var giaO = tab === 'bai-tap' ? '<span class="gia-d">Giá <input data-sua="gia" inputmode="numeric" value="' + dinhDang(m.gia || 0) + '" placeholder="0" aria-label="Giá (đồng), 0 là miễn phí"> đ' +
-        (m.gia > 0 ? ' <span class="nhan-phi">🔒 Trả phí</span>' : ' (0 = miễn phí)') + '</span>' : '';
-      return '<div class="ds__d" data-id="' + m.id + '"><a class="hinh" href="' + (laVd ? 'https://www.youtube.com/watch?v=' + m.yt : L.link(m)) + '" target="_blank" rel="noopener" aria-label="Xem">' +
+      var tra = m.gia > 0;
+      var giaO = tab === 'bai-tap' ? '<div class="phi-hang"><span class="phi" role="group" aria-label="Phụ huynh xem miễn phí hay trả phí">' +
+        '<button type="button" data-phi="0" aria-pressed="' + !tra + '">Miễn phí</button><button type="button" data-phi="1" aria-pressed="' + tra + '">🔒 Trả phí</button></span>' +
+        (tra ? '<span class="gia-d"><input data-sua="gia" inputmode="numeric" value="' + dinhDang(m.gia) + '" aria-label="Giá (đồng)"> đ</span>' : '') +
+        '<label class="chon-o"><input type="checkbox" data-chon' + (daChon[m.id] ? ' checked' : '') + '> Chọn</label></div>' : '';
+      return '<div class="ds__d' + (daChon[m.id] ? ' is-chon' : '') + '" data-id="' + m.id + '"><a class="hinh" href="' + (laVd ? 'https://www.youtube.com/watch?v=' + m.yt : L.link(m)) + '" target="_blank" rel="noopener" aria-label="Xem">' +
         (laVd ? '<img src="https://i.ytimg.com/vi/' + m.yt + '/mqdefault.jpg" alt="" loading="lazy">' : m.kieu === 'anh' || m.nho ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m)) + '</a>' +
         '<div class="o2"><input class="nhap" data-sua="ten" maxlength="120" value="' + L.esc(m.ten) + '" aria-label="Tên hiển thị">' +
         '<textarea class="nhap" data-sua="ghi" maxlength="400" rows="1" placeholder="Ghi chú cho phụ huynh" aria-label="Ghi chú">' + L.esc(m.ghi || '') + '</textarea>' +
@@ -638,6 +688,7 @@
         '<button class="btn btn--line btn--nho" type="button" data-xep="1"' + (i === ds.length - 1 ? ' disabled' : '') + ' aria-label="Đưa xuống dưới">↓</button>' +
         chuyen + '<button class="btn btn--xoa btn--nho" type="button" data-xoa>Xoá</button></div></div>';
     }).join('');
+    veNhieu();
   }
   function gui(b) {
     if (tab === 'bai-tap') b.lop = lop;
@@ -645,12 +696,21 @@
     return api('/api/muc', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) }).then(function (d) { D[tab] = d; return d; });
   }
   $('#ds').addEventListener('change', function (e) {
+    if (e.target.id === 'chon-tat') {
+      dsHienTai().forEach(function (m) { if (e.target.checked) daChon[m.id] = 1; else delete daChon[m.id]; });
+      veDs(); return;
+    }
+    if (e.target.hasAttribute('data-chon')) {
+      var dc = e.target.closest('[data-id]'), idc = dc.getAttribute('data-id');
+      if (e.target.checked) daChon[idc] = 1; else delete daChon[idc];
+      dc.classList.toggle('is-chon', e.target.checked); veNhieu(); return;
+    }
     var dong = e.target.closest('[data-id]'); if (!dong) return;
     var id = dong.getAttribute('data-id');
     if (e.target.hasAttribute('data-sua')) {
       var b = { viec: 'sua', id: id }, truong = e.target.getAttribute('data-sua'); b[truong] = truong === 'gia' ? soTien(e.target.value) : e.target.value;
       gui(b).then(function () {
-        if (truong === 'gia') { veDs(); bao(b.gia > 0 ? 'Đã đặt giá ' + dinhDang(b.gia) + 'đ. Phụ huynh cần mở khoá để xem.' : 'Bài này giờ miễn phí.'); return; }
+        if (truong === 'gia') { nhoGia(b.gia); veDs(); bao(b.gia > 0 ? 'Đã đặt giá ' + dinhDang(b.gia) + 'đ. Phụ huynh cần mở khoá để xem.' : 'Bài này giờ miễn phí.'); return; }
         var s = dong.querySelector('.luu-roi'); s.hidden = false; setTimeout(function () { s.hidden = true; }, 2000);
       }).catch(function (er) { bao(er.message); });
     } else if (e.target.hasAttribute('data-chuyen') && e.target.value) {
@@ -658,7 +718,37 @@
       gui({ viec: 'chuyen', id: id, den: den }).then(function () { veLop(); veDs(); bao('Đã chuyển sang ' + D['bai-tap'].ten[den - 1] + '.'); }).catch(function (er) { bao(er.message); });
     }
   });
+  $('#ds').addEventListener('input', function (e) {
+    if (e.target.id === 'nhieu-gia' || e.target.getAttribute('data-sua') === 'gia') { var n = soTien(e.target.value); e.target.value = dinhDang(n); }
+  });
   $('#ds').addEventListener('click', function (e) {
+    var nb = e.target.closest('#nhieu-tra, #nhieu-mien, #nhieu-bo');
+    if (nb) {
+      var ids = Object.keys(daChon);
+      if (nb.id === 'nhieu-bo') { daChon = {}; veDs(); return; }
+      var g = nb.id === 'nhieu-tra' ? soTien($('#nhieu-gia').value) : 0;
+      if (nb.id === 'nhieu-tra' && g < 1000) { bao('Anh nhập giá (ít nhất 1.000đ).'); return; }
+      gui({ viec: 'gia-nhieu', ids: ids, gia: g }).then(function () {
+        nhoGia(g); daChon = {}; veDs();
+        bao(g ? 'Đã đặt ' + ids.length + ' bài thành trả phí ' + dinhDang(g) + 'đ.' : 'Đã đặt ' + ids.length + ' bài thành miễn phí.');
+      }).catch(function (er) { bao(er.message); });
+      return;
+    }
+    var sw = e.target.closest('[data-phi]');
+    if (sw) {
+      var dsw = sw.closest('[data-id]'), muon = sw.getAttribute('data-phi') === '1';
+      var hien = dsHienTai().filter(function (m) { return m.id === dsw.getAttribute('data-id'); })[0];
+      if (!hien || (hien.gia > 0) === muon) return;
+      var gm = muon ? giaCuoi() : 0;
+      gui({ viec: 'sua', id: hien.id, gia: gm }).then(function () {
+        veDs();
+        if (muon) {
+          bao('Đã đặt trả phí ' + dinhDang(gm) + 'đ. Muốn đổi giá thì sửa ô số tiền bên cạnh.', 4500);
+          var o = document.querySelector('.ds__d[data-id="' + hien.id + '"] [data-sua="gia"]'); if (o) { o.focus(); o.select(); }
+        } else bao('Bài này giờ miễn phí.');
+      }).catch(function (er) { bao(er.message); });
+      return;
+    }
     var dong = e.target.closest('[data-id]'); if (!dong) return;
     var id = dong.getAttribute('data-id'), b = e.target.closest('button'); if (!b) return;
     if (b.hasAttribute('data-xep')) gui({ viec: 'xep', id: id, huong: +b.getAttribute('data-xep') }).then(veDs).catch(function (er) { bao(er.message); });
@@ -727,8 +817,81 @@
       .then(function () { bao('Đã lưu tài khoản nhận tiền.'); }).catch(function (er) { bao(er.message); });
   });
 
+  /* ---------------------------------------------------------- sell a channel video */
+  var KENH = null, ytAn = [];
+  function layKenh() {
+    if (KENH) return Promise.resolve(KENH);
+    return fetch('/api/youtube').then(function (r) { return r.json(); }).then(function (j) {
+      var gap = {}, ds = [];
+      [j.kenh || []].concat(Object.keys(j.ds || {}).map(function (p) { return j.ds[p] || []; })).forEach(function (a) {
+        a.forEach(function (v) { if (!gap[v[0]] && !/speaking/i.test(v[1])) { gap[v[0]] = 1; ds.push({ yt: v[0], ten: v[1] }); } });
+      });
+      KENH = ds; return ds;
+    }).catch(function () { KENH = []; return []; });
+  }
+  function dangBan() {
+    var ra = [], d = D['bai-tap']; if (!d) return ra;
+    ytAn.forEach(function (yt) {
+      var gap = null, lopGap = 0;
+      for (var i = 1; i <= 9 && !gap; i++) (d.lop[i] || []).forEach(function (m) { if (!gap && m.kieu === 'video' && m.yt === yt) { gap = m; lopGap = i; } });
+      ra.push({ yt: yt, ten: gap ? gap.ten : 'Video đã ẩn', gia: gap && gap.gia, lop: lopGap });
+    });
+    return ra;
+  }
+  function veKenh() {
+    layKenh().then(function (ds) {
+      var d = D['bai-tap'], ban = dangBan();
+      var htmlBan = ban.map(function (v) {
+        return '<div class="kv kv--ban"><img src="https://i.ytimg.com/vi/' + v.yt + '/mqdefault.jpg" alt="" loading="lazy"><b>' + L.esc(v.ten) + '</b>' +
+          '<small>🔒 Đang bán' + (v.gia ? ' ' + dinhDang(v.gia) + 'đ' : '') + (v.lop && d ? ' · ' + L.esc(d.ten[v.lop - 1]) : '') + ' · đã ẩn khỏi Video học</small>' +
+          '<button class="btn btn--line" type="button" data-bo-an="' + v.yt + '">Hiện lại trên trang Video học</button></div>';
+      }).join('');
+      var htmlCon = ds.filter(function (v) { return ytAn.indexOf(v.yt) < 0; }).map(function (v) {
+        return '<div class="kv"><img src="https://i.ytimg.com/vi/' + v.yt + '/mqdefault.jpg" alt="" loading="lazy"><b>' + L.esc(v.ten) + '</b>' +
+          '<button class="btn" type="button" data-ban="' + v.yt + '" data-ten="' + L.esc(v.ten) + '">🔒 Bán video này</button></div>';
+      }).join('');
+      $('#kenh').innerHTML = (htmlBan + htmlCon) || '<p class="rong">Chưa lấy được danh sách video của kênh.</p>';
+    });
+  }
+  $('#kenh-mo').addEventListener('toggle', function () { if (this.open) veKenh(); });
+  $('#kenh').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-ban]');
+    if (b) {
+      var yt = b.getAttribute('data-ban'), tenLop = D['bai-tap'].ten[lop - 1];
+      var m = document.createElement('div'); m.className = 'mo';
+      m.innerHTML = '<form class="hop" role="dialog" aria-modal="true"><h2>Bán video này</h2>' +
+        '<p>Video sẽ thành bài giảng trả phí của <b>' + L.esc(tenLop) + '</b> và ẩn khỏi trang Video học.</p>' +
+        '<input class="nhap" name="ten" maxlength="120" value="' + L.esc(b.getAttribute('data-ten')) + '" aria-label="Tên bài giảng">' +
+        '<input class="nhap" name="gia" inputmode="numeric" value="' + dinhDang(giaCuoi()) + '" aria-label="Giá (đồng)">' +
+        '<p class="canh-bao"><b>Quan trọng:</b> vào YouTube Studio, đổi video này sang <b>Không công khai (Unlisted)</b>. Nếu để Công khai, người khác vẫn xem miễn phí trên YouTube.</p>' +
+        '<p class="loi" role="alert"></p><div class="hang"><button class="btn btn--line" type="button" data-k="0">Thôi</button><button class="btn">🔒 Bán với giá này</button></div></form>';
+      var f = m.querySelector('form');
+      f.gia.addEventListener('input', function () { f.gia.value = dinhDang(soTien(f.gia.value)); });
+      m.querySelector('[data-k="0"]').addEventListener('click', function () { m.remove(); });
+      f.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var g = soTien(f.gia.value);
+        if (g < 1000) { f.querySelector('.loi').textContent = 'Giá ít nhất 1.000đ.'; return; }
+        gui({ viec: 'ban-video-kenh', yt: yt, ten: f.ten.value, gia: g }).then(function (d) {
+          ytAn = d.yt_an || ytAn; nhoGia(g); m.remove(); veLop(); veDs(); veKenh();
+          bao('Đã thêm vào ' + tenLop + ' với giá ' + dinhDang(g) + 'đ. Nhớ đổi video sang Không công khai trên YouTube.', 6500);
+        }).catch(function (er) { f.querySelector('.loi').textContent = er.message; });
+      });
+      document.body.appendChild(m); f.gia.focus();
+      return;
+    }
+    var h = e.target.closest('[data-bo-an]');
+    if (h) {
+      hoi('Hiện lại video này trên trang Video học (ai cũng xem được miễn phí)? Bài giảng trả phí trong lớp vẫn giữ nguyên, anh xoá riêng nếu muốn.', 'Hiện lại').then(function (co) {
+        if (!co) return;
+        gui({ viec: 'bo-an-video', yt: h.getAttribute('data-bo-an') }).then(function (d) { ytAn = d.yt_an || []; veKenh(); bao('Đã hiện lại trên trang Video học.'); }).catch(function (er) { bao(er.message); });
+      });
+    }
+  });
+
   function layDs() {
     return Promise.all([api('/api/muc?k=bai-tap').catch(function () { return null; }), L.lay('chung-nhan')]).then(function (r) {
+      if (r[0] && r[0].yt_an) ytAn = r[0].yt_an;
       D['bai-tap'] = r[0] || { ten: ['Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5', 'Lớp 6', 'Lớp 7', 'Lớp 8', 'Lớp 9'], lop: {} };
       D['chung-nhan'] = r[1] || { ds: [] };
       veTab();

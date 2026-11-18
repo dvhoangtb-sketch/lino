@@ -23,8 +23,14 @@ export async function onRequestGet({ request, env }) {
         return x;
       });
     }
+    if (quanLy) d.yt_an = await docAn(env);
   }
   return json(d);
+}
+
+/* channel videos the owner sells: hidden from /video-hoc (KV "yt-an") */
+async function docAn(env) {
+  try { const a = JSON.parse((await env.TEP.get('yt-an')) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
 }
 
 async function datCo(env, m) {
@@ -47,6 +53,42 @@ export async function onRequestPost({ request, env }) {
     if (k !== 'bai-tap' || !Array.isArray(b.ten)) return json({ loi: 'Dữ liệu không đúng.' }, 400);
     d.ten = Array.from({ length: SO_LOP }, (_, i) => sach(b.ten[i], 40) || 'Lớp ' + (i + 1));
     await ghi(env, k, d);
+    return json(d);
+  }
+
+  if (b.viec === 'gia-nhieu') {
+    const ds = k === 'bai-tap' ? danhSach(d, k, b.lop) : null;
+    if (!ds || !Array.isArray(b.ids)) return json({ loi: 'Dữ liệu không đúng.' }, 400);
+    const g = gia(b.gia);
+    for (const m of ds) {
+      if (b.ids.indexOf(m.id) < 0) continue;
+      if (g > 0) m.gia = g; else delete m.gia;
+      await datCo(env, m);
+    }
+    await ghi(env, k, d);
+    return json(d);
+  }
+
+  if (b.viec === 'ban-video-kenh') {
+    const ds = k === 'bai-tap' ? danhSach(d, k, b.lop) : null;
+    if (!ds) return json({ loi: 'Chưa chọn lớp.' }, 400);
+    const yt = ytId(b.yt);
+    if (!yt) return json({ loi: 'Video không đúng.' }, 400);
+    const g = gia(b.gia);
+    if (g < 1000) return json({ loi: 'Giá ít nhất 1.000đ.' }, 400);
+    ds.unshift({ id: moiId(), kieu: 'video', yt, ten: sach(b.ten, 120) || 'Video bài giảng', ghi: sach(b.ghi, 400), luc: Date.now(), gia: g });
+    const an = await docAn(env);
+    if (an.indexOf(yt) < 0) { an.push(yt); await env.TEP.put('yt-an', JSON.stringify(an.slice(-500))); }
+    await ghi(env, k, d);
+    d.yt_an = an;
+    return json(d);
+  }
+
+  if (b.viec === 'bo-an-video') {
+    const yt = ytId(b.yt);
+    const an = (await docAn(env)).filter((x) => x !== yt);
+    await env.TEP.put('yt-an', JSON.stringify(an));
+    d.yt_an = an;
     return json(d);
   }
 
