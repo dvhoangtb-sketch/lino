@@ -63,7 +63,44 @@ p { margin: 0; }
   transition: opacity 260ms var(--ease), transform 260ms var(--ease);
 }
 .dock.is-away { opacity: 0; transform: translateY(-10px); pointer-events: none; }
-.dock__links { display: flex; gap: 2px; padding-right: 6px; margin-right: 2px; border-right: 1px solid color-mix(in srgb, var(--sc-ink) 10%, transparent); }
+.dock__links { position: relative; display: flex; align-items: center; gap: 2px; min-width: 0; max-width: var(--dock-rong, 620px);
+  padding-right: 6px; margin-right: 2px; border-right: 1px solid color-mix(in srgb, var(--sc-ink) 10%, transparent); }
+.dock__truot { display: flex; gap: 2px; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; scroll-snap-type: x proximity; border-radius: 999px; }
+.dock__truot::-webkit-scrollbar { display: none; }
+.dock__truot a { scroll-snap-align: start; }
+.dock__links.is-trai .dock__truot { -webkit-mask-image: linear-gradient(90deg, transparent, #000 26px); mask-image: linear-gradient(90deg, transparent, #000 26px); }
+.dock__links.is-phai .dock__truot { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent); }
+.dock__links.is-trai.is-phai .dock__truot { -webkit-mask-image: linear-gradient(90deg, transparent, #000 26px, #000 calc(100% - 26px), transparent); mask-image: linear-gradient(90deg, transparent, #000 26px, #000 calc(100% - 26px), transparent); }
+.dock__mui { flex: none; width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--blush); color: var(--red-deep); cursor: pointer;
+  font: 700 1.25rem/1 var(--sc-font-text); display: grid; place-items: center; padding: 0 0 3px; transition: background-color 160ms var(--ease), transform 160ms var(--ease); }
+.dock__mui:active { transform: scale(0.92); }
+@media (hover: hover) and (pointer: fine) { .dock__mui:hover { background: color-mix(in srgb, var(--red) 16%, #fff); } }
+
+/* language switcher (thanh-cong-cu.js) */
+.dich { position: relative; }
+.dock__dich { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: none; cursor: pointer;
+  color: var(--sc-ink); font: 700 0.9rem/1 var(--sc-font-text); }
+.dock__dich svg { width: 18px; height: 18px; color: var(--red); flex: none; }
+.dock__dich[aria-expanded="true"], .dock__dich.is-dich { background: var(--blush); color: var(--red-deep); }
+@media (hover: hover) and (pointer: fine) { .dock__dich:hover { background: color-mix(in srgb, var(--red) 8%, transparent); } }
+.dich__ds { position: absolute; right: 0; top: calc(100% + 10px); z-index: 2; min-width: 200px; display: grid; padding: 6px; border-radius: 16px; background: #fff;
+  box-shadow: 0 18px 40px -12px hsl(352 55% 18% / 0.35), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent); }
+.dich__ds button { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 42px; padding: 0 12px; border: 0; border-radius: 10px; background: none;
+  cursor: pointer; font: 600 0.95rem/1 var(--sc-font-text); color: var(--sc-ink); text-align: left; }
+.dich__ds button small { color: var(--sc-ink-soft); font-weight: 600; }
+.dich__ds button[aria-checked="true"] { background: var(--blush); color: var(--red-deep); }
+.dich__ds p { margin: 6px 10px 4px; font-size: 0.74rem; color: var(--sc-ink-soft); line-height: 1.35; }
+@media (hover: hover) and (pointer: fine) { .dich__ds button:hover { background: var(--paper); } }
+.dich__goi { position: fixed; z-index: 70; right: 22px; top: 86px; width: min(320px, calc(100vw - 32px)); padding: 14px 16px; border-radius: 18px; background: #fff;
+  box-shadow: 0 20px 44px -14px hsl(352 55% 18% / 0.4), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent); animation: xa-vao 240ms var(--ease); }
+.dich__goi p { font-weight: 600; line-height: 1.4; }
+.dich__goi div { display: flex; gap: 8px; margin-top: 10px; }
+.dich__goi .btn { min-height: 40px; padding: 0 16px; font-size: 0.9rem; }
+/* hide Google's own bar and highlights */
+.goog-te-banner-frame, iframe.skiptranslate, .goog-te-balloon-frame, #goog-gt-tt, .goog-te-spinner-pos, #gt-goc, .VIpgJd-ZVi9od-ORHb-OEVmcd { display: none !important; }
+body { top: 0 !important; }
+.goog-text-highlight { background: none !important; box-shadow: none !important; }
+font[style] { background: none !important; box-shadow: none !important; }
 .dock__links a, .dock__call, .dock__menu {
   display: inline-flex; align-items: center; gap: 8px;
   min-height: 44px; padding: 0 14px; border-radius: 999px; border: 0; background: none; cursor: pointer;
@@ -311,14 +348,20 @@ html.xa-mo { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .xa { animation: none; } }
 
-/* mid-size screens: keep the dock clear of the logo now that it has five links */
+/* the menu strip gets whatever room is left beside the logo, and slides */
+.dock { --dock-rong: calc(100vw - 880px); }
 @media (min-width: 861px) and (max-width: 1260px) {
+  .dock { --dock-rong: max(170px, calc(100vw - 740px)); }
   .dock__call { padding-inline: 12px; }
   .dock__call span { display: none; }
+  .dock__links a { padding: 0 11px; }
 }
-@media (min-width: 861px) and (max-width: 1140px) {
-  .dock__links { display: none; }
-  .dock__menu { display: inline-flex; padding: 0 14px; }
+@media (min-width: 1500px) { .dock { --dock-rong: 760px; } }
+@media (max-width: 860px) {
+  .dock__dich { padding: 0 10px; }
+  .dock__dich span { display: none; }
+  .dich__ds { position: fixed; top: auto; left: 16px; right: 16px; bottom: calc(var(--dock-h) + 16px + env(safe-area-inset-bottom, 0px)); min-width: 0; }
+  .dich__goi { top: auto; bottom: calc(var(--dock-h) + 20px); right: 16px; }
 }
 
 /* ------------------------------------------------- paid homework (mua.js) -- */

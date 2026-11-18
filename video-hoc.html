@@ -22,8 +22,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.ytimg.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="scrollcraft.css?v=202611182120">
-<link rel="stylesheet" href="site.css?v=202611182120">
+<link rel="stylesheet" href="scrollcraft.css?v=202611182152">
+<link rel="stylesheet" href="site.css?v=202611182152">
 <script>document.documentElement.classList.add('js');</script>
 <style>
   body { background: var(--paper); }
@@ -137,11 +137,17 @@
 
 <nav class="dock" aria-label="Điều hướng">
   <div class="dock__links">
-    <a href="/">Trang chủ</a>
-    <a href="/bai-tap">Bài tập</a>
-    <a href="/tai-lieu">Tài liệu</a>
-    <a href="/phat-am">Luyện phát âm</a>
-    <a href="/video-hoc" aria-current="page">Video học</a>
+    <button class="dock__mui dock__mui--lui" type="button" tabindex="-1" aria-hidden="true" hidden>‹</button>
+    <div class="dock__truot" data-lenis-prevent>
+      <a href="/" data-home>Trang chủ</a>
+      <a href="/bai-tap">Bài tập</a>
+      <a href="/tai-lieu">Tài liệu</a>
+      <a href="/phat-am">Phát âm</a>
+      <a href="/video-hoc" aria-current="page">Video học</a>
+      <a href="/lo-trinh">Lộ trình</a>
+      <a href="/chung-nhan">Chứng nhận</a>
+    </div>
+    <button class="dock__mui dock__mui--toi" type="button" tabindex="-1" aria-hidden="true" hidden>›</button>
   </div>
   <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu
@@ -221,14 +227,15 @@
   </section>
 </main>
 
-<script src="chinh-sua/ap-dung.js?v=202611182120"></script>
-<script src="trang-tri.js?v=202611182120"></script>
-<script src="data/youtube.js?v=202611182120"></script>
-<script src="video-yt.js?v=202611182120"></script>
-<script src="data/cau-hinh.js?v=202611182120"></script>
+<script src="chinh-sua/ap-dung.js?v=202611182152"></script>
+<script src="trang-tri.js?v=202611182152"></script>
+<script src="data/youtube.js?v=202611182152"></script>
+<script src="video-yt.js?v=202611182152"></script>
+<script src="data/cau-hinh.js?v=202611182152"></script>
 <script src="vendor/lenis.min.js"></script>
-<script src="scrollcraft.js?v=202611182120"></script>
-<script src="site.js?v=202611182120"></script>
+<script src="scrollcraft.js?v=202611182152"></script>
+<script src="site.js?v=202611182152"></script>
+<script src="thanh-cong-cu.js?v=202611182152"></script>
 <script>
 ScrollCraft.mount(document.body);
 (function () {
