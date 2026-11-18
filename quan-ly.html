@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="scrollcraft.css?v=202611172112">
-<link rel="stylesheet" href="site.css?v=202611172112">
+<link rel="stylesheet" href="scrollcraft.css?v=202611181311">
+<link rel="stylesheet" href="site.css?v=202611181311">
 <style>
   body { background: var(--paper); }
   .ql { width: min(100% - 32px, 980px); margin: 0 auto; padding: 22px 0 80px; }
@@ -27,7 +27,7 @@
   .o h2 { font-size: 1.3rem; margin-bottom: 4px; }
   .o > p { color: var(--sc-ink-soft); margin-bottom: 14px; line-height: 1.5; }
 
-  .tab { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px; border-radius: 18px; background: #fff; margin-bottom: 16px;
+  .tab { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; padding: 6px; border-radius: 18px; background: #fff; margin-bottom: 16px;
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); }
   .tab button { min-height: 50px; border: 0; border-radius: 13px; background: none; cursor: pointer; font: 700 1rem/1.2 var(--sc-font-text); color: var(--sc-ink-soft); }
   .tab button[aria-selected="true"] { background: var(--red); color: #fff; }
@@ -77,6 +77,40 @@
   .nen__ghi { grid-column: 1 / -1; margin: 2px 2px 0; color: var(--sc-ink-soft); font-size: 0.82rem; line-height: 1.45; }
   .tt b { color: #13803D; }
   @media (max-width: 700px) { .nen { grid-template-columns: 1fr; } }
+  .tab button i { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; margin-left: 6px; border-radius: 999px; background: #F5A400; color: #fff; font: 700 0.75rem/1 var(--sc-font-text); font-style: normal; }
+  .gia-o { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 14px; padding: 12px; border-radius: 14px; background: #FFF8EA; box-shadow: inset 0 0 0 1.5px #F4D7A4; }
+  .gia-o b { margin-right: 4px; }
+  .gia-o label { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; border-radius: 999px; background: #fff; cursor: pointer; font-weight: 600; font-size: 0.92rem; }
+  .gia-o input[type=radio] { accent-color: var(--red); width: 18px; height: 18px; }
+  .so-tien { display: inline-flex; align-items: center; gap: 6px; }
+  .so-tien input { width: 130px; min-height: 40px; padding: 0 10px; border: 0; border-radius: 10px; background: #fff; font: 700 1rem/1 var(--sc-font-text); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 14%, transparent); }
+  .gia-o small { flex-basis: 100%; color: #8A5300; font-size: 0.82rem; }
+  .vd { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr); gap: 8px; }
+  .vd .rong2 { grid-column: 1 / -1; }
+  .gia-d { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--sc-ink-soft); }
+  .gia-d input { width: 110px; min-height: 32px; padding: 0 8px; border: 0; border-radius: 8px; background: #fff; font: 700 0.88rem/1 var(--sc-font-text); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 14%, transparent); }
+  .nhan-phi { display: inline-block; padding: 1px 8px; border-radius: 999px; background: #FFF2D6; color: #8A5300; font-weight: 700; }
+  .don-loc { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .don-loc button { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 0; background: var(--paper); font: 700 0.9rem/1 var(--sc-font-text); cursor: pointer; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 10%, transparent); }
+  .don-loc button[aria-pressed="true"] { background: var(--sc-ink); color: #fff; box-shadow: none; }
+  .don { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 16px; padding: 14px; border-radius: 16px; background: var(--paper); }
+  .don + .don { margin-top: 10px; }
+  .don--cho { background: #FFF8EA; box-shadow: inset 0 0 0 1.5px #F4D7A4; }
+  .don__ma { font: 800 1.05rem/1.2 var(--sc-font-display); letter-spacing: 0.03em; }
+  .don__tien { font: 800 1.15rem/1.2 var(--sc-font-display); color: var(--red-deep); text-align: right; }
+  .don__ct { grid-column: 1 / -1; display: grid; gap: 4px; font-size: 0.92rem; line-height: 1.45; }
+  .don__ct a { color: var(--red); font-weight: 700; }
+  .don__bao { color: #8A5300; font-weight: 700; }
+  .don__nut { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+  .don__nut .btn { min-height: 42px; }
+  .btn--ok { background: #13A04A; }
+  .trang-nhan { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; }
+  .trang-cho { background: #FFE3A3; color: #7A4A00; } .trang-da-tra { background: #D7F2E1; color: #13803D; } .trang-huy { background: #EEE; color: #666; }
+  .tk { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .tk label { display: grid; gap: 4px; font-size: 0.85rem; font-weight: 600; color: var(--sc-ink-soft); }
+  .huong { margin: 0 0 12px; padding: 12px 14px; border-radius: 14px; background: var(--paper); line-height: 1.55; font-size: 0.92rem; }
+  .huong ol { margin: 6px 0 0; padding-left: 1.2em; }
+  @media (max-width: 700px) { .vd, .tk { grid-template-columns: 1fr; } .don__tien { text-align: left; } }
   .x { width: 40px; height: 40px; border-radius: 50%; border: 0; background: #fff; cursor: pointer; font-size: 18px; color: var(--sc-ink-soft); }
   .hang { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 14px; }
   .hang .btn { min-height: 46px; }
@@ -135,6 +169,7 @@
   <div class="tab" role="tablist">
     <button type="button" role="tab" data-tab="bai-tap" aria-selected="true">📚 Bài tập về nhà</button>
     <button type="button" role="tab" data-tab="chung-nhan" aria-selected="false">🏅 Chứng nhận</button>
+    <button type="button" role="tab" data-tab="don" aria-selected="false">💰 Đơn mua<i id="so-cho" hidden></i></button>
   </div>
 
   <section class="o" id="o-lop">
@@ -145,7 +180,7 @@
       <div class="hang"><button class="btn" type="button" id="luu-ten">Lưu tên lớp</button></div></details>
   </section>
 
-  <section class="o">
+  <section class="o" id="o-tai">
     <h2 id="tai-tieu-de">Tải file lên</h2>
     <p id="tai-ghi">Ảnh chụp, PDF, Word, Excel, PowerPoint. Mỗi file tối đa 20 MB.</p>
     <fieldset class="nen" id="nen">
@@ -156,6 +191,13 @@
       <label class="nen__o nen__dt"><input type="checkbox" id="den-trang"><span><b>Phiếu chụp bằng điện thoại: làm trắng nền, đậm chữ</b><small>Nền giấy xám, bóng đổ sẽ thành trắng, chữ đậm rõ như bản photo, in tiết kiệm mực. Phiếu có hình tô màu thì nên tắt để giữ màu.</small></span></label>
       <p class="nen__ghi">Word, Excel, PowerPoint không nén được trên web. Anh nên lưu thành PDF trước (File → Save As → PDF) để phụ huynh mở trên điện thoại dễ hơn.</p>
     </fieldset>
+    <div class="gia-o" id="gia-tai">
+      <b>Phụ huynh xem:</b>
+      <label><input type="radio" name="gia-tai" value="0" checked> Miễn phí</label>
+      <label><input type="radio" name="gia-tai" value="1"> Trả phí</label>
+      <span class="so-tien" id="so-tien-tai" hidden><input type="text" inputmode="numeric" id="gia-tai-so" placeholder="50.000" aria-label="Giá (đồng)"> đ</span>
+      <small id="gia-tai-ghi" hidden>Phụ huynh thấy tên bài và ảnh mờ; bấm "Mở khoá" để lấy mã chuyển khoản. Anh xác nhận ở tab 💰 Đơn mua.</small>
+    </div>
     <label class="tha" id="tha" tabindex="0">
       <b>Kéo thả file vào đây</b>
       <span>hoặc</span>
@@ -170,20 +212,62 @@
     </div>
   </section>
 
-  <section class="o">
+  <section class="o" id="o-video">
+    <h2>Thêm video bài giảng (YouTube)</h2>
+    <p>Đăng video lên YouTube ở chế độ <b>Không công khai</b> (Unlisted), rồi dán link vào đây. Video trả phí sẽ chỉ hiện cho phụ huynh đã chuyển khoản.</p>
+    <div class="vd">
+      <input class="nhap" id="vd-link" placeholder="Link YouTube, ví dụ https://youtu.be/…" aria-label="Link YouTube">
+      <input class="nhap" id="vd-ten" maxlength="120" placeholder="Tên bài giảng" aria-label="Tên bài giảng">
+      <input class="nhap rong2" id="vd-ghi" maxlength="400" placeholder="Ghi chú cho phụ huynh (không bắt buộc)" aria-label="Ghi chú">
+    </div>
+    <div class="gia-o" style="margin-top:10px">
+      <b>Phụ huynh xem:</b>
+      <label><input type="radio" name="gia-vd" value="0" checked> Miễn phí</label>
+      <label><input type="radio" name="gia-vd" value="1"> Trả phí</label>
+      <span class="so-tien" id="so-tien-vd" hidden><input type="text" inputmode="numeric" id="gia-vd-so" placeholder="50.000" aria-label="Giá video (đồng)"> đ</span>
+    </div>
+    <div class="hang"><button class="btn" type="button" id="vd-them">Thêm video</button></div>
+  </section>
+
+  <section class="o" id="o-don" hidden>
+    <h2>Đơn mua bài tập / video</h2>
+    <div class="huong"><b>Cách xác nhận:</b><ol>
+      <li>Phụ huynh bấm Mở khoá, web tạo mã đơn và mã QR chuyển khoản với nội dung <b>LINO LN…</b>. Khi phụ huynh bấm "Tôi đã chuyển khoản", thông tin cũng được ghi vào Google Sheet "Thông tin khách hàng đăng ký ở page".</li>
+      <li>Anh mở app Vietcombank, xem <b>biến động số dư</b>: khoản nào có nội dung trùng mã đơn và đúng số tiền.</li>
+      <li>Bấm <b>✓ Đã nhận tiền, mở khoá</b>. Máy của phụ huynh tự mở bài trong khoảng 15 giây (hoặc lần sau họ vào trang).</li>
+    </ol></div>
+    <div class="don-loc" id="don-loc">
+      <button type="button" data-loc="cho" aria-pressed="true">Chờ xác nhận</button>
+      <button type="button" data-loc="da-tra" aria-pressed="false">Đã mở khoá</button>
+      <button type="button" data-loc="huy" aria-pressed="false">Đã huỷ</button>
+      <button type="button" id="don-tai-lai" class="btn btn--line btn--nho">↻ Tải lại</button>
+    </div>
+    <div id="don-ds"><p class="rong">Đang tải…</p></div>
+    <details class="doi-ten" style="margin-top:16px"><summary>Tài khoản nhận tiền (hiện cho phụ huynh)</summary>
+      <div class="tk" style="margin-top:10px">
+        <label>Số tài khoản<input class="nhap" id="tk-stk" inputmode="numeric"></label>
+        <label>Ngân hàng<input class="nhap" id="tk-nh"></label>
+        <label>Tên chủ tài khoản<input class="nhap" id="tk-ten" placeholder="VD: NGUYEN VAN A"></label>
+      </div>
+      <p class="tt" style="margin-top:6px;color:var(--sc-ink-soft);font-size:0.82rem">Mã ngân hàng (BIN) cho mã QR: <input class="nhap" id="tk-bin" style="width:110px;min-height:34px" inputmode="numeric" aria-label="Mã BIN"> (Vietcombank là 970436)</p>
+      <div class="hang"><button class="btn" type="button" id="tk-luu">Lưu tài khoản</button></div>
+    </details>
+  </section>
+
+  <section class="o" id="o-ds">
     <h2 id="ds-tieu-de">Đã đăng</h2>
     <p>Sửa tên hoặc ghi chú xong bấm ra ngoài là tự lưu. Mục trên cùng hiện đầu tiên cho phụ huynh.</p>
     <div class="ds" id="ds"><p class="rong">Đang tải…</p></div>
   </section>
 </div>
 
-<script src="tep-chung.js?v=202611172112"></script>
+<script src="tep-chung.js?v=202611181311"></script>
 <script>
 (function () {
   var L = window.LinoTep;
   var mk = '';
   try { mk = sessionStorage.getItem('gd-mk') || ''; } catch (e) {}
-  var tab = /chung-nhan/.test(location.hash) ? 'chung-nhan' : 'bai-tap';
+  var tab = /chung-nhan/.test(location.hash) ? 'chung-nhan' : /don/.test(location.hash) ? 'don' : 'bai-tap';
   var lop = 1, D = { 'bai-tap': null, 'chung-nhan': null }, cho = [];
   try { lop = +localStorage.getItem('lino-ql-lop') || 1; } catch (e) {}
   var $ = function (s) { return document.querySelector(s); };
@@ -239,9 +323,16 @@
 
   /* ---------------------------------------------------------- tabs & classes */
   function veTab() {
-    nhoNen();
     Array.prototype.forEach.call(document.querySelectorAll('[data-tab]'), function (b) { b.setAttribute('aria-selected', b.getAttribute('data-tab') === tab); });
+    var laDon = tab === 'don';
     $('#o-lop').hidden = tab !== 'bai-tap';
+    $('#o-tai').hidden = $('#o-ds').hidden = laDon;
+    $('#o-video').hidden = tab !== 'bai-tap';
+    $('#gia-tai').hidden = tab !== 'bai-tap';
+    $('#o-don').hidden = !laDon;
+    try { history.replaceState(null, '', '#' + tab); } catch (e) {}
+    if (laDon) { layDon(); return; }
+    nhoNen();
     var ten = D['bai-tap'] ? D['bai-tap'].ten[lop - 1] : 'Lớp ' + lop;
     $('#tai-tieu-de').textContent = tab === 'bai-tap' ? 'Giao bài tập cho ' + ten : 'Tải chứng nhận lên';
     $('#ds-tieu-de').textContent = tab === 'bai-tap' ? 'Bài tập đã giao cho ' + ten : 'Chứng nhận đã đăng';
@@ -267,6 +358,35 @@
     var ten = Array.prototype.map.call(document.querySelectorAll('#ten-lop input'), function (i) { return i.value; });
     api('/api/muc', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ k: 'bai-tap', viec: 'ten-lop', ten: ten }) })
       .then(function (d) { D['bai-tap'] = d; veTab(); bao('Đã lưu tên lớp.'); }).catch(function (er) { bao(er.message); });
+  });
+
+  /* ---------------------------------------------------------- price inputs */
+  function soTien(v) { return Math.round(Number(String(v || '').replace(/[^\d]/g, '')) || 0); }
+  function dinhDang(n) { return n ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.') : ''; }
+  function giaTu(ten) {
+    var r = document.querySelector('input[name="' + ten + '"]:checked');
+    if (!r || r.value === '0') return 0;
+    return soTien($('#' + ten + '-so').value);
+  }
+  [['gia-tai', '#so-tien-tai'], ['gia-vd', '#so-tien-vd']].forEach(function (x) {
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="' + x[0] + '"]'), function (r) {
+      r.addEventListener('change', function () {
+        var tra = document.querySelector('input[name="' + x[0] + '"]:checked').value === '1';
+        $(x[1]).hidden = !tra;
+        if (x[0] === 'gia-tai') $('#gia-tai-ghi').hidden = !tra;
+        if (tra) $(x[1] + ' input').focus();
+      });
+    });
+    $(x[1] + ' input').addEventListener('input', function () { var n = soTien(this.value); this.value = dinhDang(n); });
+  });
+
+  $('#vd-them').addEventListener('click', function () {
+    var g = giaTu('gia-vd');
+    if (document.querySelector('input[name="gia-vd"]:checked').value === '1' && g < 1000) { bao('Anh nhập giá cho video (ít nhất 1.000đ).'); return; }
+    gui({ viec: 'them-video', url: $('#vd-link').value, ten: $('#vd-ten').value, ghi: $('#vd-ghi').value, gia: g }).then(function () {
+      $('#vd-link').value = $('#vd-ten').value = $('#vd-ghi').value = '';
+      veLop(); veDs(); bao('Đã thêm video cho ' + D['bai-tap'].ten[lop - 1] + '.');
+    }).catch(function (er) { bao(er.message, 5000); });
   });
 
   /* ---------------------------------------------------------- pick files */
@@ -461,6 +581,7 @@
         var fd = new FormData();
         fd.append('k', tab); if (tab === 'bai-tap') fd.append('lop', lop);
         fd.append('ten', c.ten); fd.append('ghi', c.ghi);
+        if (tab === 'bai-tap') fd.append('gia', giaTu('gia-tai'));
         fd.append('file', p.file, p.ten);
         if (p.nho) fd.append('nho', p.nho, 'nho.jpg');
         if (p.w) { fd.append('w', p.w); fd.append('h', p.h); }
@@ -478,6 +599,7 @@
     });
   }
   $('#tai').addEventListener('click', function () {
+    if (tab === 'bai-tap' && document.querySelector('input[name="gia-tai"]:checked').value === '1' && giaTu('gia-tai') < 1000) { bao('Anh nhập giá cho bài trả phí (ít nhất 1.000đ).'); return; }
     var nut = this; nut.disabled = true;
     var ds = cho.slice(), loi = 0, i = 0, truoc = 0, sau = 0;
     (function tiep() {
@@ -504,11 +626,14 @@
     $('#ds').innerHTML = ds.map(function (m, i) {
       var chuyen = tab === 'bai-tap' && d ? '<select data-chuyen="' + m.id + '" aria-label="Chuyển sang lớp khác"><option value="">Chuyển lớp…</option>' +
         d.ten.map(function (t, j) { return j + 1 === lop ? '' : '<option value="' + (j + 1) + '">' + L.esc(t) + '</option>'; }).join('') + '</select>' : '';
-      return '<div class="ds__d" data-id="' + m.id + '"><a class="hinh" href="' + L.link(m) + '" target="_blank" rel="noopener" aria-label="Xem file">' +
-        (m.kieu === 'anh' || m.nho ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m)) + '</a>' +
+      var laVd = m.kieu === 'video';
+      var giaO = tab === 'bai-tap' ? '<span class="gia-d">Giá <input data-sua="gia" inputmode="numeric" value="' + dinhDang(m.gia || 0) + '" placeholder="0" aria-label="Giá (đồng), 0 là miễn phí"> đ' +
+        (m.gia > 0 ? ' <span class="nhan-phi">🔒 Trả phí</span>' : ' (0 = miễn phí)') + '</span>' : '';
+      return '<div class="ds__d" data-id="' + m.id + '"><a class="hinh" href="' + (laVd ? 'https://www.youtube.com/watch?v=' + m.yt : L.link(m)) + '" target="_blank" rel="noopener" aria-label="Xem">' +
+        (laVd ? '<img src="https://i.ytimg.com/vi/' + m.yt + '/mqdefault.jpg" alt="" loading="lazy">' : m.kieu === 'anh' || m.nho ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m)) + '</a>' +
         '<div class="o2"><input class="nhap" data-sua="ten" maxlength="120" value="' + L.esc(m.ten) + '" aria-label="Tên hiển thị">' +
         '<textarea class="nhap" data-sua="ghi" maxlength="400" rows="1" placeholder="Ghi chú cho phụ huynh" aria-label="Ghi chú">' + L.esc(m.ghi || '') + '</textarea>' +
-        '<span class="tt">' + L.nhan(m) + ' · ' + L.co(m.co) + ' · đăng ' + L.ngay(m.luc) + ' <span class="luu-roi" hidden>✓ Đã lưu</span></span></div>' +
+        '<span class="tt">' + L.nhan(m) + (m.co ? ' · ' + L.co(m.co) : '') + ' · đăng ' + L.ngay(m.luc) + ' <span class="luu-roi" hidden>✓ Đã lưu</span></span>' + giaO + '</div>' +
         '<div class="nut"><button class="btn btn--line btn--nho" type="button" data-xep="-1"' + (i === 0 ? ' disabled' : '') + ' aria-label="Đưa lên trên">↑</button>' +
         '<button class="btn btn--line btn--nho" type="button" data-xep="1"' + (i === ds.length - 1 ? ' disabled' : '') + ' aria-label="Đưa xuống dưới">↓</button>' +
         chuyen + '<button class="btn btn--xoa btn--nho" type="button" data-xoa>Xoá</button></div></div>';
@@ -523,8 +648,11 @@
     var dong = e.target.closest('[data-id]'); if (!dong) return;
     var id = dong.getAttribute('data-id');
     if (e.target.hasAttribute('data-sua')) {
-      var b = { viec: 'sua', id: id }; b[e.target.getAttribute('data-sua')] = e.target.value;
-      gui(b).then(function () { var s = dong.querySelector('.luu-roi'); s.hidden = false; setTimeout(function () { s.hidden = true; }, 2000); }).catch(function (er) { bao(er.message); });
+      var b = { viec: 'sua', id: id }, truong = e.target.getAttribute('data-sua'); b[truong] = truong === 'gia' ? soTien(e.target.value) : e.target.value;
+      gui(b).then(function () {
+        if (truong === 'gia') { veDs(); bao(b.gia > 0 ? 'Đã đặt giá ' + dinhDang(b.gia) + 'đ. Phụ huynh cần mở khoá để xem.' : 'Bài này giờ miễn phí.'); return; }
+        var s = dong.querySelector('.luu-roi'); s.hidden = false; setTimeout(function () { s.hidden = true; }, 2000);
+      }).catch(function (er) { bao(er.message); });
     } else if (e.target.hasAttribute('data-chuyen') && e.target.value) {
       var den = +e.target.value;
       gui({ viec: 'chuyen', id: id, den: den }).then(function () { veLop(); veDs(); bao('Đã chuyển sang ' + D['bai-tap'].ten[den - 1] + '.'); }).catch(function (er) { bao(er.message); });
@@ -542,8 +670,65 @@
     }
   });
 
+  /* ---------------------------------------------------------- orders */
+  var DON = [], loc = 'cho';
+  function tienVN(n) { return dinhDang(n) + 'đ'; }
+  function luc(t) { var d = new Date(t); return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' ' + d.getDate() + '/' + (d.getMonth() + 1); }
+  function layDon() {
+    return api('/api/don-ql').then(function (j) {
+      DON = j.don || [];
+      var tk = j.tk || {};
+      $('#tk-stk').value = tk.stk || ''; $('#tk-nh').value = tk.nh || ''; $('#tk-ten').value = tk.ten || ''; $('#tk-bin').value = tk.bin || '';
+      demCho(); veDon();
+    }).catch(function (er) { $('#don-ds').innerHTML = '<p class="rong">' + L.esc(er.message) + '</p>'; });
+  }
+  function demCho() {
+    var n = DON.filter(function (d) { return d.trang === 'cho'; }).length, el = $('#so-cho');
+    el.textContent = n; el.hidden = !n;
+  }
+  function veDon() {
+    Array.prototype.forEach.call(document.querySelectorAll('#don-loc [data-loc]'), function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-loc') === loc); });
+    var ds = DON.filter(function (d) { return d.trang === loc; });
+    var ten = { cho: 'Chờ xác nhận', 'da-tra': 'Đã mở khoá', huy: 'Đã huỷ' };
+    $('#don-ds').innerHTML = ds.length ? ds.map(function (d) {
+      var nut = d.trang === 'cho'
+        ? '<button class="btn btn--ok" type="button" data-don="duyet">✓ Đã nhận tiền, mở khoá</button><button class="btn btn--line" type="button" data-don="huy">Huỷ đơn</button>'
+        : '<button class="btn btn--line btn--nho" type="button" data-don="mo-lai">Đưa về chờ xác nhận</button><button class="btn btn--xoa btn--nho" type="button" data-don="xoa">Xoá</button>';
+      return '<div class="don' + (d.trang === 'cho' ? ' don--cho' : '') + '" data-ma="' + d.ma + '">' +
+        '<div><span class="don__ma">LINO ' + d.ma + '</span> <span class="trang-nhan trang-' + d.trang + '">' + ten[d.trang] + '</span></div>' +
+        '<div class="don__tien">' + tienVN(d.tien) + '</div>' +
+        '<div class="don__ct"><span>👤 ' + L.esc(d.ten) + (d.con ? ' · con: ' + L.esc(d.con) : '') + ' · <a href="tel:' + d.sdt + '">' + d.sdt + '</a> · <a href="https://zalo.me/' + d.sdt + '" target="_blank" rel="noopener">Zalo</a></span>' +
+        '<span>📄 ' + L.esc(d.noi || '') + '</span>' +
+        '<span>🕘 Tạo lúc ' + luc(d.luc) + (d.bao ? ' · <span class="don__bao">Phụ huynh báo đã chuyển lúc ' + luc(d.bao) + '</span>' : ' · chưa báo đã chuyển') + '</span></div>' +
+        '<div class="don__nut">' + nut + '</div></div>';
+    }).join('') : '<p class="rong">Không có đơn nào ở mục "' + ten[loc] + '".</p>';
+  }
+  $('#don-loc').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-loc]'); if (b) { loc = b.getAttribute('data-loc'); veDon(); }
+  });
+  $('#don-tai-lai').addEventListener('click', layDon);
+  $('#don-ds').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-don]'); if (!b) return;
+    var ma = b.closest('[data-ma]').getAttribute('data-ma'), viec = b.getAttribute('data-don');
+    var hoiTruoc = viec === 'duyet' ? hoi('Anh đã thấy khoản chuyển có nội dung "LINO ' + ma + '" và đúng số tiền trong app Vietcombank? Bấm Mở khoá để phụ huynh xem được bài.', 'Mở khoá')
+      : viec === 'huy' ? hoi('Huỷ đơn ' + ma + '? Phụ huynh sẽ thấy đơn chưa được xác nhận.', 'Huỷ đơn')
+      : viec === 'xoa' ? hoi('Xoá hẳn đơn ' + ma + '? Nếu đơn đã mở khoá, phụ huynh trên máy mới sẽ không mở lại được bằng mã này.', 'Xoá')
+      : Promise.resolve(true);
+    hoiTruoc.then(function (co) {
+      if (!co) return;
+      api('/api/don-ql', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ viec: viec, ma: ma }) })
+        .then(function () { bao(viec === 'duyet' ? 'Đã mở khoá cho phụ huynh.' : 'Đã cập nhật.'); return layDon(); })
+        .catch(function (er) { bao(er.message); });
+    });
+  });
+  $('#tk-luu').addEventListener('click', function () {
+    api('/api/don-ql', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ viec: 'tai-khoan', stk: $('#tk-stk').value, nh: $('#tk-nh').value, ten: $('#tk-ten').value, bin: $('#tk-bin').value }) })
+      .then(function () { bao('Đã lưu tài khoản nhận tiền.'); }).catch(function (er) { bao(er.message); });
+  });
+
   function layDs() {
-    return Promise.all([L.lay('bai-tap'), L.lay('chung-nhan')]).then(function (r) {
+    return Promise.all([api('/api/muc?k=bai-tap').catch(function () { return null; }), L.lay('chung-nhan')]).then(function (r) {
       D['bai-tap'] = r[0] || { ten: ['Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5', 'Lớp 6', 'Lớp 7', 'Lớp 8', 'Lớp 9'], lop: {} };
       D['chung-nhan'] = r[1] || { ds: [] };
       veTab();
@@ -552,7 +737,8 @@
 
   (mk ? fetch('/api/dang-nhap', { method: 'POST', headers: { 'X-Mat-Khau': encodeURIComponent(mk) } }).then(function (r) { if (!r.ok) { mk = ''; } }).catch(function () {}) : Promise.resolve())
     .then(function () { return mk ? null : dangNhap(); })
-    .then(layDs);
+    .then(layDs)
+    .then(function () { if (tab !== 'don') api('/api/don-ql').then(function (j) { DON = j.don || []; demCho(); }).catch(function () {}); });
 })();
 </script>
 </body>

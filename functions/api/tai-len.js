@@ -1,5 +1,5 @@
 import { kiemTra } from '../../chinh-sua/xac-thuc.js';
-import { json, doc, ghi, danhSach, sach, nhanDang, moiId, TOI_DA } from '../../chinh-sua/tep-chung.js';
+import { json, doc, ghi, danhSach, sach, nhanDang, moiId, TOI_DA, gia } from '../../chinh-sua/tep-chung.js';
 
 /* POST multipart (password): k, lop (homework), ten, ghi, w, h, file, nho */
 export async function onRequestPost({ request, env }) {
@@ -43,6 +43,8 @@ export async function onRequestPost({ request, env }) {
   const w = Math.round(Number(f.get('w'))), h = Math.round(Number(f.get('h')));
   if (w > 0 && h > 0 && w < 20000 && h < 20000) { muc.w = w; muc.h = h; }
   if (coNho) muc.nho = 1;
+  const g = k === 'bai-tap' ? gia(f.get('gia')) : 0;
+  if (g > 0) { muc.gia = g; await env.TEP.put('tp:' + id, String(g)); }
   ds.unshift(muc);
   await ghi(env, k, d);
   return json({ ok: true, muc });

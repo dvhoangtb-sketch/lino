@@ -5,7 +5,7 @@
   function link(m, tai) { return '/tep/' + m.id + '/' + encodeURIComponent(m.tep || m.id) + (tai ? '?tai=1' : ''); }
   function nho(m) { return '/tep/' + m.id + '/' + encodeURIComponent(m.tep || m.id) + (m.nho ? '?nho=1' : ''); }
   var LOAI = {
-    pdf: ['PDF', '#D93025'], word: ['Word', '#2B579A'], excel: ['Excel', '#1D7044'], ppt: ['PowerPoint', '#C43E1C'], anh: ['Ảnh', '#7A4CC2']
+    video: ['Video bài giảng', '#C4302B'], pdf: ['PDF', '#D93025'], word: ['Word', '#2B579A'], excel: ['Excel', '#1D7044'], ppt: ['PowerPoint', '#C43E1C'], anh: ['Ảnh', '#7A4CC2']
   };
   function nhan(m) { return (LOAI[m.kieu] || ['File', '#666'])[0]; }
   function bieuTuong(m) {
@@ -54,8 +54,28 @@
     el.querySelector('.xa__dong').focus();
   }
 
+  /* a YouTube lesson in a dialog (privacy-friendly player, loads only now) */
+  function xemVideo(yt, ten) {
+    var el = document.createElement('div');
+    el.className = 'xa xa--video';
+    el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', ten || 'Video bài giảng');
+    el.setAttribute('data-lenis-prevent', '');
+    el.innerHTML = '<button class="xa__dong" type="button" aria-label="Đóng">✕</button><span></span>' +
+      '<figure class="xa__khung"><div class="xa__video"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(yt) +
+      '?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="' + esc(ten) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' +
+      '<figcaption><b>' + esc(ten) + '</b></figcaption></figure><span></span>';
+    var truoc = document.activeElement;
+    function dong() { document.removeEventListener('keydown', phim); el.remove(); document.documentElement.classList.remove('xa-mo'); if (truoc && truoc.focus) truoc.focus(); }
+    function phim(e) { if (e.key === 'Escape') dong(); }
+    el.addEventListener('click', function (e) { if (e.target.closest('.xa__dong') || e.target === el) dong(); });
+    document.addEventListener('keydown', phim);
+    document.body.appendChild(el);
+    document.documentElement.classList.add('xa-mo');
+    el.querySelector('.xa__dong').focus();
+  }
+
   window.LinoTep = {
-    esc: esc, link: link, nho: nho, nhan: nhan, bieuTuong: bieuTuong, co: co, ngay: ngay, moi: moi, xemAnh: xemAnh,
+    esc: esc, link: link, nho: nho, nhan: nhan, bieuTuong: bieuTuong, co: co, ngay: ngay, moi: moi, xemAnh: xemAnh, xemVideo: xemVideo,
     lay: function (k) { return fetch('/api/muc?k=' + k, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
   };
 })();

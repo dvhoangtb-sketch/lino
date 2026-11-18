@@ -21,8 +21,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="scrollcraft.css?v=202611172112">
-<link rel="stylesheet" href="site.css?v=202611172112">
+<link rel="stylesheet" href="scrollcraft.css?v=202611181311">
+<link rel="stylesheet" href="site.css?v=202611181311">
 <script>document.documentElement.classList.add('js');</script>
 <style>
   body { background: var(--paper); }
@@ -79,6 +79,18 @@
   .bai p { margin-top: 4px; color: var(--sc-ink-soft); line-height: 1.5; font-size: 0.95rem; }
   .bai__nut { display: flex; gap: 6px; }
   .bai__nut .btn { min-height: 42px; padding: 0 16px; font-size: 0.92rem; }
+  .bai__hinh { position: relative; }
+  .bai__hinh.is-khoa img { filter: blur(5px) saturate(0.7); transform: scale(1.08); }
+  .bai__o { position: absolute; inset: auto 6px 6px auto; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--red); color: #fff; }
+  .bai__o svg { width: 14px; height: 14px; }
+  .bai__phi { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 999px; background: #FFF2D6; color: #8A5300; }
+  .bai__phi svg { width: 12px; height: 12px; }
+  .bai__da { padding: 2px 9px; border-radius: 999px; background: #E3F5EA; color: #13803D; }
+  .bai--khoa { box-shadow: 0 1px 2px hsl(352 55% 18% / 0.06), inset 0 0 0 1.5px #F4D7A4; }
+  .btn--mua svg { width: 16px; height: 16px; }
+  .btn--cho { background: #FFF2D6; color: #8A5300; }
+  .bt__mua { margin-top: 14px; color: var(--sc-ink-soft); font-size: 0.92rem; }
+  .bt__mua button { border: 0; background: none; padding: 0; color: var(--red); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
   .hoi { margin-top: clamp(2.5rem, 6vw, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sc-5); align-items: center;
     padding: clamp(1.5rem, 3.5vw, 2.75rem); border-radius: 28px; background: var(--red); color: #fff; }
   .hoi h2 { font-size: clamp(1.5rem, 2.6vw, 2.3rem); max-width: 20ch; }
@@ -175,20 +187,51 @@
   </section>
 </main>
 
-<script src="chinh-sua/ap-dung.js?v=202611172112"></script>
-<script src="tep-chung.js?v=202611172112"></script>
-<script src="data/cau-hinh.js?v=202611172112"></script>
+<script src="chinh-sua/ap-dung.js?v=202611181311"></script>
+<script src="tep-chung.js?v=202611181311"></script>
+<script src="mua.js?v=202611181311"></script>
+<script src="data/cau-hinh.js?v=202611181311"></script>
 <script src="vendor/lenis.min.js"></script>
-<script src="scrollcraft.js?v=202611172112"></script>
-<script src="site.js?v=202611172112"></script>
+<script src="scrollcraft.js?v=202611181311"></script>
+<script src="site.js?v=202611181311"></script>
 <script>
 ScrollCraft.mount(document.body);
 (function () {
-  var L = window.LinoTep, el = document.getElementById('noi-dung'), seg = document.getElementById('lop');
+  var L = window.LinoTep, M = window.LinoMua, el = document.getElementById('noi-dung'), seg = document.getElementById('lop');
   var D = null, chon = 1, KHOA = 'lino-lop';
   var h = /lop-(\d)/.exec(location.hash);
   try { chon = h ? +h[1] : (+localStorage.getItem(KHOA) || 1); } catch (e) { chon = h ? +h[1] : 1; }
   if (!(chon >= 1 && chon <= 9)) chon = 1;
+  var VIDEO = '<svg viewBox="0 0 40 48" aria-hidden="true"><rect x="2" y="8" width="36" height="32" rx="8" fill="#C4302B"/><path d="M16 17v14l12-7z" fill="#fff"/></svg>';
+  var KHOA_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 1 1 6 0v3H9z"/></svg>';
+
+  function bai(m, anh) {
+    var khoa = m.gia > 0 && !m.mo, cho = khoa && M.choCua(m.id);
+    var hinh;
+    if (m.kieu === 'video') hinh = m.yt ? '<img src="https://i.ytimg.com/vi/' + m.yt + '/mqdefault.jpg" alt="" loading="lazy">' : VIDEO;
+    else hinh = m.kieu === 'anh' || m.nho ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m);
+    var nut, mo;
+    if (khoa) {
+      nut = cho ? '<button class="btn btn--cho" type="button" data-mua="' + m.id + '">Đang chờ xác nhận · Xem mã</button>'
+                : '<button class="btn btn--mua" type="button" data-mua="' + m.id + '">' + KHOA_ICON + 'Mở khoá ' + M.tien(m.gia) + '</button>';
+      mo = '<button class="bai__hinh is-khoa" type="button" data-mua="' + m.id + '" aria-label="Mở khoá ' + L.esc(m.ten) + '">' + hinh + '<span class="bai__o">' + KHOA_ICON + '</span></button>';
+    } else if (m.kieu === 'video') {
+      nut = '<button class="btn" type="button" data-video="' + m.id + '">▶ Xem video</button>';
+      mo = '<button class="bai__hinh" type="button" data-video="' + m.id + '" aria-label="Xem video ' + L.esc(m.ten) + '">' + hinh + '</button>';
+    } else {
+      var xem = m.kieu === 'anh' ? '<button class="btn" type="button" data-anh="' + anh.indexOf(m) + '">Xem ảnh</button>'
+        : m.kieu === 'pdf' ? '<a class="btn" href="' + L.link(m) + '" target="_blank" rel="noopener">Xem</a>' : '';
+      nut = xem + '<a class="btn btn--line" href="' + L.link(m, true) + '">Tải về</a>';
+      mo = m.kieu === 'anh'
+        ? '<button class="bai__hinh" type="button" data-anh="' + anh.indexOf(m) + '" aria-label="Xem ảnh ' + L.esc(m.ten) + '">' + hinh + '</button>'
+        : '<a class="bai__hinh" href="' + L.link(m, m.kieu !== 'pdf') + '"' + (m.kieu === 'pdf' ? ' target="_blank" rel="noopener"' : '') + ' aria-label="Mở ' + L.esc(m.ten) + '">' + hinh + '</a>';
+    }
+    var nhan = m.gia > 0 ? (khoa ? '<span class="bai__phi">' + KHOA_ICON + M.tien(m.gia) + '</span>' : '<span class="bai__da">✓ Đã mở khoá</span>') : '';
+    return '<article class="bai' + (khoa ? ' bai--khoa' : '') + '">' + mo +
+      '<div><span class="bai__ngay">' + (L.moi(m.luc) ? '<span class="bai__moi">Mới</span>' : '') + nhan + 'Giao ngày ' + L.ngay(m.luc) + ' · ' + L.nhan(m) + (m.co ? ' · ' + L.co(m.co) : '') + '</span>' +
+      '<b>' + L.esc(m.ten) + '</b>' + (m.ghi ? '<p>' + L.esc(m.ghi) + '</p>' : '') + '</div>' +
+      '<div class="bai__nut">' + nut + '</div></article>';
+  }
 
   function ve() {
     var ten = D.ten, ds = D.lop[chon] || [];
@@ -196,24 +239,29 @@ ScrollCraft.mount(document.body);
       var n = (D.lop[i + 1] || []).filter(function (m) { return L.moi(m.luc); }).length;
       return '<button type="button" data-l="' + (i + 1) + '" aria-pressed="' + (chon === i + 1) + '">' + L.esc(t) + (n ? '<i title="Bài mới trong tuần">' + n + '</i>' : '') + '</button>';
     }).join('');
-    var anh = ds.filter(function (m) { return m.kieu === 'anh'; });
+    var anh = ds.filter(function (m) { return m.kieu === 'anh' && !(m.gia > 0 && !m.mo); });
+    var coPhi = ds.some(function (m) { return m.gia > 0; });
     el.innerHTML = '<div class="bt__dau"><h2>Bài tập ' + L.esc(ten[chon - 1]) + '</h2><span>' + (ds.length ? ds.length + ' bài' : '') + '</span></div>' +
-      (ds.length ? '<div class="bt__ds">' + ds.map(function (m) {
-        var hinh = m.kieu === 'anh' || m.nho ? '<img src="' + L.nho(m) + '" alt="" loading="lazy">' : L.bieuTuong(m);
-        var xem = m.kieu === 'anh' ? '<button class="btn" type="button" data-anh="' + anh.indexOf(m) + '">Xem ảnh</button>'
-          : m.kieu === 'pdf' ? '<a class="btn" href="' + L.link(m) + '" target="_blank" rel="noopener">Xem</a>' : '';
-        var mo = m.kieu === 'anh'
-          ? '<button class="bai__hinh" type="button" data-anh="' + anh.indexOf(m) + '" aria-label="Xem ảnh ' + L.esc(m.ten) + '">' + hinh + '</button>'
-          : '<a class="bai__hinh" href="' + L.link(m, m.kieu !== 'pdf') + '"' + (m.kieu === 'pdf' ? ' target="_blank" rel="noopener"' : '') + ' aria-label="Mở ' + L.esc(m.ten) + '">' + hinh + '</a>';
-        return '<article class="bai">' + mo +
-          '<div><span class="bai__ngay">' + (L.moi(m.luc) ? '<span class="bai__moi">Mới</span>' : '') + 'Giao ngày ' + L.ngay(m.luc) + ' · ' + L.nhan(m) + ' · ' + L.co(m.co) + '</span>' +
-          '<b>' + L.esc(m.ten) + '</b>' + (m.ghi ? '<p>' + L.esc(m.ghi) + '</p>' : '') + '</div>' +
-          '<div class="bai__nut">' + xem + '<a class="btn btn--line" href="' + L.link(m, true) + '">Tải về</a></div></article>';
-      }).join('') + '</div>'
-      : '<div class="trong"><b>' + L.esc(ten[chon - 1]) + ' chưa có bài tập mới.</b>Trong lúc chờ, con ôn lại bài trong mục <a href="/tai-lieu">Tài liệu</a> hoặc xem <a href="/video-hoc">Video học</a> nhé.</div>');
-    el.onclick = function (e) { var b = e.target.closest('[data-anh]'); if (b) L.xemAnh(anh, +b.getAttribute('data-anh')); };
+      (ds.length ? '<div class="bt__ds">' + ds.map(function (m) { return bai(m, anh); }).join('') + '</div>'
+      : '<div class="trong"><b>' + L.esc(ten[chon - 1]) + ' chưa có bài tập mới.</b>Trong lúc chờ, con ôn lại bài trong mục <a href="/tai-lieu">Tài liệu</a> hoặc xem <a href="/video-hoc">Video học</a> nhé.</div>') +
+      (coPhi ? '<p class="bt__mua">Đã mua trên điện thoại khác? <button type="button" data-khoi-phuc>Mở lại bài đã mua</button></p>' : '');
+    el.onclick = function (e) {
+      var b = e.target.closest('[data-anh]'); if (b) return L.xemAnh(anh, +b.getAttribute('data-anh'));
+      b = e.target.closest('[data-video]');
+      if (b) { var v = tim(b.getAttribute('data-video')); if (v && v.yt) L.xemVideo(v.yt, v.ten); return; }
+      b = e.target.closest('[data-mua]');
+      if (b) { var m = tim(b.getAttribute('data-mua')); if (m) M.moKhoa(m, ten[chon - 1], tai); return; }
+      if (e.target.closest('[data-khoi-phuc]')) M.khoiPhuc(tai);
+    };
     var dang = seg.querySelector('[aria-pressed="true"]');
     if (dang && seg.scrollWidth > seg.clientWidth) seg.scrollLeft = dang.offsetLeft - (seg.clientWidth - dang.offsetWidth) / 2;
+  }
+  function tim(id) { return (D.lop[chon] || []).filter(function (m) { return m.id === id; })[0]; }
+  function tai() {
+    return M.kiemTra().then(function () { return L.lay('bai-tap'); }).then(function (d) {
+      D = d || { ten: ['Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5', 'Lớp 6', 'Lớp 7', 'Lớp 8', 'Lớp 9'], lop: {} };
+      ve();
+    });
   }
   seg.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b || !D) return;
@@ -221,10 +269,7 @@ ScrollCraft.mount(document.body);
     try { localStorage.setItem(KHOA, chon); history.replaceState(null, '', '#lop-' + chon); } catch (er) {}
     ve();
   });
-  L.lay('bai-tap').then(function (d) {
-    D = d || { ten: ['Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5', 'Lớp 6', 'Lớp 7', 'Lớp 8', 'Lớp 9'], lop: {} };
-    ve();
-  });
+  tai();
   try {
     if (sessionStorage.getItem('gd-mk')) {
       var a = document.createElement('a'); a.className = 'btn quan-ly-nut'; a.href = '/quan-ly#bai-tap'; a.textContent = '＋ Giao bài tập mới';

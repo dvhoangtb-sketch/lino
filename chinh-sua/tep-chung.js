@@ -69,3 +69,80 @@ export function danhSach(d, k, lop) {
   const n = Number(lop);
   return n >= 1 && n <= SO_LOP ? d.lop[n] : null;
 }
+
+/* ------------------------------------------------------------------ paid content
+   An item with gia > 0 is locked. Files: KV "tp:<id>" holds the price so
+   /tep/<id> can refuse without reading the lists. Videos: the YouTube id (yt)
+   is never sent until the item is unlocked.
+   Unlocking: a parent's approved orders give a cookie "lino_ve", signed with a
+   random key kept in KV "khoa-ky", listing the unlocked item ids. */
+export const GIA_TOI_DA = 50000000;
+export function gia(v) {
+  const n = Math.round(Number(String(v == null ? '' : v).replace(/[^\d]/g, '')) || 0);
+  return Math.min(GIA_TOI_DA, Math.max(0, n));
+}
+export function ytId(s) {
+  s = String(s || '').trim();
+  const m = s.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/) || s.match(/^([\w-]{11})$/);
+  return m ? m[1] : null;
+}
+
+const enc = new TextEncoder();
+function b64u(buf) {
+  let s = '';
+  new Uint8Array(buf).forEach((b) => { s += String.fromCharCode(b); });
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function tuB64u(s) {
+  s = s.replace(/-/g, '+').replace(/_/g, '/');
+  const bin = atob(s + '==='.slice((s.length + 3) % 4));
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+}
+async function khoaKy(env) {
+  let k = await env.TEP.get('khoa-ky', { cacheTtl: 300 });
+  if (!k) {
+    const r = new Uint8Array(32);
+    crypto.getRandomValues(r);
+    k = b64u(r);
+    await env.TEP.put('khoa-ky', k);
+  }
+  return crypto.subtle.importKey('raw', tuB64u(k), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
+}
+export async function kyVe(env, muc) {
+  const body = b64u(enc.encode(JSON.stringify({ m: muc.slice(0, 400), e: Date.now() + 400 * 864e5 })));
+  const sig = await crypto.subtle.sign('HMAC', await khoaKy(env), enc.encode(body));
+  return body + '.' + b64u(sig);
+}
+export async function docVe(env, request) {
+  const c = request.headers.get('Cookie') || '';
+  const m = c.match(/(?:^|;\s*)lino_ve=([\w-]+\.[\w-]+)/);
+  if (!m) return new Set();
+  try {
+    const [body, sig] = m[1].split('.');
+    const ok = await crypto.subtle.verify('HMAC', await khoaKy(env), tuB64u(sig), enc.encode(body));
+    if (!ok) return new Set();
+    const d = JSON.parse(new TextDecoder().decode(tuB64u(body)));
+    if (!d || d.e < Date.now() || !Array.isArray(d.m)) return new Set();
+    return new Set(d.m);
+  } catch (e) {
+    return new Set();
+  }
+}
+export function cookieVe(ve) {
+  return 'lino_ve=' + ve + '; Path=/; Max-Age=' + 400 * 86400 + '; HttpOnly; Secure; SameSite=Lax';
+}
+
+/* the bank account parents transfer to (owner can change it in /quan-ly) */
+export const TK_GOC = { stk: '0451000487707', bin: '970436', nh: 'Vietcombank', ten: '' };
+export async function taiKhoan(env) {
+  try { return Object.assign({}, TK_GOC, JSON.parse((await env.TEP.get('tai-khoan')) || '{}')); } catch (e) { return Object.assign({}, TK_GOC); }
+}
+
+/* every homework item, wherever it sits */
+export function timMuc(d, id) {
+  for (let i = 1; i <= SO_LOP; i++) {
+    const m = (d.lop[i] || []).find((x) => x.id === id);
+    if (m) return { m, lop: i };
+  }
+  return null;
+}
