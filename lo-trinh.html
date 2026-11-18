@@ -21,8 +21,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans+JP:wght@500;700&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="scrollcraft.css?v=202611182152">
-<link rel="stylesheet" href="site.css?v=202611182152">
+<link rel="stylesheet" href="scrollcraft.css?v=202611182330">
+<link rel="stylesheet" href="site.css?v=202611182330">
 <script>document.documentElement.classList.add('js');</script>
 <style>
   body { background: var(--paper); }
@@ -40,10 +40,10 @@
   .tinh__o { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(1rem, 3vw, 2.5rem); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: 30px;
     background: var(--sc-ink); color: #fff; box-shadow: 0 30px 60px -30px hsl(352 55% 18% / 0.55); }
   .tinh h2 { font-size: clamp(1.6rem, 2.6vw, 2.3rem); }
-  .tinh__form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: var(--sc-5); }
-  .tinh__form label { display: grid; gap: 6px; font-size: 0.88rem; font-weight: 600; color: rgb(255 255 255 / 0.8); }
+  .tinh__form { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; margin-top: var(--sc-5); }
+  .tinh__form label { display: grid; gap: 6px; min-width: 0; font-size: 0.88rem; font-weight: 600; color: rgb(255 255 255 / 0.8); }
   .tinh__form .rong { grid-column: 1 / -1; }
-  .tinh select, .tinh input { min-height: 48px; padding: 0 12px; border: 0; border-radius: 12px; background: #fff; color: var(--sc-ink); font: 600 1rem/1.2 var(--sc-font-text); width: 100%; }
+  .tinh select, .tinh input { min-height: 48px; padding: 0 12px; border: 0; border-radius: 12px; background: #fff; color: var(--sc-ink); font: 600 1rem/1.2 var(--sc-font-text); width: 100%; min-width: 0; max-width: 100%; text-overflow: ellipsis; }
   .tinh__ngon { display: flex; gap: 6px; grid-column: 1 / -1; }
   .tinh__ngon button { flex: 1; min-height: 46px; border: 0; border-radius: 12px; background: rgb(255 255 255 / 0.12); color: #fff; font: 700 0.98rem/1 var(--sc-font-text); cursor: pointer; }
   .tinh__ngon button[aria-pressed="true"] { background: var(--red); }
@@ -209,14 +209,14 @@
   </section>
 </main>
 
-<script src="chinh-sua/ap-dung.js?v=202611182152"></script>
-<script src="trang-tri.js?v=202611182152"></script>
-<script src="data/lo-trinh.js?v=202611182152"></script>
-<script src="data/cau-hinh.js?v=202611182152"></script>
+<script src="chinh-sua/ap-dung.js?v=202611182330"></script>
+<script src="trang-tri.js?v=202611182330"></script>
+<script src="data/lo-trinh.js?v=202611182330"></script>
+<script src="data/cau-hinh.js?v=202611182330"></script>
 <script src="vendor/lenis.min.js"></script>
-<script src="scrollcraft.js?v=202611182152"></script>
-<script src="site.js?v=202611182152"></script>
-<script src="thanh-cong-cu.js?v=202611182152"></script>
+<script src="scrollcraft.js?v=202611182330"></script>
+<script src="site.js?v=202611182330"></script>
+<script src="thanh-cong-cu.js?v=202611182330"></script>
 <script>
 ScrollCraft.mount(document.body);
 (function () {

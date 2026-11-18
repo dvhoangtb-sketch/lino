@@ -2,12 +2,11 @@
    1. The links slide sideways when there is not room for all of them: arrows
       at the ends, mouse wheel and swipe work, the page you are on is brought
       into view, and the strip nudges once so visitors see there is more.
-   2. A language button translates the whole page with Google's website
-      translator (only after a visitor picks a language; the choice is kept
-      for the next pages). Words that must stay as they are (English practice
-      words, Japanese, names, phone numbers) are marked not to translate.
-      A visitor whose browser is in English, Japanese, Korean or Chinese is
-      offered the translation once. */
+   2. A language button translates the whole page (our own AI translator in
+      /api/dich, results shared by every visitor). The choice is kept for the
+      next pages. English practice words, Japanese, the logo and phone numbers
+      stay as they are. A visitor whose browser is in English, Japanese,
+      Korean or Chinese is offered the translation once. */
 (function () {
   var dock = document.querySelector('.dock');
   if (!dock) return;
@@ -52,65 +51,143 @@
     }
   }
 
-  /* ------------------------------------------------------------ language */
-  var NGON = [
-    ['vi', 'Tiếng Việt', 'VI'], ['en', 'English', 'EN'], ['ja', '日本語', 'JA'], ['ko', '한국어', 'KO'], ['zh-CN', '中文 (简体)', '中']
-  ];
+  /* ------------------------------------------------------------ language
+     Our own translator: the page text goes to /api/dich (Cloudflare AI,
+     kept in a shared store), and comes back sentence by sentence. A sentence
+     with highlighted words is sent as one piece with marks, so it reads
+     naturally: "Tài liệu để bố mẹ <x0>kèm con</x0> ở nhà." */
+  var NGON = [['vi', 'Tiếng Việt', 'VI'], ['en', 'English', 'EN'], ['ja', '日本語', 'JA'], ['ko', '한국어', 'KO'], ['zh', '中文 (简体)', '中']];
   var CAU_HOI = {
     en: ['View this page in English?', 'Yes, translate', 'No, thanks'],
     ja: ['このページを日本語で表示しますか？', '翻訳する', 'いいえ'],
     ko: ['이 페이지를 한국어로 보시겠습니까?', '번역하기', '아니요'],
-    'zh-CN': ['要用中文查看此页面吗？', '翻译', '不用了']
+    zh: ['要用中文查看此页面吗？', '翻译', '不用了']
   };
   function dangDung() {
     var l = 'vi';
     try { l = localStorage.getItem('lino-dich') || 'vi'; } catch (e) {}
     return NGON.some(function (x) { return x[0] === l; }) ? l : 'vi';
   }
-  function tenMien() { var h = location.hostname; return /\./.test(h) && !/^\d+\.\d+\.\d+\.\d+$/.test(h) ? '.' + h.replace(/^www\./, '') : ''; }
-  function datCookie(l) {
-    var v = 'googtrans=' + (l ? '/vi/' + l : '') + ';path=/' + (l ? '' : ';expires=Thu, 01 Jan 1970 00:00:00 GMT');
-    document.cookie = v;
-    if (tenMien()) document.cookie = v + ';domain=' + tenMien();
+  var BO = 'script,style,noscript,textarea,select,code,pre,svg,[translate="no"],.notranslate,[lang]:not(html),.dich,.dich__goi,#gd,.gd-ui,.gd-mo,.mua__tk,.xa,.tt-hat,.tt-treo,.tt-goc';
+  var INLINE = { SPAN: 1, B: 1, I: 1, EM: 1, STRONG: 1, SMALL: 1, A: 1, MARK: 1, U: 1, SUP: 1, SUB: 1, BR: 1 };
+  var CHU = /[A-Za-zÀ-ỹÀ-ɏ]/;
+  function boQua(e) { return !e || (e.closest && e.closest(BO)); }
+  function phang(e) { /* only text and one level of plain inline elements */
+    for (var c = e.firstChild; c; c = c.nextSibling) {
+      if (c.nodeType === 1) { if (!INLINE[c.tagName] || (c.tagName !== 'BR' && c.children.length)) return false; if (boQua(c)) return false; }
+      else if (c.nodeType !== 3) return false;
+    }
+    return true;
   }
-  function khongDich() {
-    Array.prototype.forEach.call(document.querySelectorAll('[lang]:not(html), .hero__logo, .top, a[href^="tel:"], .dock__call, .quick, .chat__ticket, .dich, .dich__goi, #gd, .gd-ui'), function (e) {
-      e.setAttribute('translate', 'no'); e.classList.add('notranslate');
+  function esc(s) { return s.replace(/</g, '‹').replace(/>/g, '›'); }
+  /* the units still to translate inside a part of the page */
+  function gom(goc) {
+    var ds = [];
+    var tat = goc.nodeType === 1 ? [goc].concat([].slice.call(goc.querySelectorAll('*'))) : [];
+    tat.forEach(function (e) {
+      if (e.__dich || boQua(e) || INLINE[e.tagName] && e.parentElement && e.parentElement.__donVi) return;
+      var coChu = false;
+      for (var c = e.firstChild; c; c = c.nextSibling) if (c.nodeType === 3 && CHU.test(c.nodeValue)) { coChu = true; break; }
+      if (coChu && phang(e)) {
+        var src = '', so = 0, con = [];
+        for (var d = e.firstChild; d; d = d.nextSibling) {
+          if (d.nodeType === 3) src += esc(d.nodeValue);
+          else if (d.tagName === 'BR') { src += '<x' + so + '/>'; con.push(d); so++; }
+          else { src += '<x' + so + '>' + esc(d.textContent) + '</x' + so + '>'; con.push(d); so++; }
+        }
+        var trim = src.replace(/\s+/g, ' ').trim();
+        if (CHU.test(trim)) { e.__donVi = true; ds.push({ loai: 'el', e: e, src: trim, con: con, dau: /^\s/.test(src), cuoi: /\s$/.test(src) }); }
+      } else if (coChu) {
+        for (var t = e.firstChild; t; t = t.nextSibling) if (t.nodeType === 3 && !t.__dich && CHU.test(t.nodeValue)) ds.push({ loai: 'tx', n: t, src: t.nodeValue.replace(/\s+/g, ' ').trim() });
+      }
+      ['placeholder', 'title', 'aria-label', 'alt'].forEach(function (a) {
+        var v = e.getAttribute && e.getAttribute(a);
+        if (v && CHU.test(v) && !e['__dich_' + a]) ds.push({ loai: 'at', e: e, a: a, src: v.trim() });
+      });
     });
+    return ds;
   }
-  /* pick a language in Google's (hidden) list, as a visitor would */
-  function apDung(l) {
-    var lan = 0;
-    (function thu() {
-      var sel = document.querySelector('.goog-te-combo');
-      if (sel && sel.options.length > 1) { sel.value = l; sel.dispatchEvent(new Event('change')); return; }
-      if (++lan < 80) setTimeout(thu, 150);
-    })();
+  function apVao(u, kq) {
+    if (!kq || kq === u.src) return;
+    if (u.loai === 'tx') { u.n.nodeValue = (/^\s/.test(u.n.nodeValue) ? ' ' : '') + kq + (/\s$/.test(u.n.nodeValue) ? ' ' : ''); u.n.__dich = true; return; }
+    if (u.loai === 'at') { u.e.setAttribute(u.a, kq); u.e['__dich_' + u.a] = true; return; }
+    var e = u.e, f = document.createDocumentFragment(), re = /<x(\d+)\s*\/>|<x(\d+)>([\s\S]*?)<\/x\2>/g, m, i = 0, dung = 0;
+    var bo = function (s) { return s.replace(/‹/g, '<').replace(/›/g, '>'); };
+    if (u.dau) f.appendChild(document.createTextNode(' '));
+    while ((m = re.exec(kq))) {
+      if (m.index > i) f.appendChild(document.createTextNode(bo(kq.slice(i, m.index))));
+      var so = +(m[1] != null ? m[1] : m[2]), c = u.con[so];
+      if (c) { if (m[3] != null && c.tagName !== 'BR') c.textContent = bo(m[3]); f.appendChild(c); dung++; }
+      i = re.lastIndex;
+    }
+    if (i < kq.length) f.appendChild(document.createTextNode(bo(kq.slice(i))));
+    if (u.cuoi) f.appendChild(document.createTextNode(' '));
+    if (dung !== u.con.length) { /* marks lost: keep the words, drop the styling */
+      f = document.createDocumentFragment();
+      f.appendChild(document.createTextNode(bo(kq.replace(/<\/?x\d+\s*\/?>/g, ''))));
+    }
+    e.textContent = '';
+    e.appendChild(f);
+    e.__dich = true;
   }
-  var napRoi = false, choDich = null;
-  function napGoogle(l) {
-    choDich = l;
-    if (napRoi) { apDung(l); return; }
-    napRoi = true;
-    datCookie('');
-    khongDich();
-    var goc = document.createElement('div'); goc.id = 'gt-goc'; document.body.appendChild(goc);
-    window.linoKhoiDich = function () {
-      try {
-        new window.google.translate.TranslateElement({ pageLanguage: 'vi', includedLanguages: 'vi,en,ja,ko,zh-CN', autoDisplay: false }, 'gt-goc');
-      } catch (e) {}
-      if (choDich) apDung(choDich);
-    };
-    var s = document.createElement('script');
-    s.src = 'https://translate.google.com/translate_a/element.js?cb=linoKhoiDich';
-    s.async = true;
-    document.head.appendChild(s);
+
+  var dichDang = null, nutTT = null, quanSat = null;
+  function trangKhoa() { return (location.pathname.replace(/\.html$/, '').replace(/\/index$/, '') || '/'); }
+  function dich(l, goc) {
+    var ds = gom(goc || document.body);
+    if (!goc && document.title && !document.__dichTitle) ds.push({ loai: 'title', src: document.title });
+    if (!ds.length) return Promise.resolve();
+    var nguon = [];
+    ds.forEach(function (u) { if (nguon.indexOf(u.src) < 0) nguon.push(u.src); });
+    if (nutTT) nutTT.classList.add('is-dang');
+    var lo = [];
+    for (var i = 0; i < nguon.length; i += 120) lo.push(nguon.slice(i, i + 120));
+    var chuoi = Promise.resolve();
+    lo.forEach(function (g) {
+      chuoi = chuoi.then(function () {
+        return fetch('/api/dich', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ nn: l, trang: trangKhoa(), ds: g }) })
+          .then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+          .then(function (j) {
+            if (!j || !j.ds) return;
+            var map = {};
+            g.forEach(function (s, k) { map[s] = j.ds[k]; });
+            dangSua = true;
+            ds.forEach(function (u) {
+              if (map[u.src] == null) return;
+              if (u.loai === 'title') { document.title = map[u.src]; document.__dichTitle = true; } else apVao(u, map[u.src]);
+            });
+            dangSua = false;
+          });
+      });
+    });
+    return chuoi.then(function () { if (nutTT) nutTT.classList.remove('is-dang'); });
+  }
+  var dangSua = false, cho = [], hen = 0;
+  function theoDoi(l) {
+    if (quanSat || !window.MutationObserver) return;
+    quanSat = new MutationObserver(function (ms) {
+      if (dangSua) return;
+      ms.forEach(function (m) { [].forEach.call(m.addedNodes, function (n) { if (n.nodeType === 1 && !boQua(n)) cho.push(n); else if (n.nodeType === 3 && n.parentElement && !boQua(n.parentElement)) cho.push(n.parentElement); }); });
+      clearTimeout(hen);
+      hen = setTimeout(function () {
+        var ds = cho.splice(0);
+        ds.forEach(function (n) { if (document.contains(n)) dich(l, n); });
+      }, 600);
+    });
+    quanSat.observe(document.body, { childList: true, subtree: true });
+  }
+  function batDauDich(l) {
+    document.documentElement.setAttribute('lang', l === 'zh' ? 'zh-CN' : l);
+    dichDang = l;
+    dich(l).then(function () { theoDoi(l); });
   }
   function chon(l) {
+    var cu = dangDung();
     try { localStorage.setItem('lino-dich', l); } catch (e) {}
-    if (l === 'vi') { datCookie(''); location.reload(); return; }
-    napGoogle(l);
+    if (l === cu) return;
+    if (l === 'vi' || dichDang) { location.reload(); return; }
     veNut();
+    batDauDich(l);
   }
 
   var GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.9 5.8 3.9 9s-1.3 6.2-3.9 9c-2.6-2.8-3.9-5.8-3.9-9s1.3-6.2 3.9-9z"/></svg>';
@@ -118,8 +195,9 @@
   hop.innerHTML = '<button class="dock__dich" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Chọn ngôn ngữ / Language">' + GLOBE + '<span></span></button>' +
     '<div class="dich__ds" role="menu" hidden>' + NGON.map(function (x) {
       return '<button type="button" role="menuitemradio" data-ngon="' + x[0] + '" aria-checked="false">' + x[1] + '<small>' + x[2] + '</small></button>';
-    }).join('') + '<p>Dịch tự động bởi Google · Automatic translation</p></div>';
+    }).join('') + '<p>Dịch tự động bằng AI · Automatic AI translation</p></div>';
   var nut = hop.querySelector('.dock__dich'), ds = hop.querySelector('.dich__ds');
+  nutTT = nut;
   function veNut() {
     var l = dangDung(), x = NGON.filter(function (n) { return n[0] === l; })[0];
     nut.querySelector('span').textContent = x[2];
@@ -131,14 +209,13 @@
   ds.addEventListener('click', function (e) { var b = e.target.closest('[data-ngon]'); if (!b) return; mo(false); chon(b.getAttribute('data-ngon')); });
   document.addEventListener('click', function (e) { if (!hop.contains(e.target)) mo(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') mo(false); });
-  var cho = dock.querySelector('.dock__call');
-  dock.insertBefore(hop, cho || null);
+  var choGoi = dock.querySelector('.dock__call');
+  dock.insertBefore(hop, choGoi || null);
   veNut();
 
-  /* keep translating on every page once a language is chosen (after the page
-     has fully loaded, otherwise Google's translator stays idle) */
-  if (dangDung() !== 'vi') {
-    var batDau = function () { setTimeout(function () { napGoogle(dangDung()); }, 200); };
+  /* keep the chosen language on every page */
+  if (dangDung() !== 'vi' && !/[?&]sua/.test(location.search)) {
+    var batDau = function () { setTimeout(function () { batDauDich(dangDung()); }, 120); };
     if (document.readyState === 'complete') batDau(); else addEventListener('load', batDau);
   }
 
@@ -146,8 +223,8 @@
   var daHoi = null;
   try { daHoi = localStorage.getItem('lino-dich'); } catch (e) {}
   var tl = ((navigator.languages && navigator.languages[0]) || navigator.language || 'vi').toLowerCase();
-  var goiY = /^vi/.test(tl) ? null : /^en/.test(tl) ? 'en' : /^ja/.test(tl) ? 'ja' : /^ko/.test(tl) ? 'ko' : /^zh/.test(tl) ? 'zh-CN' : null;
-  if (goiY && !daHoi && dangDung() === 'vi' && !/[?&]sua/.test(location.search)) {
+  var goiY = /^vi/.test(tl) ? null : /^en/.test(tl) ? 'en' : /^ja/.test(tl) ? 'ja' : /^ko/.test(tl) ? 'ko' : /^zh/.test(tl) ? 'zh' : null;
+  if (goiY && !daHoi && !/[?&]sua/.test(location.search)) {
     setTimeout(function () {
       var c = CAU_HOI[goiY], g = document.createElement('div');
       g.className = 'dich__goi notranslate'; g.setAttribute('translate', 'no'); g.setAttribute('role', 'dialog');
