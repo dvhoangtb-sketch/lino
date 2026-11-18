@@ -22,8 +22,8 @@
 .gd-dau b { font-weight: 700; font-size: 15px; margin-right: auto; white-space: nowrap; }
 .gd-trang { height: 32px; border: 1px solid var(--gd-vien); border-radius: 8px; padding: 0 6px; background: #fff; color: var(--gd-chu); min-width: 0; }
 
-.gd-tab { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 6px; background: var(--gd-nen2); }
-.gd-tab button { border: 0; background: transparent; padding: 8px 2px; border-radius: 8px; cursor: pointer; color: var(--gd-phu); font-weight: 600; font-size: 13px; }
+.gd-tab { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; padding: 6px; background: var(--gd-nen2); }
+.gd-tab button { border: 0; background: transparent; padding: 8px 2px; border-radius: 8px; cursor: pointer; color: var(--gd-phu); font-weight: 600; font-size: 12px; line-height: 1.2; }
 .gd-tab button[aria-selected="true"] { background: #fff; color: var(--gd-do); box-shadow: 0 1px 3px rgba(0, 0, 0, .1); }
 
 .gd-than { overflow: auto; overscroll-behavior: contain; padding: 12px 14px 16px; flex: 1 1 auto; min-height: 0; }
@@ -130,3 +130,29 @@ body.gd-dang-keo, body.gd-dang-keo * { cursor: grabbing !important; }
   .gd-bao { animation: gd-len 220ms cubic-bezier(.22, 1, .36, 1); }
   @keyframes gd-len { from { opacity: 0; transform: translate(-50%, 8px); } }
 }
+
+/* 🎉 Lễ hội tab */
+.gd-cd { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.gd-cd button { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--gd-vien); border-radius: 12px; background: #fff; cursor: pointer; text-align: left; color: var(--gd-chu); }
+.gd-cd button[aria-pressed="true"] { border-color: var(--gd-do); background: var(--gd-do-nhat); box-shadow: inset 0 0 0 1px var(--gd-do); }
+.gd-cd span { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; font-weight: 700; }
+.gd-cd svg { width: 24px; height: 24px; }
+.gd-cd b { font-size: 13px; font-weight: 700; line-height: 1.2; }
+.gd-xem { margin-top: 10px; padding: 10px 12px; border-radius: 12px; color: #fff; font-weight: 700; font-size: 13px; text-align: center; line-height: 1.35; }
+.gd-o2 { display: grid; gap: 4px; margin-top: 10px; font-size: 13px; font-weight: 600; }
+.gd-o2 input, .gd-o2 select, .gd-ngay input { min-height: 38px; padding: 0 10px; border: 1px solid var(--gd-vien); border-radius: 10px; background: #fff; color: var(--gd-chu); font-size: 14px; width: 100%; }
+.gd-o2 small { color: var(--gd-phu); font-weight: 500; font-size: 12px; }
+.gd-chk { display: flex; align-items: flex-start; gap: 8px; margin-top: 8px; font-size: 13px; cursor: pointer; line-height: 1.35; }
+.gd-chk input { width: 18px; height: 18px; flex: none; margin: 0; accent-color: var(--gd-do); }
+.gd-ngay { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.gd-ngay label { display: grid; gap: 4px; font-size: 12px; font-weight: 600; color: var(--gd-phu); }
+.gd-anh { padding: 8px; border-radius: 12px; background: var(--gd-nen2); }
+.gd-anh img { display: block; width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px; }
+.gd-khung2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.gd-khung2 button { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 10px; border: 1px solid var(--gd-vien); border-radius: 10px; background: #fff; cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--gd-chu); text-align: left; }
+.gd-khung2 button[aria-pressed="true"] { border-color: var(--gd-do); background: var(--gd-do-nhat); }
+.gd-k { width: 26px; height: 20px; flex: none; background: #cfd8dc; }
+.gd-k--tron { border-radius: 6px; }
+.gd-k--polaroid { border: 3px solid #fff; border-bottom-width: 7px; box-shadow: 0 1px 3px rgba(0,0,0,.35); transform: rotate(-4deg); }
+.gd-k--vang { border-radius: 5px; box-shadow: 0 0 0 3px #D4A537; }
+.gd-k--le-hoi { border-radius: 6px; background: #C8102E; box-shadow: inset 0 0 0 4px rgba(255,255,255,.5); }

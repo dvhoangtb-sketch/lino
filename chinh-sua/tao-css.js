@@ -51,7 +51,8 @@ export const TRANG = [
   { k: '/phat-am', ten: 'Luyện phát âm' },
   { k: '/video-hoc', ten: 'Video học' },
   { k: '/bai-tap', ten: 'Bài tập về nhà' },
-  { k: '/chung-nhan', ten: 'Chứng nhận' }
+  { k: '/chung-nhan', ten: 'Chứng nhận' },
+  { k: '/lo-trinh', ten: 'Lộ trình chứng chỉ' }
 ];
 
 export function trangCua(path) {
@@ -86,6 +87,41 @@ function viTri(src) {
     out[p] = [x, y, s]; n++;
   }
   return out;
+}
+
+/* festive decorations and the top picture (drawn by /trang-tri.js) */
+export var CHU_DE = ['noel', 'nam-moi', 'tet', 'trung-thu', 'khai-giang', 'halloween'];
+function chu(s, max) {
+  return typeof s === 'string' ? s.replace(/[\u0000-\u001f\u007f<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max) : '';
+}
+function lamSachTrangTri(t) {
+  if (!t || typeof t !== 'object') return null;
+  var o = {};
+  if (CHU_DE.indexOf(t.chuDe) >= 0) o.chuDe = t.chuDe;
+  var nam = Math.round(Number(t.nam));
+  if (nam >= 2000 && nam <= 2100) o.nam = nam;
+  var lc = chu(t.loiChuc, 90);
+  if (lc) o.loiChuc = lc;
+  ['bang', 'treo', 'goc', 'roi'].forEach(function (k) { if (t[k] === false) o[k] = false; });
+  if (t.mat === 'it' || t.mat === 'nhieu') o.mat = t.mat;
+  var NGAY = /^\d{4}-\d\d-\d\d$/;
+  if (NGAY.test(t.tu || '')) o.tu = t.tu;
+  if (NGAY.test(t.den || '')) o.den = t.den;
+  var a = t.anh;
+  if (a && typeof a === 'object' && /^[a-z0-9]{8,24}$/.test(a.id || '')) {
+    var x = { id: a.id, tep: String(a.tep || 'anh').replace(/[^\w.\- ()À-ỹ]/g, '').slice(0, 100) || 'anh' };
+    var w = Math.round(Number(a.w)), h = Math.round(Number(a.h));
+    if (w > 0 && h > 0 && w < 20000 && h < 20000) { x.w = w; x.h = h; }
+    x.khung = ['khong', 'tron', 'polaroid', 'vang', 'le-hoi'].indexOf(a.khung) >= 0 ? a.khung : 'tron';
+    x.boCuc = ['canh', 'rong', 'chi'].indexOf(a.boCuc) >= 0 ? a.boCuc : 'canh';
+    x.tieuDe = chu(a.tieuDe, 120); x.phuDe = chu(a.phuDe, 240); x.nut = chu(a.nut, 40);
+    var l = String(a.link || '').trim();
+    x.link = /^(\/[^\s"'<>]*|#[\w-]*|https:\/\/[^\s"'<>]+)$/.test(l) ? l.slice(0, 300) : '/#dang-ky';
+    x.trang = a.trang === 'tat-ca' ? 'tat-ca' : 'chu';
+    if (a.bat === false) x.bat = false;
+    o.anh = x;
+  }
+  return Object.keys(o).length ? o : null;
 }
 
 export function lamSach(d) {
@@ -136,6 +172,8 @@ export function lamSach(d) {
     });
     if (Object.keys(tr).length) o.trang = tr;
   }
+  var tt = lamSachTrangTri(d.trangTri);
+  if (tt) o.trangTri = tt;
   if (typeof d.luc === 'number' && isFinite(d.luc)) o.luc = d.luc;
   return o;
 }

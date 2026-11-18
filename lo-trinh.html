@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lộ trình chứng chỉ · Lino</title>
+<meta name="description" content="Lộ trình từ lúc mới học đến chứng chỉ Cambridge, IELTS, TOEIC và tiếng Nhật JLPT N5 – N1: độ tuổi, số từ vựng, số giờ học, cấu trúc đề và điểm đỗ, cập nhật mới nhất. Kèm công cụ tính lộ trình cho con.">
+<meta name="theme-color" content="#CC0000">
+<meta property="og:title" content="Lộ trình chứng chỉ tiếng Anh, tiếng Nhật · Lino">
+<link rel="canonical" href="https://linoedugroup.com/lo-trinh">
+<meta property="og:description" content="Con cần bao nhiêu từ vựng, bao nhiêu giờ học để thi Cambridge, IELTS, TOEIC, JLPT? Lino tổng hợp theo số liệu chính thức, cập nhật mới nhất.">
+<meta property="og:url" content="https://linoedugroup.com/lo-trinh">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lino Edu">
+<meta property="og:image" content="https://linoedugroup.com/assets/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/mark.webp" type="image/webp">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans+JP:wght@500;700&family=Noto+Serif:ital,wght@1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css?v=202611182120">
+<link rel="stylesheet" href="site.css?v=202611182120">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  body { background: var(--paper); }
+  .lt-hero { position: relative; padding: clamp(7.5rem, 13vw, 11rem) 0 clamp(1.5rem, 3vw, 2.5rem); overflow: hidden; }
+  .lt-hero::after { content: ""; position: absolute; z-index: 0; right: -8vw; top: -14vw; width: 46vw; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 12%, transparent), 0 0 0 7vw color-mix(in srgb, var(--red) 3%, transparent), 0 0 0 calc(7vw + 2px) color-mix(in srgb, var(--red) 9%, transparent); }
+  .lt-hero .sc-wrap { position: relative; z-index: 1; }
+  .lt-hero h1 { font-size: clamp(2.5rem, 5.8vw, 5.2rem); max-width: 14ch; }
+  .lt-hero p { margin-top: var(--sc-5); max-width: 50ch; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.55; text-wrap: pretty; }
+  .lt-hero small { display: inline-block; margin-top: var(--sc-4); padding: 4px 12px; border-radius: 999px; background: #fff; font-weight: 700; color: var(--sc-ink-soft);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 10%, transparent); }
+
+  /* calculator */
+  .tinh { padding-block: var(--sc-4) var(--sc-7); }
+  .tinh__o { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(1rem, 3vw, 2.5rem); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: 30px;
+    background: var(--sc-ink); color: #fff; box-shadow: 0 30px 60px -30px hsl(352 55% 18% / 0.55); }
+  .tinh h2 { font-size: clamp(1.6rem, 2.6vw, 2.3rem); }
+  .tinh__form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: var(--sc-5); }
+  .tinh__form label { display: grid; gap: 6px; font-size: 0.88rem; font-weight: 600; color: rgb(255 255 255 / 0.8); }
+  .tinh__form .rong { grid-column: 1 / -1; }
+  .tinh select, .tinh input { min-height: 48px; padding: 0 12px; border: 0; border-radius: 12px; background: #fff; color: var(--sc-ink); font: 600 1rem/1.2 var(--sc-font-text); width: 100%; }
+  .tinh__ngon { display: flex; gap: 6px; grid-column: 1 / -1; }
+  .tinh__ngon button { flex: 1; min-height: 46px; border: 0; border-radius: 12px; background: rgb(255 255 255 / 0.12); color: #fff; font: 700 0.98rem/1 var(--sc-font-text); cursor: pointer; }
+  .tinh__ngon button[aria-pressed="true"] { background: var(--red); }
+  .kq { display: grid; align-content: center; gap: 10px; padding: clamp(1rem, 2.4vw, 1.75rem); border-radius: 22px; background: rgb(255 255 255 / 0.07); }
+  .kq__so { font: 800 clamp(2.4rem, 5vw, 3.6rem)/1 var(--sc-font-display); color: #FFD24A; letter-spacing: -0.02em; }
+  .kq__so small { font-size: 0.42em; color: #fff; letter-spacing: 0; margin-left: 6px; }
+  .kq p { line-height: 1.55; color: rgb(255 255 255 / 0.86); }
+  .kq b { color: #fff; }
+  .kq__thanh { height: 10px; border-radius: 999px; background: rgb(255 255 255 / 0.12); overflow: hidden; }
+  .kq__thanh i { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #FFD24A, #FF6A5C); transition: width 700ms var(--ease); }
+  .kq .btn { justify-self: start; margin-top: 6px; }
+  .kq__ghi { font-size: 0.8rem !important; color: rgb(255 255 255 / 0.55) !important; }
+
+  /* tabs and the road */
+  .lt-tab { position: sticky; top: 80px; z-index: 20; padding-block: 12px; background: color-mix(in srgb, var(--paper) 92%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+  .seg button { min-height: 46px; padding: 0 18px; border-radius: 999px; border: 0; cursor: pointer; background: #fff; color: var(--sc-ink);
+    font: 700 0.98rem/1 var(--sc-font-text); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--sc-ink) 12%, transparent); }
+  .seg button[aria-pressed="true"] { background: var(--red); color: #fff; box-shadow: none; }
+  .ld { padding-block: var(--sc-5) clamp(3rem, 7vw, 6rem); }
+  .ld__gioi { max-width: 62ch; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.6; text-wrap: pretty; }
+  .duong { position: relative; margin-top: var(--sc-7); display: grid; gap: clamp(1rem, 2vw, 1.5rem); }
+  .duong::before { content: ""; position: absolute; left: 27px; top: 10px; bottom: 10px; width: 4px; border-radius: 4px;
+    background: linear-gradient(180deg, #FFD24A, var(--red) 55%, var(--sc-ink)); }
+  .chang { position: relative; display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .chang__nut { position: relative; z-index: 1; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--red);
+    font: 800 0.95rem/1 var(--sc-font-display); box-shadow: 0 0 0 4px var(--paper), 0 6px 16px -6px hsl(352 55% 18% / 0.4), inset 0 0 0 2.5px var(--red); text-align: center; }
+  .chang__the { padding: clamp(1rem, 2vw, 1.4rem); border-radius: 22px; background: #fff; box-shadow: 0 1px 2px hsl(352 55% 18% / 0.07), inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 7%, transparent); }
+  .chang__the h3 { font-size: clamp(1.25rem, 2vw, 1.6rem); }
+  .chang__the h3 span { display: inline-block; margin-left: 8px; padding: 2px 10px; border-radius: 999px; background: var(--blush); color: var(--red-deep); font: 700 0.78rem/1.5 var(--sc-font-text); vertical-align: 4px; }
+  .so { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+  .so div { padding: 10px 12px; border-radius: 14px; background: var(--paper); }
+  .so b { display: block; font: 800 1.15rem/1.2 var(--sc-font-display); color: var(--sc-ink); }
+  .so small { display: block; margin-top: 2px; color: var(--sc-ink-soft); font-size: 0.78rem; line-height: 1.35; }
+  .chang__ct { display: grid; gap: 6px; margin-top: 12px; color: var(--sc-ink-soft); line-height: 1.55; font-size: 0.95rem; }
+  .chang__ct b { color: var(--sc-ink); }
+  .bang { width: 100%; margin-top: var(--sc-6); border-collapse: collapse; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sc-ink) 8%, transparent); }
+  .bang th, .bang td { padding: 12px 14px; text-align: left; border-bottom: 1px solid color-mix(in srgb, var(--sc-ink) 7%, transparent); font-size: 0.95rem; }
+  .bang th { background: var(--sc-ink); color: #fff; font-weight: 700; }
+  .moi { margin-top: var(--sc-6); padding: clamp(1rem, 2.4vw, 1.6rem); border-radius: 22px; background: #FFF8EA; box-shadow: inset 0 0 0 1.5px #F4D7A4; }
+  .moi h3 { font-size: 1.2rem; }
+  .moi ul { margin: 10px 0 0; padding-left: 1.2em; line-height: 1.6; }
+  .moi li + li { margin-top: 6px; }
+  .moi p { margin-top: 12px; font-size: 0.86rem; color: var(--sc-ink-soft); }
+  .moi p a { color: var(--red-deep); }
+  .hoi { margin-top: clamp(2.5rem, 6vw, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sc-5); align-items: center;
+    padding: clamp(1.5rem, 3.5vw, 2.75rem); border-radius: 28px; background: var(--red); color: #fff; }
+  .hoi h2 { font-size: clamp(1.5rem, 2.6vw, 2.3rem); max-width: 22ch; }
+  .hoi p { margin-top: 8px; color: rgb(255 255 255 / 0.86); max-width: 48ch; line-height: 1.55; }
+  .hoi .btn { background: #fff; color: var(--red-deep); }
+  .foot { margin-top: var(--sc-8); padding-block: var(--sc-4) var(--sc-7); border-top: 1px solid var(--sc-hairline-strong); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+  @media (min-width: 861px) {
+    .duong { grid-template-columns: 1fr 1fr; column-gap: 64px; }
+    .duong::before { left: 50%; margin-left: -2px; }
+    .chang { grid-template-columns: minmax(0, 1fr); }
+    .chang:nth-child(odd) { grid-column: 1; }
+    .chang:nth-child(even) { grid-column: 2; margin-top: 90px; }
+    .chang__nut { position: absolute; top: 18px; }
+    .chang:nth-child(odd) .chang__nut { right: -61px; }
+    .chang:nth-child(even) .chang__nut { left: -61px; }
+  }
+  @media (max-width: 860px) {
+    .tinh__o { grid-template-columns: 1fr; }
+    .lt-tab { top: 0; }
+    .seg { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--sc-gutter) * -1); padding: 4px var(--sc-gutter); }
+    .seg::-webkit-scrollbar { display: none; }
+    .seg button { flex: none; }
+    .so { grid-template-columns: 1fr 1fr; }
+    .so div:last-child { grid-column: 1 / -1; }
+    .bang th, .bang td { padding: 10px; font-size: 0.86rem; }
+    .hoi { grid-template-columns: 1fr; }
+    .foot { padding-bottom: calc(var(--dock-h) + var(--sc-6)); }
+  }
+</style>
+</head>
+<body>
+
+<nav class="dock" aria-label="Điều hướng">
+  <div class="dock__links">
+    <a href="/">Trang chủ</a>
+    <a href="/bai-tap">Bài tập</a>
+    <a href="/tai-lieu">Tài liệu</a>
+    <a href="/phat-am">Luyện phát âm</a>
+    <a href="/video-hoc">Video học</a>
+  </div>
+  <button class="dock__menu" type="button" aria-expanded="false" aria-controls="menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Menu
+  </button>
+  <a class="dock__call" href="tel:0789251499" aria-label="Gọi hotline Lino 0789 251 499">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+    <span>0789 251 499</span>
+  </a>
+  <a class="btn" href="/#dang-ky">Đăng ký học thử</a>
+</nav>
+<div class="sheet" id="menu" aria-hidden="true">
+  <button class="sheet__bg" type="button" tabindex="-1" aria-label="Đóng menu"></button>
+  <nav class="sheet__panel" aria-label="Menu">
+    <a href="/">Trang chủ <small>Lino</small></a>
+    <a href="/bai-tap">Bài tập về nhà <small>Theo lớp</small></a>
+    <a href="/tai-lieu">Tài liệu bài tập <small>Theo độ tuổi</small></a>
+    <a href="/phat-am">Luyện phát âm cùng con <small>5 phút mỗi tối</small></a>
+    <a href="/video-hoc">Video học cùng con <small>Kênh YouTube Lino</small></a>
+    <a href="/lo-trinh">Lộ trình chứng chỉ <small>Bạn đang ở đây</small></a>
+    <a href="/chung-nhan">Chứng nhận <small>Giấy phép, chứng chỉ</small></a>
+    <a href="/#dang-ky">Đăng ký học thử <small>Nhắn Zalo hoặc gọi</small></a>
+  </nav>
+</div>
+
+<div class="top"><a href="/"><img src="assets/logo-word.webp" width="640" height="267" alt="Lino, về trang chủ"></a><p class="top__slogan">Học ngôn ngữ, <span>chạm tương lai!</span></p></div>
+
+<main>
+  <header class="lt-hero">
+    <div class="sc-wrap" data-sc-in data-sc-stagger="90">
+      <h1>Chặng đường đến chứng chỉ <span class="em">của con.</span></h1>
+      <p>Mỗi chứng chỉ cần khoảng bao nhiêu từ vựng, bao nhiêu giờ học, hợp với lứa tuổi nào? Lino tổng hợp từ số liệu chính thức của Cambridge, IELTS, ETS (TOEIC) và JLPT để bố mẹ lên kế hoạch cùng con.</p>
+      <small id="cap-nhat">Cập nhật 18/11/2026</small>
+    </div>
+  </header>
+
+  <section class="tinh" aria-labelledby="tinh-t">
+    <div class="sc-wrap">
+      <div class="tinh__o">
+        <div>
+          <h2 id="tinh-t">Tính nhanh lộ trình cho con</h2>
+          <div class="tinh__form">
+            <div class="tinh__ngon" role="group" aria-label="Ngôn ngữ">
+              <button type="button" data-ngon="anh" aria-pressed="true">Tiếng Anh</button>
+              <button type="button" data-ngon="nhat" aria-pressed="false">Tiếng Nhật</button>
+            </div>
+            <label>Con bao nhiêu tuổi?<input id="t-tuoi" type="number" min="3" max="40" value="8" inputmode="numeric"></label>
+            <label>Số giờ học mỗi tuần<input id="t-gio" type="number" min="1" max="30" value="4" inputmode="numeric"></label>
+            <label class="rong">Trình độ hiện tại<select id="t-hien"></select></label>
+            <label class="rong">Mục tiêu<select id="t-dich"></select></label>
+          </div>
+        </div>
+        <div class="kq" aria-live="polite" id="kq"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="lt-tab" id="lt-tab">
+    <div class="sc-wrap"><div class="seg" id="seg" role="tablist" aria-label="Chọn chứng chỉ"></div></div>
+  </div>
+
+  <section class="ld">
+    <div class="sc-wrap">
+      <div id="ld"></div>
+      <div class="hoi">
+        <div>
+          <h2>Muốn biết con đang ở chặng nào?</h2>
+          <p>Lino kiểm tra trình độ miễn phí cho con, rồi xếp lớp và lộ trình phù hợp với mục tiêu của gia đình.</p>
+        </div>
+        <a class="btn" href="/#dang-ky">Đăng ký kiểm tra trình độ</a>
+      </div>
+      <p class="foot">© 2026 Trung tâm ngoại ngữ Lino. Cambridge, IELTS, TOEIC và JLPT là tên các kỳ thi của đơn vị tổ chức tương ứng; Lino không liên kết chính thức. Số liệu để bố mẹ tham khảo, mỗi con một tốc độ khác nhau.</p>
+    </div>
+  </section>
+</main>
+
+<script src="chinh-sua/ap-dung.js?v=202611182120"></script>
+<script src="trang-tri.js?v=202611182120"></script>
+<script src="data/lo-trinh.js?v=202611182120"></script>
+<script src="data/cau-hinh.js?v=202611182120"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="scrollcraft.js?v=202611182120"></script>
+<script src="site.js?v=202611182120"></script>
+<script>
+ScrollCraft.mount(document.body);
+(function () {
+  var D = window.LINO_LO_TRINH, ld = document.getElementById('ld'), seg = document.getElementById('seg');
+  var TAB = [['cambridge', 'Cambridge thiếu nhi'], ['ielts', 'IELTS'], ['toeic', 'TOEIC'], ['jlpt', 'Tiếng Nhật JLPT']];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  document.getElementById('cap-nhat').textContent = 'Cập nhật ' + D.cap_nhat;
+
+  var chon = (/#(cambridge|ielts|toeic|jlpt)/.exec(location.hash) || [])[1] || 'cambridge';
+  function ve() {
+    seg.innerHTML = TAB.map(function (t) { return '<button type="button" role="tab" data-t="' + t[0] + '" aria-pressed="' + (chon === t[0]) + '">' + t[1] + '</button>'; }).join('');
+    var m = D[chon];
+    ld.innerHTML = '<p class="ld__gioi">' + esc(m.gioi) + '</p>' +
+      '<div class="duong">' + m.chang.map(function (c, i) {
+        return '<article class="chang"><span class="chang__nut" aria-hidden="true">' + esc(c.cefr) + '</span>' +
+          '<div class="chang__the"><h3>' + esc(c.ten) + '<span>' + esc(c.tuoi) + '</span></h3>' +
+          '<div class="so"><div><b>' + esc(c.tu) + '</b><small>Từ vựng · ' + esc(c.tuGhi) + '</small></div>' +
+          '<div><b>' + esc(c.gio) + '</b><small>Giờ học cộng dồn từ lúc bắt đầu</small></div>' +
+          '<div><b>' + esc(c.cefr) + '</b><small>Khung tham chiếu châu Âu (CEFR)</small></div></div>' +
+          '<div class="chang__ct"><span><b>Con làm được:</b> ' + esc(c.con) + '</span><span><b>Bài thi:</b> ' + esc(c.thi) + '</span><span><b>Điểm đạt:</b> ' + esc(c.diem) + '</span></div></div></article>';
+      }).join('') + '</div>' +
+      (m.cau_truc ? '<table class="bang"><thead><tr><th>Kỹ năng</th><th>Thời gian</th><th>Nội dung</th></tr></thead><tbody>' +
+        m.cau_truc.map(function (r) { return '<tr><td><b>' + esc(r[0]) + '</b></td><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td></tr>'; }).join('') + '</tbody></table>' : '') +
+      '<div class="moi"><h3>🆕 Cập nhật mới nhất về ' + esc(m.ten) + '</h3><ul>' + m.moi.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' +
+      '<p>Nguồn: ' + m.nguon.map(function (n) { return '<a href="' + n[1] + '" target="_blank" rel="noopener">' + esc(n[0]) + '</a>'; }).join(' · ') + '</p></div>';
+  }
+  seg.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-t]'); if (!b) return;
+    chon = b.getAttribute('data-t');
+    try { history.replaceState(null, '', '#' + chon); } catch (er) {}
+    ve();
+  });
+  ve();
+
+  /* ---------------------------------------------------------- calculator */
+  var ngon = 'anh', $ = function (i) { return document.getElementById(i); };
+  function napChon() {
+    var t = D.tinh[ngon];
+    $('t-hien').innerHTML = t.hien.map(function (x, i) { return '<option value="' + i + '">' + esc(x[0]) + '</option>'; }).join('');
+    $('t-dich').innerHTML = t.dich.map(function (x, i) { return '<option value="' + i + '"' + (i === (ngon === 'anh' ? 4 : 2) ? ' selected' : '') + '>' + esc(x[0]) + '</option>'; }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-ngon]'), function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-ngon') === ngon); });
+    if (ngon === 'nhat' && +$('t-tuoi').value < 10) $('t-tuoi').value = 14;
+    tinh();
+  }
+  function soDep(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function tinh() {
+    var t = D.tinh[ngon], tuoi = Math.max(3, Math.min(40, +$('t-tuoi').value || 8)), gio = Math.max(1, Math.min(30, +$('t-gio').value || 4));
+    var hien = t.hien[+$('t-hien').value][1], dich = t.dich[+$('t-dich').value];
+    var heSo = tuoi <= 8 ? 1.5 : tuoi <= 12 ? 1.3 : 1;
+    var can = Math.max(0, (dich[1] - hien) * heSo);
+    var kq = $('kq');
+    if (!can) {
+      kq.innerHTML = '<p class="kq__so">🎉</p><p>Con đã ở mức <b>' + esc(dich[0]) + '</b> hoặc cao hơn. Bố mẹ chọn mục tiêu cao hơn để xem chặng tiếp theo nhé.</p>';
+      return;
+    }
+    var tuan = can / gio, thang = tuan / 4.33, nam = thang / 12;
+    var phan = Math.round(hien / dich[1] * 100);
+    kq.innerHTML = '<span>Thời gian dự kiến để đạt <b>' + esc(dich[0]) + '</b></span>' +
+      '<p class="kq__so">' + (thang < 18 ? Math.max(1, Math.round(thang)) + '<small>tháng</small>' : (Math.round(nam * 10) / 10).toString().replace('.', ',') + '<small>năm</small>') + '</p>' +
+      '<div class="kq__thanh" aria-hidden="true"><i></i></div>' +
+      '<p>Con cần khoảng <b>' + soDep(can) + ' giờ học</b> nữa. Học <b>' + gio + ' giờ mỗi tuần</b> (ở lớp và ở nhà), con có thể sẵn sàng thi vào khoảng <b>' + Math.round(tuoi + nam) + ' tuổi</b>.</p>' +
+      (gio < 6 ? '<p>Nếu tăng lên ' + (gio + 2) + ' giờ mỗi tuần, chỉ còn khoảng <b>' + Math.max(1, Math.round(can / (gio + 2) / 4.33)) + ' tháng</b>.</p>' : '') +
+      '<a class="btn" href="/#dang-ky">Nhờ Lino xếp lộ trình cho con</a>' +
+      '<p class="kq__ghi">Ước tính theo số giờ học chính thức của Cambridge (tiếng Anh) và số liệu phổ biến cho JLPT' + (heSo > 1 ? ', đã cộng thêm ' + Math.round((heSo - 1) * 100) + '% vì trẻ nhỏ học qua trò chơi' : '') + '. Mỗi con một tốc độ khác nhau.</p>';
+    setTimeout(function () { var i = kq.querySelector('.kq__thanh i'); if (i) i.style.width = Math.max(4, phan) + '%'; }, 30);
+  }
+  document.querySelector('.tinh__ngon').addEventListener('click', function (e) { var b = e.target.closest('[data-ngon]'); if (b) { ngon = b.getAttribute('data-ngon'); napChon(); } });
+  ['t-tuoi', 't-gio', 't-hien', 't-dich'].forEach(function (i) { $(i).addEventListener('input', tinh); $(i).addEventListener('change', tinh); });
+  napChon();
+})();
+</script>
+</body>
+</html>

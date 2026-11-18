@@ -7,8 +7,8 @@ import { json, doc, ghi, danhSach, sach, ID, SO_LOP, tenLopGoc, gia, ytId, moiId
    POST (password) { k, viec: sua | xoa | xep | ten-lop | chuyen | them-video, ... } */
 export async function onRequestGet({ request, env }) {
   const k = new URL(request.url).searchParams.get('k');
-  if (k !== 'chung-nhan' && k !== 'bai-tap') return json({ loi: 'Không có mục này.' }, 404);
-  if (!env.TEP) return json(k === 'chung-nhan' ? { ds: [] } : { ten: tenLopGoc(), lop: {} });
+  if (k !== 'chung-nhan' && k !== 'bai-tap' && k !== 'trang-tri') return json({ loi: 'Không có mục này.' }, 404);
+  if (!env.TEP) return json(k === 'bai-tap' ? { ten: tenLopGoc(), lop: {} } : { ds: [] });
   const d = await doc(env, k);
   if (k === 'bai-tap') {
     let quanLy = false;
@@ -46,7 +46,7 @@ export async function onRequestPost({ request, env }) {
   let b;
   try { b = await request.json(); } catch (e) { return json({ loi: 'Dữ liệu không đúng.' }, 400); }
   const k = b.k;
-  if (k !== 'chung-nhan' && k !== 'bai-tap') return json({ loi: 'Không có mục này.' }, 400);
+  if (k !== 'chung-nhan' && k !== 'bai-tap' && k !== 'trang-tri') return json({ loi: 'Không có mục này.' }, 400);
   const d = await doc(env, k);
 
   if (b.viec === 'ten-lop') {

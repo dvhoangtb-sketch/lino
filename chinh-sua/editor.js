@@ -91,12 +91,26 @@ function veLai() {
   const meta = $('meta[name="theme-color"]');
   if (meta) meta.content = (s.mau && s.mau.chinh) || '#CC0000';
   thuTuDom();
+  veTrangTri(s.trangTri);
   capNhatNut();
   veKhung();
 }
 
+let ttCu = '-';
+function veTrangTri(t) {
+  const j = JSON.stringify(t || null);
+  if (j === ttCu || !window.LinoTrangTri) return;
+  const coAnh = !!(t && t.anh) !== !!(ttCu !== '-' && JSON.parse(ttCu) && JSON.parse(ttCu).anh);
+  ttCu = j;
+  window.LinoTrangTri.ve(t, { xemThu: true });
+  if (coAnh) setTimeout(() => dispatchEvent(new Event('resize')), 60);
+}
+function TT() { D.trangTri = D.trangTri || {}; return D.trangTri; }
+let henTT = 0;
+function veTTSau() { clearTimeout(henTT); henTT = setTimeout(veLai, 250); }
+
 /* ------------------------------------------------------------- panel --- */
-const TAB = [['mau', 'Màu sắc'], ['sang', 'Độ sáng'], ['chu', 'Chữ'], ['bocuc', 'Bố cục']];
+const TAB = [['mau', 'Màu sắc'], ['sang', 'Độ sáng'], ['chu', 'Chữ'], ['bocuc', 'Bố cục'], ['letet', '🎉 Lễ hội']];
 const bang = tao(`<aside class="gd gd-ui gd--trai" id="gd" aria-label="Chỉnh giao diện">
   <header class="gd-dau">
     <b>Chỉnh giao diện</b>
@@ -166,6 +180,8 @@ function veTab() {
       ${thanhKeo('co', 'Cỡ chữ cả trang', 'Áp dụng cho chữ trên mọi trang.', 80, 130, (s.chu && s.chu.co) || 100)}
       <p class="gd-muc">Font tiêu đề</p>${luoi('td', td)}
       <p class="gd-muc">Font nội dung</p>${luoi('nd', nd)}`;
+  } else if (tab === 'letet') {
+    veLeTet(than, s.trangTri || {});
   } else {
     than.innerHTML = `
       <button type="button" class="gd-nut gd-rong ${keoTha ? 'gd-nut--bat' : ''}" data-lenh="keo">${keoTha ? '✋ Đang bật kéo thả, bấm để tắt' : '✋ Bật kéo thả trên trang'}</button>
@@ -180,6 +196,103 @@ function veTab() {
     veChon();
     vePhan();
   }
+}
+
+const KHUNG = [['khong', 'Không khung'], ['tron', 'Bo tròn'], ['polaroid', 'Ảnh polaroid'], ['vang', 'Viền vàng'], ['le-hoi', 'Viền lễ hội']];
+const BO_CUC_ANH = [['canh', 'Ảnh + chữ bên cạnh'], ['rong', 'Ảnh rộng, chữ đè lên'], ['chi', 'Chỉ có ảnh']];
+function lichGoiY(k) {
+  const L = window.LinoTrangTri && window.LinoTrangTri.CHU_DE[k];
+  if (!L) return null;
+  const nay = new Date(), y = nay.getFullYear(), hom = nay.toISOString().slice(0, 10);
+  let tu = y + '-' + L.lich[0], den = (L.lich[1] < L.lich[0] ? y + 1 : y) + '-' + L.lich[1];
+  if (den < hom) { tu = (y + 1) + '-' + L.lich[0]; den = (L.lich[1] < L.lich[0] ? y + 2 : y + 1) + '-' + L.lich[1]; }
+  return [tu, den];
+}
+function ngayVN(s) { return s ? s.slice(8, 10) + '/' + s.slice(5, 7) + '/' + s.slice(0, 4) : ''; }
+function veLeTet(than, t) {
+  const LT = window.LinoTrangTri;
+  if (!LT) { than.innerHTML = '<p class="gd-ghi">Chưa tải được bộ trang trí, anh tải lại trang nhé.</p>'; return; }
+  const CD = LT.CHU_DE, cd = CD[t.chuDe], a = t.anh;
+  const hinh = (ten, mau) => `<svg viewBox="0 0 100 100" aria-hidden="true" style="color:${mau || '#fff'}">${LT.HINH[ten]}</svg>`;
+  const chk = (k, ten) => `<label class="gd-chk"><input type="checkbox" data-tt="${k}"${t[k] !== false ? ' checked' : ''}> ${ten}</label>`;
+  const goiY = cd ? lichGoiY(t.chuDe) : null;
+  const namTD = cd ? LT.namTuDong(t.chuDe, new Date()) : '';
+  than.innerHTML = `
+    <p class="gd-muc">Chủ đề trang trí</p>
+    <div class="gd-cd">
+      <button type="button" data-cd="" aria-pressed="${!cd}"><span style="background:#ECE8E6;color:#888">✕</span><b>Không trang trí</b></button>
+      ${Object.keys(CD).map((k) => `<button type="button" data-cd="${k}" aria-pressed="${t.chuDe === k}"><span style="background:${CD[k].mau[0]}">${hinh(CD[k].bieu, CD[k].mau[2])}</span><b>${CD[k].ten}</b></button>`).join('')}
+    </div>
+    ${cd ? `
+      <div class="gd-xem" style="background:linear-gradient(90deg,${cd.mau[0]},${cd.mau[1]})">${esc(LT.loiChuc(t, new Date()))}</div>
+      <label class="gd-o2"><span>Năm hiển thị</span><input type="number" data-tt="nam" min="2000" max="2100" placeholder="Tự động: ${namTD}${t.chuDe === 'tet' ? ' (' + LT.canChi(namTD) + ')' : ''}" value="${t.nam || ''}"></label>
+      <label class="gd-o2"><span>Lời chúc</span><input data-tt="loiChuc" maxlength="90" placeholder="${esc(cd.chuc)}" value="${esc(t.loiChuc || '')}">
+        <small>Để trống là dùng lời chúc có sẵn. Gõ {nam}, {nam-sau}, {can-chi} để tự điền năm.</small></label>
+      <p class="gd-muc">Bố cục trang trí</p>
+      ${chk('bang', 'Dải lời chúc trên đầu trang')}
+      ${chk('treo', 'Dây treo trang trí (đèn lồng, chuông, cờ…)')}
+      ${chk('goc', 'Hình trang trí ở góc màn hình (máy tính màn hình rộng)')}
+      ${chk('roi', 'Hiệu ứng rơi / bay (tuyết, hoa mai, đèn lồng…)')}
+      <label class="gd-o2"><span>Số hình rơi</span><select data-tt="mat"><option value="it"${t.mat === 'it' ? ' selected' : ''}>Ít</option><option value="vua"${!t.mat ? ' selected' : ''}>Vừa</option><option value="nhieu"${t.mat === 'nhieu' ? ' selected' : ''}>Nhiều</option></select></label>
+      <p class="gd-muc">Tự bật / tắt theo ngày</p>
+      <div class="gd-ngay"><label>Từ ngày<input type="date" data-tt="tu" value="${t.tu || ''}"></label><label>Đến ngày<input type="date" data-tt="den" value="${t.den || ''}"></label></div>
+      ${goiY ? `<button type="button" class="gd-nut gd-rong" data-lenh="tt-lich">📅 Dùng lịch gợi ý: ${ngayVN(goiY[0])} → ${ngayVN(goiY[1])}</button>` : ''}
+      <p class="gd-ghi">Để trống là luôn hiện. Ngoài khoảng ngày, trang trí tự ẩn (ảnh đầu trang vẫn giữ). Trong lúc chỉnh, anh luôn thấy bản xem thử.</p>` : ''}
+    <p class="gd-muc">Ảnh đầu trang</p>
+    ${a ? `
+      <div class="gd-anh"><img src="/tep/${a.id}/${encodeURIComponent(a.tep || 'anh')}" alt="">
+        <div class="gd-hang"><button type="button" class="gd-nut" data-lenh="tt-anh-chon">🔄 Đổi ảnh</button><button type="button" class="gd-nut" data-lenh="tt-anh-xoa">🗑 Xoá ảnh</button></div></div>
+      <label class="gd-chk"><input type="checkbox" data-tt-anh="bat"${a.bat !== false ? ' checked' : ''}> Đang hiện ảnh trên web</label>
+      <label class="gd-chk"><input type="checkbox" data-tt-anh="tatCa"${a.trang === 'tat-ca' ? ' checked' : ''}> Hiện trên mọi trang (bỏ chọn: chỉ trang chủ)</label>
+      <p class="gd-muc">Khung ảnh</p>
+      <div class="gd-khung2">${KHUNG.map(([k, ten]) => `<button type="button" data-khung="${k}" aria-pressed="${(a.khung || 'tron') === k}"><i class="gd-k gd-k--${k}"${k === 'le-hoi' && cd ? ` style="background:${cd.mau[0]}"` : ''}></i>${ten}</button>`).join('')}</div>
+      ${!cd ? '<p class="gd-ghi">Viền lễ hội đẹp nhất khi đã chọn một chủ đề ở trên.</p>' : ''}
+      <p class="gd-muc">Bố cục ảnh</p>
+      <div class="gd-khung2">${BO_CUC_ANH.map(([k, ten]) => `<button type="button" data-bocuc-anh="${k}" aria-pressed="${(a.boCuc || 'canh') === k}">${ten}</button>`).join('')}</div>
+      <label class="gd-o2"><span>Tiêu đề</span><input data-tt-anh="tieuDe" maxlength="120" value="${esc(a.tieuDe || '')}" placeholder="VD: Khai giảng khoá hè 2027"></label>
+      <label class="gd-o2"><span>Dòng mô tả</span><input data-tt-anh="phuDe" maxlength="240" value="${esc(a.phuDe || '')}" placeholder="VD: Tặng 2 buổi học thử cho bé đăng ký trước 30/6"></label>
+      <label class="gd-o2"><span>Chữ trên nút</span><input data-tt-anh="nut" maxlength="40" value="${esc(a.nut || '')}" placeholder="Để trống nếu không cần nút"></label>
+      <label class="gd-o2"><span>Bấm vào nút sẽ mở</span><input data-tt-anh="link" maxlength="300" value="${esc(a.link || '/#dang-ky')}" placeholder="/#dang-ky"></label>`
+    : `<button type="button" class="gd-nut gd-nut--chinh gd-rong" data-lenh="tt-anh-chon">＋ Thêm ảnh đầu trang</button>
+      <p class="gd-ghi">Ảnh khai giảng, ưu đãi, sự kiện… hiện ngay đầu trang chủ. Ảnh to sẽ tự thu nhỏ cho nhẹ.</p>`}
+    <input type="file" accept="image/*" id="gd-tt-tep" hidden>`;
+  const inp = $('#gd-tt-tep', than);
+  inp.addEventListener('change', () => { if (inp.files[0]) taiAnhTT(inp.files[0]); inp.value = ''; });
+}
+
+function nenAnhTT(f) {
+  if (!window.createImageBitmap) return Promise.resolve({ b: f, ten: f.name });
+  return createImageBitmap(f).then((bmp) => {
+    const s = Math.min(1, 2000 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas'); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(bmp, 0, 0, c.width, c.height);
+    return new Promise((ok) => c.toBlob((b) => {
+      if (b && b.type === 'image/webp') ok({ b, ten: f.name.replace(/\.[^.]+$/, '') + '.webp', w: c.width, h: c.height });
+      else c.toBlob((j) => ok({ b: j, ten: f.name.replace(/\.[^.]+$/, '') + '.jpg', w: c.width, h: c.height }), 'image/jpeg', 0.86);
+    }, 'image/webp', 0.85));
+  });
+}
+async function taiAnhTT(f) {
+  bao('Đang tải ảnh lên…', 20000);
+  try {
+    const p = await nenAnhTT(f);
+    const fd = new FormData();
+    fd.append('k', 'trang-tri'); fd.append('ten', p.ten.replace(/\.[^.]+$/, ''));
+    fd.append('file', p.b, p.ten);
+    if (p.w) { fd.append('w', p.w); fd.append('h', p.h); }
+    const r = await fetch('/api/tai-len', { method: 'POST', headers: { 'X-Mat-Khau': encodeURIComponent(mk) }, body: fd });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) { bao(j.loi || 'Chưa tải được ảnh.', 5000); return; }
+    chupLai();
+    const t = TT(), cu = t.anh || {};
+    t.anh = Object.assign({ khung: 'tron', boCuc: 'canh', tieuDe: '', phuDe: '', nut: 'Đăng ký học thử', link: '/#dang-ky', trang: 'chu' }, cu,
+      { id: j.muc.id, tep: j.muc.tep, w: j.muc.w || p.w, h: j.muc.h || p.h });
+    delete t.anh.bat;
+    veLai(); veTab();
+    bao('Đã thêm ảnh. Bấm "Lưu lên web" để phụ huynh thấy.', 4000);
+    const sec = document.querySelector('.tt-anh');
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (er) { bao('Mất kết nối, chưa tải được ảnh.', 5000); }
 }
 
 function thanhKeo(k, ten, ghi, min, max, v) {
@@ -338,6 +451,21 @@ bang.addEventListener('click', async (e) => {
     if (b.dataset.fontTd) D.chu.tieuDe = b.dataset.fontTd; else D.chu.noiDung = b.dataset.fontNd;
     veLai(); veTab(); return;
   }
+  if (b.dataset.cd != null) {
+    chupLai();
+    const t = TT();
+    if (b.dataset.cd) t.chuDe = b.dataset.cd; else delete t.chuDe;
+    delete t.loiChuc;
+    veLai(); veTab(); return;
+  }
+  if (b.dataset.khung && D.trangTri && D.trangTri.anh) { chupLai(); D.trangTri.anh.khung = b.dataset.khung; veLai(); veTab(); return; }
+  if (b.dataset.bocucAnh && D.trangTri && D.trangTri.anh) { chupLai(); D.trangTri.anh.boCuc = b.dataset.bocucAnh; veLai(); veTab(); return; }
+  if (b.dataset.lenh === 'tt-anh-chon') { const i = $('#gd-tt-tep', bang); if (i) i.click(); return; }
+  if (b.dataset.lenh === 'tt-anh-xoa') {
+    if (await hoi('Xoá ảnh đầu trang? Phụ huynh sẽ không thấy ảnh này sau khi anh bấm "Lưu lên web".', 'Xoá ảnh', 'Thôi')) { chupLai(); delete TT().anh; veLai(); veTab(); }
+    return;
+  }
+  if (b.dataset.lenh === 'tt-lich') { const g = lichGoiY(TT().chuDe); if (g) { chupLai(); TT().tu = g[0]; TT().den = g[1]; veLai(); veTab(); } return; }
   if (b.dataset.nhich && chon) {
     chupLai();
     const [dx, dy] = b.dataset.nhich.split(',').map(Number);
@@ -373,6 +501,20 @@ bang.addEventListener('click', async (e) => {
 
 bang.addEventListener('input', (e) => {
   const t = e.target;
+  if (t.dataset.tt && t.type !== 'checkbox' && t.tagName !== 'SELECT' && t.type !== 'date') {
+    batDauSua();
+    const o = TT(), k = t.dataset.tt;
+    if (k === 'nam') { const n = Math.round(+t.value); if (n >= 2000 && n <= 2100) o.nam = n; else delete o.nam; }
+    else if (t.value.trim()) o[k] = t.value; else delete o[k];
+    const xem = $('.gd-xem', bang);
+    if (xem && window.LinoTrangTri) xem.textContent = window.LinoTrangTri.loiChuc(lamSach(D).trangTri || o, new Date());
+    veTTSau(); return;
+  }
+  if (t.dataset.ttAnh && t.type !== 'checkbox' && D.trangTri && D.trangTri.anh) {
+    batDauSua();
+    D.trangTri.anh[t.dataset.ttAnh] = t.value;
+    veTTSau(); return;
+  }
   if (t.dataset.mau) {
     batDauSua();
     D.mau = D.mau || {};
@@ -397,6 +539,22 @@ bang.addEventListener('input', (e) => {
   }
 });
 bang.addEventListener('change', (e) => {
+  const t = e.target;
+  if (t.dataset.tt && (t.type === 'checkbox' || t.tagName === 'SELECT' || t.type === 'date')) {
+    chupLai();
+    const o = TT(), k = t.dataset.tt;
+    if (t.type === 'checkbox') { if (t.checked) delete o[k]; else o[k] = false; }
+    else if (k === 'mat') { if (t.value === 'vua') delete o.mat; else o.mat = t.value; }
+    else if (t.value) o[k] = t.value; else delete o[k];
+    veLai(); return;
+  }
+  if (t.dataset.ttAnh && t.type === 'checkbox' && D.trangTri && D.trangTri.anh) {
+    chupLai();
+    const a = D.trangTri.anh;
+    if (t.dataset.ttAnh === 'bat') { if (t.checked) delete a.bat; else a.bat = false; }
+    else a.trang = t.checked ? 'tat-ca' : 'chu';
+    veLai(); return;
+  }
   xongSua();
   if (e.target.dataset.mau) veTab();
   if (e.target.classList.contains('gd-trang')) doiTrang(e.target.value);

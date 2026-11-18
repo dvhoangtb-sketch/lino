@@ -16,6 +16,8 @@
     "/quan-ly",
     "/quan-ly.html",
     "/tep/*",
+    "/lo-trinh",
+    "/lo-trinh.html",
     "/api/*"
   ],
   "exclude": []

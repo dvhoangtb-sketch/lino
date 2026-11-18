@@ -51,7 +51,7 @@ export function tenLopGoc() {
 export async function doc(env, k) {
   let d = null;
   try { d = JSON.parse((await env.TEP.get(k)) || 'null'); } catch (e) { d = null; }
-  if (k === 'chung-nhan') return d && Array.isArray(d.ds) ? d : { ds: [] };
+  if (k === 'chung-nhan' || k === 'trang-tri') return d && Array.isArray(d.ds) ? d : { ds: [] };
   d = d && typeof d === 'object' ? d : {};
   const ten = Array.isArray(d.ten) && d.ten.length === SO_LOP ? d.ten : tenLopGoc();
   const lop = {};
@@ -65,7 +65,7 @@ export async function ghi(env, k, d) {
 
 /* the list an item lives in; lop is 1..9 for homework */
 export function danhSach(d, k, lop) {
-  if (k === 'chung-nhan') return d.ds;
+  if (k === 'chung-nhan' || k === 'trang-tri') return d.ds;
   const n = Number(lop);
   return n >= 1 && n <= SO_LOP ? d.lop[n] : null;
 }

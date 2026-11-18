@@ -11,7 +11,7 @@ export async function onRequestPost({ request, env }) {
   let f;
   try { f = await request.formData(); } catch (e) { return json({ loi: 'Dữ liệu không đúng.' }, 400); }
   const k = f.get('k');
-  if (k !== 'chung-nhan' && k !== 'bai-tap') return json({ loi: 'Không có mục này.' }, 400);
+  if (k !== 'chung-nhan' && k !== 'bai-tap' && k !== 'trang-tri') return json({ loi: 'Không có mục này.' }, 400);
   const tep = f.get('file');
   if (!tep || typeof tep === 'string') return json({ loi: 'Chưa có file.' }, 400);
   if (tep.size > TOI_DA) return json({ loi: 'File lớn quá 20 MB.' }, 413);
